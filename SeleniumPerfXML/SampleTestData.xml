@@ -5,10 +5,10 @@
 		<Browser>chrome</Browser>
 		<Environment>EDCS-9</Environment>
 		<URL>fakeURL</URL>
-		
+
 		<RespectRepeatFor>true</RespectRepeatFor>
 		<RespectRunAODAFlag>false</RespectRunAODAFlag>
-		
+
 		<WarningThreshold>60</WarningThreshold>
 		<TimeOutThreshold>120</TimeOutThreshold>
 
@@ -17,79 +17,85 @@
 		<LogSaveLocation>C:\Selenium\Logs\</LogSaveLocation>
 		<ScreenshotSaveLocation>C:\Selenium\Screenshots\</ScreenshotSaveLocation>
 	</Parameters>
-	
+
 	<SpecialElements>
 		<!-- explicitly give the xpath for the loading spinner if any -->
 		<loadingSpinner>//*[@id='loadingspinner']</loadingSpinner>
 		<!-- will check this xpath and log anything found in this element if found -->
 		<errorContainer>//div[@class='alert alert-danger']</errorContainer>
 	</SpecialElements>
-	
+
 	<TestCaseFlow>
-		<If elementXPath='.string.' condition='.EXIST or DNE.'>
+		<RunTestCase>Fake Test Case ID 1</RunTestCase>
+		<If elementXPath='//div' condition='EXIST'>
 			<Then>
-				<RunTestCase>.TESTCASEID.</RunTestCase>
-				<RunTestCase>.TESTCASEID.</RunTestCase>
+				<RunTestCase>Fake Test Case ID 2</RunTestCase>
+				<RunTestCase>Fake Test Case ID 3</RunTestCase>
 			</Then>
-			<ElseIf elementXPath='.string.' condition='.EXIST or DNE.'>
-				<RunTestCase>.TESTCASEID.</RunTestCase>
-				<RunTestCase>.TESTCASEID.</RunTestCase>
+			<ElseIf elementXPath='//a' condition='DNE'>
+				<RunTestCase>Fake Test Case ID 4</RunTestCase>
+				<RunTestCase>Fake Test Case ID 5</RunTestCase>
 			</ElseIf>
 			<Else>
-				<RunTestCase>.TESTCASEID.</RunTestCase>
-				<RunTestCase>.TESTCASEID.</RunTestCase>
-				<If elementXPath='.string.' condition='.EXIST or DNE.'>
+				<RunTestCase>Fake Test Case ID 6</RunTestCase>
+				<RunTestCase>Fake Test Case ID 7</RunTestCase>
+				<If elementXPath='//img' condition='EXIST'>
 					<Then>
-						<RunTestCase>.TESTCASEID.</RunTestCase>
-						<RunTestCase>.TESTCASEID.</RunTestCase>
+						<RunTestCase>Fake Test Case ID 8</RunTestCase>
+						<RunTestCase>Fake Test Case ID 9</RunTestCase>
 					</Then>
 					<Else>
-						<RunTestCase>.TESTCASEID.</RunTestCase>
-						<RunTestCase>.TESTCASEID.</RunTestCase>
+						<RunTestCase>Fake Test Case ID 10</RunTestCase>
+						<RunTestCase>Fake Test Case ID 11</RunTestCase>
 					</Else>
 				</If>
 			</Else>
 		</If>
-		<RunTestCase>.TESTCASEID.</RunTestCase>
+		<RunTestCase>Fake Test Case ID 12</RunTestCase>
 	</TestCaseFlow>
 
 	<TestCases>
-		<TestCase name='.string.' id='.string.' repeatFor='.int.'>
-			<If elementXPath='.string.' condition='.EXIST or DNE.'>
+		<TestCase name='Fake Test Case Name 1' id='Fake Test Case ID 1' repeatFor='1'>
+			<RunTestStep>Fake Test Step ID 1</RunTestStep>
+			<If elementXPath='//a' condition='EXIST'>
 				<Then>
-					<RunTestStep>.TESTSTEPEID.</RunTestStep>
-					<RunTestStep>.TESTSTEPEID.</RunTestStep>
+					<RunTestStep>Fake Test Step ID 2</RunTestStep>
+					<RunTestStep>Fake Test Step ID 3</RunTestStep>
 				</Then>
-				<ElseIf elementXPath='.string.' condition='.EXIST or DNE.'>
-					<RunTestStep>.TESTSTEPEID.</RunTestStep>
-					<RunTestStep>.TESTSTEPEID.</RunTestStep>
+				<ElseIf elementXPath='//div' condition='DNE'>
+					<RunTestStep>Fake Test Step ID 4</RunTestStep>
+					<RunTestStep>Fake Test Step ID 5</RunTestStep>
 				</ElseIf>
 				<Else>
-					<RunTestStep>.TESTSTEPEID.</RunTestStep>
-					<RunTestStep>.TESTSTEPEID.</RunTestStep>
-					<If elementXPath='.string.' condition='.EXIST or DNE.'>
+					<RunTestStep>Fake Test Step ID 6</RunTestStep>
+					<RunTestStep>Fake Test Step ID 7</RunTestStep>
+					<If elementXPath='//img' condition='EXIST'>
 						<Then>
-							<RunTestStep>.TESTSTEPEID.</RunTestStep>
-							<RunTestStep>.TESTSTEPEID.</RunTestStep>
+							<RunTestStep>Fake Test Step ID 8</RunTestStep>
+							<RunTestStep>Fake Test Step ID 9</RunTestStep>
 						</Then>
 						<Else>
-							<RunTestStep>.TESTSTEPEID.</RunTestStep>
-							<RunTestStep>.TESTSTEPEID.</RunTestStep>
+							<RunTestStep>Fake Test Step ID 10</RunTestStep>
+							<RunTestStep>Fake Test Step ID 11</RunTestStep>
 						</Else>
 					</If>
 				</Else>
 			</If>
-			<RunTestStep>.TESTSTEPEID.</RunTestStep>
+			<RunTestStep>Fake Test Step ID 12</RunTestStep>
 		</TestCase>
-		<TestCase>
-			<RunTestStep>.TESTSTEPEID.</RunTestStep>
+		<TestCase name='Fake Test Case Name 2' id='Fake Test Case ID 2' repeatFor='2'>
+			<RunTestStep>Fake Test Step ID 13</RunTestStep>
 		</TestCase>
 	</TestCases>
-	
+
 	<TestSteps>
 		<!-- log is true by default. runAODA is false by default. Need runAODAPageName if runAODA is true.-->
-		<TestStep id='' name='' runAODA='' runAODAPageName='' log=''>
-			<!-- Same format as the old test actions-->
+		<TestStep id='Fake Step ID' name='Fake Step Name 1' runAODA='false' runAODAPageName='no need' log='false'>
+			<ClickPages collectionShortHand="AEAC NS 16-17">
+				<Pages>
+				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
+				</Pages>
+		  </ClickPages>
 		</TestStep>
 	</TestSteps>
 </TestSet>
