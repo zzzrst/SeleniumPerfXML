@@ -34,6 +34,7 @@ namespace SeleniumPerfXML
             string csvSaveFileLocation = string.Empty;
             string logSaveFileLocation = string.Empty;
             string screenshotSaveLocation = string.Empty;
+            string xmlFile = string.Empty;
 
             Parser.Default.ParseArguments<SeleniumPerfXMLOptions>(args)
                .WithParsed<SeleniumPerfXMLOptions>(o =>
@@ -49,6 +50,7 @@ namespace SeleniumPerfXML
                    csvSaveFileLocation = o.CSVSaveFileLocation ?? string.Empty;
                    logSaveFileLocation = o.LogSaveLocation ?? string.Empty;
                    screenshotSaveLocation = o.ScreenShotSaveLocation ?? string.Empty;
+                   xmlFile = o.XMLFile;
                })
                .WithNotParsed<SeleniumPerfXMLOptions>(errs =>
                {
