@@ -4,16 +4,93 @@
         <name>SeleniumPerfXML</name>
     </assembly>
     <members>
-        <member name="T:SeleniumPerfXML.Program">
+        <member name="T:SeleniumPerfXML.SeleniumPerfXMLDriver">
             <summary>
             Driver class
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.Program.Main(System.String[])">
+        <member name="M:SeleniumPerfXML.SeleniumPerfXMLDriver.Main(System.String[])">
             <summary>
             Main functionality
             </summary>
-            <param name="args"> not determined yet</param>
+            <param name="args"> The arguments to be passed in. </param>
+            <returns> 0 if no errors were met. </returns>
+        </member>
+        <member name="T:SeleniumPerfXML.SeleniumPerfXMLOptions">
+            <summary>
+            This class stores the command line arguments that are taken in, both mandatory and optional
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.Examples">
+            <summary>
+            Gets usage for SeleniumPerfXML
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.Browser">
+            <summary>
+            Gets or sets the browser set in the XML.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.Environment">
+            <summary>
+            Gets or sets the environment set in the XML.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.URL">
+            <summary>
+            Gets or sets the URL set in the XML. By default, the URL is derived by the environment provided.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.RespectRepeatFor">
+            <summary>
+            Gets or sets a value indicating whether to respect RespectRepeatFor flag in the XML.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.RespectRunAodaFlag">
+            <summary>
+            Gets or sets a value indicating whether to respect RunAODAFlag in the XML.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.TimeOutThreshold">
+            <summary>
+            Gets or sets the timeout threshold in the XML.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.WarningThreshold">
+            <summary>
+            Gets or sets the warning threshold in the XML. Warning must be less than Timeout.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.DataFile">
+            <summary>
+            Gets or sets the datafile in the XML.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.CSVSaveFileLocation">
+            <summary>
+            Gets or sets the CSV file location in the XML.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.LogSaveLocation">
+            <summary>
+            Gets or sets the log save location in the XML.
+            <para> </para>
+            If not set, will use the directory path of CSVSaveFileLocation.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.ScreenShotSaveLocation">
+            <summary>
+            Gets or sets the screenshot save location in the XML.
+            <para> </para>
+            If not set, will use the directory path of CSVSaveFileLocation.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.XMLFile">
+            <summary>
+            Gets or sets the screenshot save location in the XML.
+            <para> </para>
+            If not set, will use the directory path of CSVSaveFileLocation.
+            </summary>
         </member>
     </members>
 </doc>

@@ -48,61 +48,61 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
-        /// Gets or sets the browser set in the XML. [Required]
+        /// Gets or sets the browser set in the XML.
         /// </summary>
         [Option('b', "browser", Required = false, HelpText = "Overrides the browser set in XML")]
         public string Browser { get; set; }
 
         /// <summary>
-        /// Gets or sets the environment set in the XML. [Required]
+        /// Gets or sets the environment set in the XML.
         /// </summary>
         [Option('e', "environment", Required = false, HelpText = "Overrides the environment set in XML")]
         public string Environment { get; set; }
 
         /// <summary>
-        /// Gets or sets the URL set in the XML. By default, the URL is derived by the environment provided. [Optional]
+        /// Gets or sets the URL set in the XML. By default, the URL is derived by the environment provided.
         /// </summary>
         [Option('u', "url", Required = false, HelpText = "Overrides the url set in XML. Also overrides the derived URL from the environment.")]
         public string URL { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to respect RespectRepeatFor flag in the XML. [Optional]
+        /// Gets or sets a value indicating whether to respect RespectRepeatFor flag in the XML.
         /// </summary>
         [Option("respectRepeatFor", Required = false, HelpText = "Overrides the respect repeat for flag set in XML")]
         public bool RespectRepeatFor { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to respect RunAODAFlag in the XML. [Optional]
+        /// Gets or sets a value indicating whether to respect RunAODAFlag in the XML.
         /// </summary>
         [Option("respectRunAodaFlag", Required = false, HelpText = "Overrides the respect run AODA flag set in XML")]
         public bool RespectRunAodaFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets the timeout threshold in the XML. [Required]
+        /// Gets or sets the timeout threshold in the XML.
         /// </summary>
         [Option("timeOutThreshold", Required = false, HelpText = "Overrides the timeout threshold set in XML")]
         public int TimeOutThreshold { get; set; }
 
         /// <summary>
-        /// Gets or sets the warning threshold in the XML. Warning must be less than Timeout. [Required]
+        /// Gets or sets the warning threshold in the XML. Warning must be less than Timeout.
         /// </summary>
         [Option("warningThreshold", Required = false, HelpText = "Overrides the warning threshold set in XML")]
         public int WarningThreshold { get; set; }
 
         /// <summary>
-        /// Gets or sets the datafile in the XML. [Optional]
+        /// Gets or sets the datafile in the XML.
         /// </summary>
         [Option("dataFile", Required = false, HelpText = "Overrides the data file location set in XML")]
         public string DataFile { get; set; }
 
         /// <summary>
-        /// Gets or sets the CSV file location in the XML. [Required]
+        /// Gets or sets the CSV file location in the XML.
         /// </summary>
         [Option("csvSaveFileLocation", Required = false, HelpText = "Overrides the csv save file location set in XML")]
         public string CSVSaveFileLocation { get; set; }
 
         /// <summary>
-        /// Gets or sets the log save location in the XML. [Optional]
+        /// Gets or sets the log save location in the XML.
         /// <para> </para>
         /// If not set, will use the directory path of CSVSaveFileLocation.
         /// </summary>
@@ -110,7 +110,7 @@ namespace SeleniumPerfXML
         public string LogSaveLocation { get; set; }
 
         /// <summary>
-        /// Gets or sets the screenshot save location in the XML. [Optional]
+        /// Gets or sets the screenshot save location in the XML.
         /// <para> </para>
         /// If not set, will use the directory path of CSVSaveFileLocation.
         /// </summary>
@@ -118,7 +118,7 @@ namespace SeleniumPerfXML
         public string ScreenShotSaveLocation { get; set; }
 
         /// <summary>
-        /// Gets or sets the screenshot save location in the XML. [Optional]
+        /// Gets or sets the screenshot save location in the XML.
         /// <para> </para>
         /// If not set, will use the directory path of CSVSaveFileLocation.
         /// </summary>
