@@ -92,5 +92,96 @@
             If not set, will use the directory path of CSVSaveFileLocation.
             </summary>
         </member>
+        <member name="T:SeleniumPerfXML.TestDataXMLParser">
+            <summary>
+            XMLParser that reads the XML passed in to create proper data structurs.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SeleniumPerfXML.TestDataXMLParser"/> class.
+            </summary>
+            <param name="xmlFile"> The file path to the XML file.</param>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.Browser">
+            <summary>
+            Gets or sets the browser to use in this test.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.Environment">
+            <summary>
+            Gets or sets the environment to go to.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.URL">
+            <summary>
+            Gets or sets the URL the browser should land on first.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.PassedInRespectRunAODAFlag">
+            <summary>
+            Gets or sets the passed in respectRunAODAFlag parameter.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.PassedInRespectRepeatFor">
+            <summary>
+            Gets or sets the passed in respectRepeatFor parameter.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.TimeOutThreshold">
+            <summary>
+            Gets or sets the timeout threshold.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.WarningThreshold">
+            <summary>
+            Gets or sets the warning threshold. Note that the warning threshold should be less than the timeout threshold.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.DataFile">
+            <summary>
+            Gets or sets the file path to the data file.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.CsvSaveFileLocation">
+            <summary>
+            Gets or sets the csv save file location.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.LogSaveFileLocation">
+            <summary>
+            Gets or sets the log save file location.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.ScreenshotSaveLocation">
+            <summary>
+            Gets or sets the screenshot save location.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.XMLFile">
+            <summary>
+            Gets or sets the XML file.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.RespectRunAODAFlag">
+            <summary>
+            Gets or sets a value indicating whether to respectRunAODAFlag or not.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestDataXMLParser.RespectRepeatFor">
+            <summary>
+            Gets or sets a value indicating whether to respectRepeatFor or not.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.ParseParameters">
+            <summary>
+            This function is responsible for parsing parameters in the XML File and updating variables if not overriden.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.ParseSpecialElements">
+            <summary>
+            This function is responsible for parsing the special elements in the XML File and updating variables if not overriden.
+            </summary>
+        </member>
     </members>
 </doc>

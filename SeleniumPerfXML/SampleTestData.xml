@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TestSet xmlns="http://qa/SeleniumPerf.xsd">
+
+	<Parameters>
+		<Browser>chrome</Browser>
+		<Environment>EDCS-9</Environment>
+		<URL>fakeURL</URL>
+		
+		<RespectRepeatFor>true</RespectRepeatFor>
+		<RespectRunAODAFlag>false</RespectRunAODAFlag>
+		
+		<WarningThreshold>60</WarningThreshold>
+		<TimeOutThreshold>120</TimeOutThreshold>
+
+		<DataFile>sampleDataFile</DataFile>
+		<CSVSaveLocation>C:\Selenium\CSV\</CSVSaveLocation>
+		<LogSaveLocation>C:\Selenium\Logs\</LogSaveLocation>
+		<ScreenshotSaveLocation>C:\Selenium\Screenshots\</ScreenshotSaveLocation>
+	</Parameters>
+	
+	<SpecialElements>
+		<!-- explicitly give the xpath for the loading spinner if any -->
+		<loadingSpinner>//*[@id='loadingspinner']</loadingSpinner>
+		<!-- will check this xpath and log anything found in this element if found -->
+		<errorContainer>//div[@class='alert alert-danger']</errorContainer>
+	</SpecialElements>
+	
+	<TestCaseFlow>
+		<If elementXPath='.string.' condition='.EXIST or DNE.'>
+			<Then>
+				<RunTestCase>.TESTCASEID.</RunTestCase>
+				<RunTestCase>.TESTCASEID.</RunTestCase>
+			</Then>
+			<ElseIf elementXPath='.string.' condition='.EXIST or DNE.'>
+				<RunTestCase>.TESTCASEID.</RunTestCase>
+				<RunTestCase>.TESTCASEID.</RunTestCase>
+			</ElseIf>
+			<Else>
+				<RunTestCase>.TESTCASEID.</RunTestCase>
+				<RunTestCase>.TESTCASEID.</RunTestCase>
+				<If elementXPath='.string.' condition='.EXIST or DNE.'>
+					<Then>
+						<RunTestCase>.TESTCASEID.</RunTestCase>
+						<RunTestCase>.TESTCASEID.</RunTestCase>
+					</Then>
+					<Else>
+						<RunTestCase>.TESTCASEID.</RunTestCase>
+						<RunTestCase>.TESTCASEID.</RunTestCase>
+					</Else>
+				</If>
+			</Else>
+		</If>
+		<RunTestCase>.TESTCASEID.</RunTestCase>
+	</TestCaseFlow>
+
+	<TestCases>
+		<TestCase name='.string.' id='.string.' repeatFor='.int.'>
+			<If elementXPath='.string.' condition='.EXIST or DNE.'>
+				<Then>
+					<RunTestStep>.TESTSTEPEID.</RunTestStep>
+					<RunTestStep>.TESTSTEPEID.</RunTestStep>
+				</Then>
+				<ElseIf elementXPath='.string.' condition='.EXIST or DNE.'>
+					<RunTestStep>.TESTSTEPEID.</RunTestStep>
+					<RunTestStep>.TESTSTEPEID.</RunTestStep>
+				</ElseIf>
+				<Else>
+					<RunTestStep>.TESTSTEPEID.</RunTestStep>
+					<RunTestStep>.TESTSTEPEID.</RunTestStep>
+					<If elementXPath='.string.' condition='.EXIST or DNE.'>
+						<Then>
+							<RunTestStep>.TESTSTEPEID.</RunTestStep>
+							<RunTestStep>.TESTSTEPEID.</RunTestStep>
+						</Then>
+						<Else>
+							<RunTestStep>.TESTSTEPEID.</RunTestStep>
+							<RunTestStep>.TESTSTEPEID.</RunTestStep>
+						</Else>
+					</If>
+				</Else>
+			</If>
+			<RunTestStep>.TESTSTEPEID.</RunTestStep>
+		</TestCase>
+		<TestCase>
+			<RunTestStep>.TESTSTEPEID.</RunTestStep>
+		</TestCase>
+	</TestCases>
+	
+	<TestSteps>
+		<!-- log is true by default. runAODA is false by default. Need runAODAPageName if runAODA is true.-->
+		<TestStep id='' name='' runAODA='' runAODAPageName='' log=''>
+			<!-- Same format as the old test actions-->
+		</TestStep>
+	</TestSteps>
+</TestSet>

@@ -35,8 +35,8 @@ namespace SeleniumPerfXML
                     {
                         Browser = "Chrome",
                         Environment = "SampleEnvironment",
-                        RespectRepeatFor = true,
-                        RespectRunAodaFlag = false,
+                        RespectRepeatFor = "true",
+                        RespectRunAodaFlag = "false",
                         TimeOutThreshold = 120,
                         WarningThreshold = 60,
                         CSVSaveFileLocation = "C:\\SeleniumPerfXML",
@@ -69,13 +69,13 @@ namespace SeleniumPerfXML
         /// Gets or sets a value indicating whether to respect RespectRepeatFor flag in the XML.
         /// </summary>
         [Option("respectRepeatFor", Required = false, HelpText = "Overrides the respect repeat for flag set in XML")]
-        public bool RespectRepeatFor { get; set; }
+        public string RespectRepeatFor { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to respect RunAODAFlag in the XML.
         /// </summary>
         [Option("respectRunAodaFlag", Required = false, HelpText = "Overrides the respect run AODA flag set in XML")]
-        public bool RespectRunAodaFlag { get; set; }
+        public string RespectRunAodaFlag { get; set; }
 
         /// <summary>
         /// Gets or sets the timeout threshold in the XML.

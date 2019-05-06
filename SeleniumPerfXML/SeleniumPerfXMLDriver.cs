@@ -26,8 +26,8 @@ namespace SeleniumPerfXML
             string browser = string.Empty;
             string environment = string.Empty;
             string url = string.Empty;
-            bool respectRunAODAFlag = false;
-            bool respectRepeatFor = false;
+            string respectRunAODAFlag = string.Empty;
+            string respectRepeatFor = string.Empty;
             int timeOutThreshold = 0;
             int warningThreshold = 0;
             string dataFile = string.Empty;
@@ -42,8 +42,8 @@ namespace SeleniumPerfXML
                    browser = o.Browser ?? string.Empty;
                    environment = o.Environment ?? string.Empty;
                    url = o.URL ?? string.Empty;
-                   respectRepeatFor = o.RespectRepeatFor;
-                   respectRunAODAFlag = o.RespectRunAodaFlag;
+                   respectRepeatFor = o.RespectRepeatFor ?? string.Empty;
+                   respectRunAODAFlag = o.RespectRepeatFor ?? string.Empty;
                    timeOutThreshold = o.TimeOutThreshold;
                    warningThreshold = o.WarningThreshold;
                    dataFile = o.DataFile ?? string.Empty;
@@ -64,6 +64,25 @@ namespace SeleniumPerfXML
 
             if (!errorParsing)
             {
+                TestDataXMLParser driver = new TestDataXMLParser(xmlFile)
+                {
+                    Browser = browser,
+                    Environment = environment,
+                    URL = url,
+                    PassedInRespectRepeatFor = respectRepeatFor,
+                    PassedInRespectRunAODAFlag = respectRunAODAFlag,
+                    TimeOutThreshold = timeOutThreshold,
+                    WarningThreshold = warningThreshold,
+                    DataFile = dataFile,
+                    CsvSaveFileLocation = csvSaveFileLocation,
+                    LogSaveFileLocation = logSaveFileLocation,
+                    ScreenshotSaveLocation = screenshotSaveLocation,
+                    XMLFile = xmlFile,
+                };
+
+                driver.ParseParameters();
+                driver.ParseSpecialElements();
+
                 Console.WriteLine("Hello World!");
             }
 
