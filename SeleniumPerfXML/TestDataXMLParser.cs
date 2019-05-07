@@ -232,19 +232,202 @@ namespace SeleniumPerfXML
             }
         }
 
-        public void ParseTestCaseFlow()
+        /// <summary>
+        /// This function parses the test case flow and starts executing.
+        /// </summary>
+        public void RunTestCaseFlow()
         {
+            XmlNode testCaseFlow = this.XMLDocObj.GetElementsByTagName("TestCaseFlow")[0];
 
+            // inside the testCaseFlow, you can only have either RunTestCase element or an If element.
+            foreach (XmlNode innerFlow in testCaseFlow.ChildNodes)
+            {
+                if (innerFlow.Name == "RunTestCase")
+                {
+                    this.FindAndRunTestCase(innerFlow.InnerText);
+                }
+                else if (innerFlow.Name == "If")
+                {
+                    this.RunIfTestCase(innerFlow);
+                }
+                else
+                {
+                    // Console.WriteLine($"We currently do not deal with this. {innerFlow.Name}");
+                }
+            }
         }
 
-        public void ParseTestCases()
+        /// <summary>
+        /// Runs the test case based on the provided ID.
+        /// </summary>
+        /// <param name="testCaseID">ID to find the testcase to run.</param>
+        private void FindAndRunTestCase(string testCaseID)
         {
+            // get the list of testcases
+            XmlNode testCases = this.XMLDocObj.GetElementsByTagName("TestCases")[0];
 
+            // Find the appropriate testcase;
+            foreach (XmlNode testcase in testCases.ChildNodes)
+            {
+                if (testcase.Name == "TestCase" && testcase.Attributes["id"].Value == testCaseID)
+                {
+                    this.RunTestCase(testcase);
+                    return;
+                }
+            }
+
+            // Console.WriteLine($"Sorry, we didn't find a test case that matched the provided ID: {testCaseID}");
         }
 
-        public void ParseTestSteps()
+        /// <summary>
+        /// Runs the test case based on the provided XMLNode
+        /// </summary>
+        /// <param name="testCase"> Optional XmlNode to represent testCases. </param>
+        private void RunTestCase(XmlNode testCase)
         {
+            // Run Each Test Step Here
+            foreach (XmlNode testStep in testCase)
+            {
+                // the testStepFlow can be either RunTestStep or If
+                if (testStep.Name == "RunTestStep")
+                {
+                    this.FindAndRunTestStep(testStep.InnerText);
+                }
+                else if (testStep.Name == "If")
+                {
+                    this.RunIfTestCase(testStep);
+                }
+                else
+                {
+                    // Console.WriteLine($"We currently do not deal with this. {testStep.Name}");
+                }
+            }
+        }
 
+        /// <summary>
+        /// This function parses the if test case flow and starts executing.
+        /// </summary>
+        /// <param name="ifXMLNode"> XML Node that has the if block. </param>
+        private void RunIfTestCase(XmlNode ifXMLNode)
+        {
+            string elementXPath = ifXMLNode.Attributes["elementXPath"].Value;
+            string condition = ifXMLNode.Attributes["condition"].Value;
+            bool conditionPassed = false;
+
+            // will have to deal with if condition here.
+
+            // inside the testCaseFlow, you can only have either RunTestCase element or an If element.
+            foreach (XmlNode ifSection in ifXMLNode.ChildNodes)
+            {
+                if (ifSection.Name == "Then")
+                {
+                    if (conditionPassed)
+                    {
+                        this.RunTestCase(ifSection);
+                    }
+                    else
+                    {
+                        // logging
+                    }
+                }
+                else if (ifSection.Name == "ElseIf")
+                {
+                    if (!conditionPassed)
+                    {
+                        elementXPath = ifSection.Attributes["elementXPath"].Value;
+                        condition = ifSection.Attributes["condition"].Value;
+                        conditionPassed = false;
+
+                        // deal with condition
+                        if (conditionPassed)
+                        {
+                            this.RunTestCase(ifSection);
+                        }
+                        else
+                        {
+                            // logging
+                        }
+                    }
+                }
+                else if (ifSection.Name == "Else")
+                {
+                    if (!conditionPassed)
+                    {
+                        this.RunTestCase(ifSection);
+                    }
+                    else
+                    {
+                        // logging
+                    }
+                }
+                else if (ifSection.Name == "RunTestCase")
+                {
+                    this.FindAndRunTestCase(ifSection.InnerText);
+                }
+                else
+                {
+                    // Console.WriteLine($"We currently do not deal with this. {ifSection.Name}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function will go through the list of steps and run the appropriate test step if found.
+        /// </summary>
+        /// <param name="testStepID"> The ID of the test step to run. </param>
+        private void FindAndRunTestStep(string testStepID)
+        {
+            // get the list of testSteps
+            XmlNode testSteps = this.XMLDocObj.GetElementsByTagName("TestSteps")[0];
+
+            // Find the appropriate test steps
+            foreach (XmlNode testStep in testSteps.ChildNodes)
+            {
+                if (testStep.Name == "TestStep" && testStep.Attributes["id"].Value == testStepID)
+                {
+                    this.RunTestStep(testStep);
+                    return;
+                }
+            }
+
+            // Console.WriteLine($"Sorry, we didn't find a test step that matched the provided ID: {testStepID}");
+        }
+
+        private void RunTestStep(XmlNode testStep)
+        {
+            string name = testStep.Attributes["name"].Value;
+
+            // initial value is respectRunAODAFlag
+            // if we respect the flag, and it is not found, then default value is false.
+            bool runAODA = this.RespectRunAODAFlag;
+            if (runAODA)
+            {
+                if (testStep.Attributes["runAODA"] != null)
+                {
+                    runAODA = bool.Parse(testStep.Attributes["runAODA"].Value);
+                }
+                else
+                {
+                    runAODA = false;
+                }
+            }
+
+            // populate runAODAPageName. Deault is Not provided.
+            string runAODAPageName = "Not provided.";
+            if (runAODA)
+            {
+                if (testStep.Attributes["runAODAPageName"] != null)
+                {
+                    runAODAPageName = testStep.Attributes["runAODAPageName"].Value;
+                }
+            }
+
+            // log is true by default.
+            bool log = true;
+            if (testStep.Attributes["log"] != null)
+            {
+                log = bool.Parse(testStep.Attributes["log"].Value);
+            }
         }
     }
 }

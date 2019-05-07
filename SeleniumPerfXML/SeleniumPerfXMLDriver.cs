@@ -82,6 +82,7 @@ namespace SeleniumPerfXML
 
                 driver.ParseParameters();
                 driver.ParseSpecialElements();
+                driver.RunTestCaseFlow();
 
                 Console.WriteLine("Hello World!");
             }

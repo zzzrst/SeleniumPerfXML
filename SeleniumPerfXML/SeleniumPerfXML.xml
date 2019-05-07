@@ -183,5 +183,33 @@
             This function is responsible for parsing the special elements in the XML File and updating variables if not overriden.
             </summary>
         </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCaseFlow">
+            <summary>
+            This function parses the test case flow and starts executing.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestCase(System.String)">
+            <summary>
+            Runs the test case based on the provided ID.
+            </summary>
+            <param name="testCaseID">ID to find the testcase to run.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCase(System.Xml.XmlNode)">
+            <summary>
+            Runs the test case based on the provided XMLNode
+            </summary>
+            <param name="testCase"> Optional XmlNode to represent testCases. </param>
+        </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunIfTestCase(System.Xml.XmlNode)">
+            <summary>
+            This function parses the if test case flow and starts executing.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestStep(System.String)">
+            <summary>
+            This function will go through the list of steps and run the appropriate test step if found.
+            </summary>
+            <param name="testStepID"> The ID of the test step to run. </param>
+        </member>
     </members>
 </doc>

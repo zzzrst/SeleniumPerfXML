@@ -24,8 +24,7 @@
 		<xs:sequence>
 			<xs:element name="Browser" type="supportedBrowserType" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="Environment" type="supportedEnvironmentType" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="URL" type="nonEmptyString" minOccurs="0" maxOccurs="1">
-			</xs:element>
+			<xs:element name="URL" type="nonEmptyString" minOccurs="0" maxOccurs="1"/>
 
 			<xs:element name="RespectRepeatFor" type="boolString" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="RespectRunAODAFlag" type="boolString" minOccurs="0" maxOccurs="1"/>
@@ -52,22 +51,22 @@
 
 	<!-- Test Case Flow Type-->
 	<xs:complexType name="testCaseFlowType">
-		<xs:all>
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
 			<xs:element name="If" type="ifTypeforTestCaseFlow"/>
 			<xs:element name="RunTestCase" type="nonEmptyString" />
-		</xs:all>
+		</xs:choice>
 	</xs:complexType>
 
 	<!-- Test Cases Type-->
 	<xs:complexType name="testCasesType">
-		<xs:sequence>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
 			<xs:element name="TestCase" type="testCaseType"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<!-- Test Steps Type-->
 	<xs:complexType name="testStepsType">
-		<xs:sequence>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
 			<xs:element name="TestStep" type="testStepType"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -117,9 +116,8 @@
 	<xs:complexType name="ifTypeforTestCaseFlow">
 		<xs:sequence>
 			<xs:element name="Then" type="bodyTypeforTestCaseFlow" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="ElseIf" type="ifTypeforTestCaseFlow" />
-			<xs:element name="Else" type="bodyTypeforTestCaseFlow" />
-			<xs:element name="RunTestCase" type="nonEmptyString"/>
+			<xs:element name="ElseIf" type="bodyIfTypeforTestCaseFlow" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Else" type="bodyTypeforTestCaseFlow" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="elementXPath" type="nonEmptyString" use="required"/>
 		<xs:attribute name="condition" type="conditionType" use="required"/>
@@ -127,17 +125,28 @@
 
 	<!-- Body Type for Test Case Flow -->
 	<xs:complexType name="bodyTypeforTestCaseFlow">
-		<xs:sequence>
-			<xs:element name="RunTestCase" type="nonEmptyString"/>
-		</xs:sequence>
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="RunTestCase" type="nonEmptyString" />
+			<xs:element name="If" type="ifTypeforTestCaseFlow"/>
+		</xs:choice>
+	</xs:complexType>
+	
+	<!-- Body If Type for Test Case Flow -->
+	<xs:complexType name="bodyIfTypeforTestCaseFlow">
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="RunTestCase" type="nonEmptyString" />
+			<xs:element name="If" type="ifTypeforTestCaseFlow"/>
+		</xs:choice>
+		<xs:attribute name="elementXPath" type="nonEmptyString" use="required"/>
+		<xs:attribute name="condition" type="conditionType" use="required"/>
 	</xs:complexType>
 
 	<!-- Test Case Type -->
 	<xs:complexType name="testCaseType">
-		<xs:all>
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
 			<xs:element name="If" type="ifTypeforTestCases"/>
 			<xs:element name="RunTestStep" type="nonEmptyString"/>
-		</xs:all>
+		</xs:choice>
 		<xs:attribute name="name" type="nonEmptyString" use="required"/>
 		<xs:attribute name="id" type="nonEmptyString" use="required"/>
 		<xs:attribute name="repeatFor" type="positiveInteger"/>
@@ -147,9 +156,8 @@
 	<xs:complexType name="ifTypeforTestCases">
 		<xs:sequence>
 			<xs:element name="Then" type="bodyTypeforTestCases" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="ElseIf" type="ifTypeforTestCases" />
-			<xs:element name="Else" type="bodyTypeforTestCases" />
-			<xs:element name="RunTestStep" type="nonEmptyString"/>
+			<xs:element name="ElseIf" type="bodyIfTypeforTestCases" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Else" type="bodyTypeforTestCases" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="elementXPath" type="nonEmptyString" use="required"/>
 		<xs:attribute name="condition" type="conditionType" use="required"/>
@@ -157,11 +165,22 @@
 
 	<!-- Body Type for Test Cases -->
 	<xs:complexType name="bodyTypeforTestCases">
-		<xs:sequence>
-			<xs:element name="RunTestStep" type="nonEmptyString"/>
-		</xs:sequence>
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="RunTestStep" type="nonEmptyString" />
+			<xs:element name="If" type="ifTypeforTestCases"/>
+		</xs:choice>
 	</xs:complexType>
-
+	
+	<!-- Body If Type for Test Cases -->
+	<xs:complexType name="bodyIfTypeforTestCases">
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="RunTestStep" type="nonEmptyString" />
+			<xs:element name="If" type="ifTypeforTestCases"/>
+		</xs:choice>
+		<xs:attribute name="elementXPath" type="nonEmptyString" use="required"/>
+		<xs:attribute name="condition" type="conditionType" use="required"/>
+	</xs:complexType>
+	
 	<!-- Condition Type -->
 	<xs:simpleType name="conditionType">
 		<xs:restriction base="nonEmptyString">

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TestSet xmlns="http://qa/SeleniumPerf.xsd">
+<TestSet xmlns="http://qa/SeleniumPerf">
 
 	<Parameters>
 		<Browser>chrome</Browser>
@@ -20,9 +20,9 @@
 
 	<SpecialElements>
 		<!-- explicitly give the xpath for the loading spinner if any -->
-		<loadingSpinner>//*[@id='loadingspinner']</loadingSpinner>
+		<LoadingSpinner>//*[@id='loadingspinner']</LoadingSpinner>
 		<!-- will check this xpath and log anything found in this element if found -->
-		<errorContainer>//div[@class='alert alert-danger']</errorContainer>
+		<ErrorContainer>//div[@class='alert alert-danger']</ErrorContainer>
 	</SpecialElements>
 
 	<TestCaseFlow>
@@ -90,7 +90,28 @@
 
 	<TestSteps>
 		<!-- log is true by default. runAODA is false by default. Need runAODAPageName if runAODA is true.-->
-		<TestStep id='Fake Step ID' name='Fake Step Name 1' runAODA='false' runAODAPageName='no need' log='false'>
+		<TestStep id='Fake Test Step ID 1' name='Fake Step Name 1' log='false'>
+			<ClickPages collectionShortHand="AEAC NS 16-17">
+				<Pages>
+				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
+				</Pages>
+		  </ClickPages>
+		</TestStep>
+		<TestStep id='Fake Test Step ID 2' name='Fake Step Name 2'>
+			<ClickPages collectionShortHand="AEAC NS 16-17">
+				<Pages>
+				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
+				</Pages>
+		  </ClickPages>
+		</TestStep>
+		<TestStep id='Fake Test Step ID 3' name='Fake Step Name 3' runAODA='true' log='true'>
+			<ClickPages collectionShortHand="AEAC NS 16-17">
+				<Pages>
+				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
+				</Pages>
+		  </ClickPages>
+		</TestStep>
+		<TestStep id='Fake Test Step ID 4' name='Fake Step Name 4' runAODA='true' runAODAPageName='Fake Page Name'>
 			<ClickPages collectionShortHand="AEAC NS 16-17">
 				<Pages>
 				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
@@ -98,4 +119,5 @@
 		  </ClickPages>
 		</TestStep>
 	</TestSteps>
+	
 </TestSet>
