@@ -193,14 +193,14 @@
 	<xs:complexType name="testStepType">
 		<xs:choice minOccurs="1" maxOccurs="unbounded">
 			<xs:element name="ClickHome" type="clickHomeType"/>
-			<xs:element name="ClickObjectByXPath" type="clickObjectByXPathType"/>
+			<xs:element name="ClickElementByXPath" type="clickElementByXPathType"/>
 			<xs:element name="ClickPages" type="clickPagesType"/>
 			<xs:element name="CloseBrowser" type="closeBrowserType"/>
 			<xs:element name="CloseCurrentTab" type="closeCurrentTabType" />
 			<xs:element name="DDLSelectByXPath" type="dDLSelectByXPathType" />
 			<xs:element name="GetToOrg" type="getToOrgType"/>
 			<xs:element name="OpenBrowser" type="openBrowserType" />
-			<xs:element name="PopulateObjectByXPath" type="populateObjectByXPathType" />
+			<xs:element name="PopulateElementByXPath" type="populateElementByXPathType" />
 			<xs:element name="SignIn" type="signInType"/>
 			<xs:element name="SwitchToTab" type="switchToTabType"/>
 			<xs:element name="WaitForElement" type="waitForElementType" />
@@ -280,8 +280,8 @@
 		<xs:attribute name="tabIndex" type="positiveInteger" use="required"/>
 	</xs:complexType>
 
-	<!-- ClickObjectByXPathType-->
-	<xs:complexType name="clickObjectByXPathType">
+	<!-- clickElementByXPathType-->
+	<xs:complexType name="clickElementByXPathType">
 		<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
 		<xs:attribute name="useJS" type="nonEmptyString" use="optional">
 			<xs:annotation>
@@ -297,7 +297,7 @@
 	</xs:complexType>
 
 	<!-- PopulateObjectByXPathType-->
-	<xs:complexType name="populateObjectByXPathType">
+	<xs:complexType name="populateElementByXPathType">
 		<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
 		<xs:attribute name="text" type="nonEmptyString" use="required"/>
 	</xs:complexType>

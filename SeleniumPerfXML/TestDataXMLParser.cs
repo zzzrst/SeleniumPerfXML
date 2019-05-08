@@ -4,6 +4,7 @@
 
 namespace SeleniumPerfXML
 {
+    using SeleniumPerfXML.TestActions;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
@@ -393,7 +394,7 @@ namespace SeleniumPerfXML
             Logger.Warn($"Sorry, we didn't find a test step that matched the provided ID: {testStepID}");
         }
 
-        private void RunTestStep(XmlNode testStep)
+        private void RunTestStep(XmlNode testStep, bool performAction = true)
         {
             string name = testStep.Attributes["name"].Value;
 
@@ -430,6 +431,25 @@ namespace SeleniumPerfXML
             }
 
             Logger.Info($"Test step '{name}': runAODA->{runAODA} runAODAPageName->{runAODAPageName} log->{log}");
+
+            TestAction action = ReflectiveGetter.GetEnumerableOfType<TestAction>()
+                .Find(x => x.Description.Equals(testStep.FirstChild.Name));
+
+            if (action == null)
+            {
+                Logger.Error($"Was not able to find the provided test action '{testStep.FirstChild.Name}'.");
+            } else
+            {
+                // execute
+                action.Log = log;
+                action.Name = name;
+                action.RunAODA = runAODA;
+                action.RunAODAPageName = runAODAPageName;
+                action.TestActionInformation = testStep.FirstChild;
+                action.PerformAction = performAction;
+                action.Execute();
+            }
+
         }
     }
 }
