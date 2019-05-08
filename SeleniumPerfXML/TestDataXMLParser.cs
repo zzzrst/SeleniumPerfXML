@@ -4,13 +4,11 @@
 
 namespace SeleniumPerfXML
 {
-    using SeleniumPerfXML.TestActions;
     using System;
-    using System.Collections.Generic;
     using System.Configuration;
     using System.IO;
-    using System.Text;
     using System.Xml;
+    using SeleniumPerfXML.TestActions;
 
     /// <summary>
     /// XMLParser that reads the XML passed in to create proper data structurs.
@@ -438,7 +436,8 @@ namespace SeleniumPerfXML
             if (action == null)
             {
                 Logger.Error($"Was not able to find the provided test action '{testStep.FirstChild.Name}'.");
-            } else
+            }
+            else
             {
                 // execute
                 action.Log = log;
@@ -449,7 +448,6 @@ namespace SeleniumPerfXML
                 action.PerformAction = performAction;
                 action.Execute();
             }
-
         }
     }
 }

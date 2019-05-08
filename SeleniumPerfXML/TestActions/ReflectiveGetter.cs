@@ -15,7 +15,6 @@ namespace SeleniumPerfXML.TestActions
     /// </summary>
     public class ReflectiveGetter
     {
-
         /// <summary>
         /// Gets a list of all subclasses of base class T using reflection.
         /// </summary>

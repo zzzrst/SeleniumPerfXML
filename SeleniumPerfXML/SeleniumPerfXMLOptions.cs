@@ -11,12 +11,12 @@ namespace SeleniumPerfXML
     using CommandLine.Text;
 
     /// <summary>
-    /// This class stores the command line arguments that are taken in, both mandatory and optional
+    /// This class stores the command line arguments that are taken in, both mandatory and optional.
     /// </summary>
     public class SeleniumPerfXMLOptions
     {
         /// <summary>
-        /// Gets usage for SeleniumPerfXML
+        /// Gets usage for SeleniumPerfXML.
         /// </summary>
         [Usage(ApplicationAlias = "SeleniumPerfXML.exe")]
         public static IEnumerable<Example> Examples
