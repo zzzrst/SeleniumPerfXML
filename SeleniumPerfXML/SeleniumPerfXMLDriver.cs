@@ -6,14 +6,15 @@ namespace SeleniumPerfXML
 {
     using System;
     using CommandLine;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
-    /// Driver class
+    /// Driver class.
     /// </summary>
     public class SeleniumPerfXMLDriver
     {
         /// <summary>
-        /// Main functionality
+        /// Main functionality.
         /// </summary>
         /// <param name="args"> The arguments to be passed in. </param>
         /// <returns> 0 if no errors were met. </returns>
@@ -54,7 +55,7 @@ namespace SeleniumPerfXML
                })
                .WithNotParsed<SeleniumPerfXMLOptions>(errs =>
                {
-                   Console.WriteLine(errs);
+                   Logger.Error(errs);
                    if (errs != null)
                    {
                        errorParsing = true;
@@ -83,8 +84,7 @@ namespace SeleniumPerfXML
                 driver.ParseParameters();
                 driver.ParseSpecialElements();
                 driver.RunTestCaseFlow();
-
-                Console.WriteLine("Hello World!");
+                Logger.Info("SeleniumPerfXML has finished...");
             }
 
             return resultCode;

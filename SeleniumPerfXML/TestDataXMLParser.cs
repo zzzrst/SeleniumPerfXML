@@ -252,7 +252,7 @@ namespace SeleniumPerfXML
                 }
                 else
                 {
-                    // Console.WriteLine($"We currently do not deal with this. {innerFlow.Name}");
+                    Logger.Warn($"We currently do not deal with this. {innerFlow.Name}");
                 }
             }
         }
@@ -276,11 +276,11 @@ namespace SeleniumPerfXML
                 }
             }
 
-            // Console.WriteLine($"Sorry, we didn't find a test case that matched the provided ID: {testCaseID}");
+            Logger.Warn($"Sorry, we didn't find a test case that matched the provided ID: {testCaseID}");
         }
 
         /// <summary>
-        /// Runs the test case based on the provided XMLNode
+        /// Runs the test case based on the provided XMLNode.
         /// </summary>
         /// <param name="testCase"> Optional XmlNode to represent testCases. </param>
         private void RunTestCase(XmlNode testCase)
@@ -299,7 +299,7 @@ namespace SeleniumPerfXML
                 }
                 else
                 {
-                    // Console.WriteLine($"We currently do not deal with this. {testStep.Name}");
+                    Logger.Warn($"We currently do not deal with this. {testStep.Name}");
                 }
             }
         }
@@ -312,7 +312,7 @@ namespace SeleniumPerfXML
         {
             string elementXPath = ifXMLNode.Attributes["elementXPath"].Value;
             string condition = ifXMLNode.Attributes["condition"].Value;
-            bool conditionPassed = false;
+            bool conditionPassed = true;
 
             // will have to deal with if condition here.
 
@@ -336,7 +336,7 @@ namespace SeleniumPerfXML
                     {
                         elementXPath = ifSection.Attributes["elementXPath"].Value;
                         condition = ifSection.Attributes["condition"].Value;
-                        conditionPassed = false;
+                        conditionPassed = true;
 
                         // deal with condition
                         if (conditionPassed)
@@ -366,7 +366,7 @@ namespace SeleniumPerfXML
                 }
                 else
                 {
-                    // Console.WriteLine($"We currently do not deal with this. {ifSection.Name}");
+                    Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
                 }
             }
         }
@@ -390,7 +390,7 @@ namespace SeleniumPerfXML
                 }
             }
 
-            // Console.WriteLine($"Sorry, we didn't find a test step that matched the provided ID: {testStepID}");
+            Logger.Warn($"Sorry, we didn't find a test step that matched the provided ID: {testStepID}");
         }
 
         private void RunTestStep(XmlNode testStep)
@@ -428,6 +428,8 @@ namespace SeleniumPerfXML
             {
                 log = bool.Parse(testStep.Attributes["log"].Value);
             }
+
+            Logger.Info($"Test step '{name}': runAODA->{runAODA} runAODAPageName->{runAODAPageName} log->{log}");
         }
     }
 }
