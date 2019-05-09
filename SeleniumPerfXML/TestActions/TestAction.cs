@@ -51,6 +51,11 @@ namespace SeleniumPerfXML.TestActions
         public XmlNode TestActionInformation { get; set; }
 
         /// <summary>
+        /// Gets or sets the selenium driver uses to perform action.
+        /// </summary>
+        public SeleniumDriver SeleniumDriver { get; set; }
+
+        /// <summary>
         /// Executes the test action based on the provided information and settings.
         /// </summary>
         public abstract void Execute();

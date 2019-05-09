@@ -110,6 +110,8 @@ namespace SeleniumPerfXML
 
         private string ErrorContainer { get; set; }
 
+        private SeleniumDriver seleniumDriver { get; set; }
+
         /// <summary>
         /// This function is responsible for parsing parameters in the XML File and updating variables if not overriden.
         /// </summary>
@@ -229,6 +231,37 @@ namespace SeleniumPerfXML
             {
                 this.ErrorContainer = ConfigurationManager.AppSettings["ErrorContainer"].ToString();
             }
+        }
+
+        /// <summary>
+        /// Instantiates the selenim driver to be used in this test run.
+        /// </summary>
+        public void InstantiateSeleniumDriver()
+        {
+            SeleniumDriver.Browser browser = SeleniumDriver.Browser.Chrome;
+
+            if (this.Browser.ToLower().Contains("chrome"))
+            {
+                browser = SeleniumDriver.Browser.Chrome;
+            }
+            else if (this.Browser.ToLower().Contains("ie"))
+            {
+                browser = SeleniumDriver.Browser.IE;
+            }
+            else if (this.Browser.ToLower().Contains("firefox"))
+            {
+                browser = SeleniumDriver.Browser.Firefox
+            }
+            else if (this.Browser.ToLower().Contains("edge"))
+            {
+                browser = SeleniumDriver.Browser.Edge;
+            }
+
+            this.seleniumDriver = new SeleniumDriver(browser, TimeSpan.FromSeconds(this.TimeOutThreshold))
+            {
+                ErrorContainer = this.ErrorContainer,
+                LoadingSpinner = this.LoadingSpinner,
+            };
         }
 
         /// <summary>
@@ -440,6 +473,7 @@ namespace SeleniumPerfXML
             else
             {
                 // execute
+                action.SeleniumDriver = this.seleniumDriver;
                 action.Log = log;
                 action.Name = name;
                 action.RunAODA = runAODA;
