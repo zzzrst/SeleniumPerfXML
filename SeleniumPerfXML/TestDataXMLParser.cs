@@ -250,7 +250,7 @@ namespace SeleniumPerfXML
             }
             else if (this.Browser.ToLower().Contains("firefox"))
             {
-                browser = SeleniumDriver.Browser.Firefox
+                browser = SeleniumDriver.Browser.Firefox;
             }
             else if (this.Browser.ToLower().Contains("edge"))
             {
