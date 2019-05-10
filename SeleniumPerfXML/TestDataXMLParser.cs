@@ -304,7 +304,16 @@ namespace SeleniumPerfXML
             {
                 if (testcase.Name == "TestCase" && testcase.Attributes["id"].Value == testCaseID)
                 {
-                    this.RunTestCase(testcase, performAction);
+                    int repeat = 1;
+                    if (this.RespectRepeatFor && testcase.Attributes["repeatFor"] != null)
+                    {
+                        repeat = int.Parse(testcase.Attributes["repeatFor"].Value);
+                    }
+
+                    for (int i = 0; i < repeat; i++)
+                    {
+                        this.RunTestCase(testcase, performAction);
+                    }
                     return;
                 }
             }
