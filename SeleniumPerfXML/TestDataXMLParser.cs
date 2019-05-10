@@ -293,7 +293,8 @@ namespace SeleniumPerfXML
         /// Runs the test case based on the provided ID.
         /// </summary>
         /// <param name="testCaseID">ID to find the testcase to run.</param>
-        private void FindAndRunTestCase(string testCaseID)
+        /// <param name="performAction"> Perfoms the action. </param>
+        private void FindAndRunTestCase(string testCaseID, bool performAction = true)
         {
             // get the list of testcases
             XmlNode testCases = this.XMLDocObj.GetElementsByTagName("TestCases")[0];
@@ -303,7 +304,7 @@ namespace SeleniumPerfXML
             {
                 if (testcase.Name == "TestCase" && testcase.Attributes["id"].Value == testCaseID)
                 {
-                    this.RunTestCase(testcase);
+                    this.RunTestCase(testcase, performAction);
                     return;
                 }
             }
@@ -315,7 +316,8 @@ namespace SeleniumPerfXML
         /// Runs the test case based on the provided XMLNode.
         /// </summary>
         /// <param name="testCase"> Optional XmlNode to represent testCases. </param>
-        private void RunTestCase(XmlNode testCase)
+        /// <param name="performAction"> Performs the action, </param>
+        private void RunTestCase(XmlNode testCase, bool performAction = true)
         {
             // Run Each Test Step Here
             foreach (XmlNode testStep in testCase)
@@ -323,15 +325,15 @@ namespace SeleniumPerfXML
                 // the testStepFlow can be either RunTestStep or If
                 if (testStep.Name == "RunTestStep")
                 {
-                    this.FindAndRunTestStep(testStep.InnerText);
+                    this.FindAndRunTestStep(testStep.InnerText, performAction);
                 }
                 else if (testStep.Name == "If")
                 {
-                    this.RunIfTestCase(testStep);
+                    this.RunIfTestCase(testStep, performAction);
                 }
                 else if (testStep.Name == "RunTestCase")
                 {
-                    this.FindAndRunTestCase(testStep.InnerText);
+                    this.FindAndRunTestCase(testStep.InnerText, performAction);
                 }
                 else
                 {
@@ -344,61 +346,59 @@ namespace SeleniumPerfXML
         /// This function parses the if test case flow and starts executing.
         /// </summary>
         /// <param name="ifXMLNode"> XML Node that has the if block. </param>
-        private void RunIfTestCase(XmlNode ifXMLNode)
+        /// <param name="performAction"> Perfoms the action. </param>
+        private void RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
         {
-            string elementXPath = ifXMLNode.Attributes["elementXPath"].Value;
-            string condition = ifXMLNode.Attributes["condition"].Value;
-            bool conditionPassed = true;
+            bool ifCondition = false;
 
-            // will have to deal with if condition here.
+            // we check condition if we have to perfom this action.
+            if (performAction)
+            {
+                string elementXPath = ifXMLNode.Attributes["elementXPath"].Value;
+                string condition = ifXMLNode.Attributes["condition"].Value;
+
+                SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
+
+                ifCondition = this.SeleniumDriver.CheckForElementState(elementXPath, state);
+            }
 
             // inside the testCaseFlow, you can only have either RunTestCase element or an If element.
             foreach (XmlNode ifSection in ifXMLNode.ChildNodes)
             {
                 if (ifSection.Name == "Then")
                 {
-                    if (conditionPassed)
-                    {
-                        this.RunTestCase(ifSection);
-                    }
-                    else
-                    {
-                        // logging
-                    }
+                   // we run this test case only if performAction is true, and the condition for the element has passed.
+                   this.RunTestCase(ifSection, performAction && ifCondition);
                 }
                 else if (ifSection.Name == "ElseIf")
                 {
-                    if (!conditionPassed)
-                    {
-                        elementXPath = ifSection.Attributes["elementXPath"].Value;
-                        condition = ifSection.Attributes["condition"].Value;
-                        conditionPassed = true;
+                    // we check the condition if performAction is true and the previous if condition was false.
+                    // we can only run the test case if performAction is true, previous if condition was false, and the current if condition is true.
+                    bool secondIfCondition = false;
 
-                        // deal with condition
-                        if (conditionPassed)
-                        {
-                            this.RunTestCase(ifSection);
-                        }
-                        else
-                        {
-                            // logging
-                        }
+                    if (performAction && !ifCondition)
+                    {
+                        string elementXPath = ifXMLNode.Attributes["elementXPath"].Value;
+                        string condition = ifXMLNode.Attributes["condition"].Value;
+
+                        SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
+
+                        secondIfCondition = this.SeleniumDriver.CheckForElementState(elementXPath, state);
                     }
+
+                    this.RunTestCase(ifSection, performAction && !ifCondition && secondIfCondition);
+
+                    // update ifCondition to reflect if elseIf was run
+                    ifCondition = !ifCondition && secondIfCondition;
                 }
                 else if (ifSection.Name == "Else")
                 {
-                    if (!conditionPassed)
-                    {
-                        this.RunTestCase(ifSection);
-                    }
-                    else
-                    {
-                        // logging
-                    }
+                    // at this point, we only run this action if performAction is true and the previous ifCondition was false.
+                    this.RunTestCase(ifSection, performAction && !ifCondition);
                 }
                 else if (ifSection.Name == "RunTestCase")
                 {
-                    this.FindAndRunTestCase(ifSection.InnerText);
+                    this.FindAndRunTestCase(ifSection.InnerText, performAction);
                 }
                 else
                 {
@@ -411,7 +411,8 @@ namespace SeleniumPerfXML
         /// This function will go through the list of steps and run the appropriate test step if found.
         /// </summary>
         /// <param name="testStepID"> The ID of the test step to run. </param>
-        private void FindAndRunTestStep(string testStepID)
+        /// <param name="performAction"> Perfoms the action. </param>
+        private void FindAndRunTestStep(string testStepID, bool performAction = true)
         {
             // get the list of testSteps
             XmlNode testSteps = this.XMLDocObj.GetElementsByTagName("TestSteps")[0];
@@ -421,7 +422,7 @@ namespace SeleniumPerfXML
             {
                 if (testStep.Name != "#comment" && testStep.Attributes["id"].Value == testStepID)
                 {
-                    this.RunTestStep(testStep);
+                    this.RunTestStep(testStep, performAction);
                     return;
                 }
             }

@@ -166,6 +166,45 @@ namespace SeleniumPerfXML
         private bool InIFrame { get; set; } = false;
 
         /// <summary>
+        /// Checks for an element state.
+        /// </summary>
+        /// <param name="xPath"> The xpath to find the web element. </param>
+        /// <param name="state"> The state of the web element to wait for. </param>
+        /// <returns> If the element state is as wanted.</returns>
+        public bool CheckForElementState(string xPath, ElementState state)
+        {
+            IWebElement element = null;
+
+            try
+            {
+                this.GetElementByXPath(xPath);
+            }
+            catch (NoSuchElementException)
+            {
+                // this is expected if we are checking that it is not visible.
+            }
+            catch (Exception e)
+            {
+               Logger.Error(e.ToString());
+            }
+
+            switch (state)
+            {
+                case ElementState.Invisible:
+                    return element == null;
+
+                case ElementState.Visible:
+                    return element != null;
+
+                case ElementState.Clickable:
+                    return element != null && element.Displayed && element.Enabled;
+
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
         /// Performs the actions of clicking the specified element. Uses Selenium binding by default.
         /// </summary>
         /// <param name="xPath">The xpath to find the specified element.</param>
@@ -213,6 +252,18 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
+        /// Performs the action of populating a value.
+        /// </summary>
+        /// <param name="xPath"> The xpath to use to identify the element. </param>
+        /// <param name="value"> The value to populate.</param>
+        public void PopulateElementByXPath(string xPath, string value)
+        {
+            IWebElement element = this.GetElementByXPath(xPath);
+            this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
+            element.SendKeys(value);
+        }
+
+        /// <summary>
         /// Performs the action of selecting a value in an element.
         /// </summary>
         /// <param name="xPath"> The xpath to use to identify the element. </param>
@@ -224,18 +275,6 @@ namespace SeleniumPerfXML
             this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(ddlElement));
             ddl.SelectByText(value);
             ddlElement.Click();
-        }
-
-        /// <summary>
-        /// Performs the action of populating a value.
-        /// </summary>
-        /// <param name="xPath"> The xpath to use to identify the element. </param>
-        /// <param name="value"> The value to populate.</param>
-        public void PopulateElementByXPath(string xPath, string value)
-        {
-            IWebElement element = this.GetElementByXPath(xPath);
-            this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
-            element.SendKeys(value);
         }
 
         /// <summary>
