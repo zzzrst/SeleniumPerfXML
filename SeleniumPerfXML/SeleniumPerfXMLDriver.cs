@@ -83,6 +83,7 @@ namespace SeleniumPerfXML
 
                 driver.ParseParameters();
                 driver.ParseSpecialElements();
+                driver.InstantiateSeleniumDriver();
                 driver.RunTestCaseFlow();
                 Logger.Info("SeleniumPerfXML has finished...");
             }

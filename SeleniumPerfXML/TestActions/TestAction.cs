@@ -21,43 +21,22 @@ namespace SeleniumPerfXML.TestActions
         public abstract string Description { get; protected set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to log this action or not.
-        /// </summary>
-        public bool Log { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the test action.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to perform this action or not.
-        /// </summary>
-        public bool PerformAction { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to run AODA or not.
-        /// </summary>
-        public bool RunAODA { get; set; }
-
-        /// <summary>
-        /// Gets or sets the page name to use when running AODA.
-        /// </summary>
-        public string RunAODAPageName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the test action XML Node.
-        /// </summary>
-        public XmlNode TestActionInformation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the selenium driver uses to perform action.
-        /// </summary>
-        public SeleniumDriver SeleniumDriver { get; set; }
-
-        /// <summary>
         /// Executes the test action based on the provided information and settings.
         /// </summary>
-        public abstract void Execute();
+        /// <param name="log"> Indicates whether to log this test case or not.</param>
+        /// <param name="name"> The test step name for this action. </param>
+        /// <param name="performAction"> Indicates whether to perform this action or not.</param>
+        /// <param name="runAODA"> Indicates whether to run AODA scripts after this action. </param>
+        /// <param name="runAODAPageName"> Indicates the page name to pass to AODA scripts. </param>
+        /// <param name="testActionInformation"> Provides the XML information for this test action. </param>
+        /// <param name="seleniumDriver"> Passes on the driver instance used to interact with the browser. </param>
+        public abstract void Execute(
+            bool log,
+            string name,
+            bool performAction,
+            bool runAODA,
+            string runAODAPageName,
+            XmlNode testActionInformation,
+            SeleniumDriver seleniumDriver);
     }
 }

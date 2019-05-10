@@ -90,34 +90,18 @@
 
 	<TestSteps>
 		<!-- log is true by default. runAODA is false by default. Need runAODAPageName if runAODA is true.-->
-		<TestStep id='Fake Test Step ID 1' name='Fake Step Name 1' log='false'>
-			<ClickPages collectionShortHand="AEAC NS 16-17">
-				<Pages>
-				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
-				</Pages>
-		  </ClickPages>
-		</TestStep>
-		<TestStep id='Fake Test Step ID 2' name='Fake Step Name 2'>
-			<ClickPages collectionShortHand="AEAC NS 16-17">
-				<Pages>
-				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
-				</Pages>
-		  </ClickPages>
-		</TestStep>
-		<TestStep id='Fake Test Step ID 3' name='Fake Step Name 3' runAODA='true' log='true'>
-			<ClickPages collectionShortHand="AEAC NS 16-17">
-				<Pages>
-				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
-				</Pages>
-		  </ClickPages>
-		</TestStep>
-		<TestStep id='Fake Test Step ID 4' name='Fake Step Name 4' runAODA='true' runAODAPageName='Fake Page Name'>
-			<ClickPages collectionShortHand="AEAC NS 16-17">
-				<Pages>
-				  <Page pageCode="AEAC.NS.PLAN" name="Planning"/>
-				</Pages>
-		  </ClickPages>
-		</TestStep>
+		<ChooseCollection id='Fake Test Step ID 1' name='Fake Step Name 1' log='false' collectionSearchField="Search Text" collectionName="Collection Name"/>
+		<ClickElementByXPath id='Fake Test Step ID 2' name='Fake Step Name 2' xPath="Fake xPath"/>
+		<CloseBrowser id='Fake Test Step ID 3' name='Fake Step Name 3' runAODA='true' log='true'/>
+		<CloseTab id='Fake Test Step ID 4' name='Fake Step Name 4' runAODA='true' runAODAPageName='Fake Page Name' tabIndex="1"/>
+		<DDLSelectByXPath id='Fake Test Step ID 5' name='Fake Step Name 5' runAODA='true' runAODAPageName='Fake Page Name' xPath="Fake xPath" selection="value to be selected"/>
+		<OpenBrowser id='Fake Test Step ID 6' name='Fake Step Name 6' runAODA='true' runAODAPageName='Fake Page Name'/>
+		<PopulateElementByXPath id='Fake Test Step ID 7' name='Fake Step Name 7' runAODA='true' runAODAPageName='Fake Page Name' xPath="Fake xPath" text="value"/>
+		<SignIn id='Fake Test Step ID 8' name='Fake Step Name 8' runAODA='true' runAODAPageName='Fake Page Name' username="fake username" password="fake password"/>
+		<SwitchIntoIFrame id='Fake Test Step ID 9' name='Fake Step Name 9' runAODA='true' runAODAPageName='Fake Page Name' xPath="Fake xPath"/>
+		<SwitchToTab id='Fake Test Step ID 10' name='Fake Step Name 10' runAODA='true' runAODAPageName='Fake Page Name' tabIndex="1"/>
+		<WaitForElement id='Fake Test Step ID 11' name='Fake Step Name 11' runAODA='true' runAODAPageName='Fake Page Name' xPath="Fake xPath" invisible="false"/>
+		<WaitInSeconds id='Fake Test Step ID 12' name='Fake Step Name 12' runAODA='true' runAODAPageName='Fake Page Name' seconds="10"/>
 	</TestSteps>
 	
 </TestSet>

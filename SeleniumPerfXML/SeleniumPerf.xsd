@@ -66,9 +66,20 @@
 
 	<!-- Test Steps Type-->
 	<xs:complexType name="testStepsType">
-		<xs:sequence minOccurs="1" maxOccurs="unbounded">
-			<xs:element name="TestStep" type="testStepType"/>
-		</xs:sequence>
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="ChooseCollection" type="chooseCollectionType"/>
+			<xs:element name="ClickElementByXPath" type="clickElementByXPathType"/>
+			<xs:element name="CloseBrowser" type="closeBrowserType"/>
+			<xs:element name="CloseTab" type="closeTabType" />
+			<xs:element name="DDLSelectByXPath" type="dDLSelectByXPathType" />
+			<xs:element name="OpenBrowser" type="openBrowserType" />
+			<xs:element name="PopulateElementByXPath" type="populateElementByXPathType" />
+			<xs:element name="SignIn" type="signInType"/>
+			<xs:element name="SwitchIntoIFrame" type="switchIntoIFrameType"/>
+			<xs:element name="SwitchToTab" type="switchToTabType"/>
+			<xs:element name="WaitForElement" type="waitForElementType" />
+			<xs:element name="WaitInSeconds" type="waitInSecondsType" />
+		</xs:choice>
 	</xs:complexType>
 	<!--   __________________Second Level Types________________________ -->
 
@@ -188,138 +199,133 @@
 			<xs:enumeration value="DNE" />
 		</xs:restriction>
 	</xs:simpleType>
+	<!--   __________________Third Level Types________________________ -->
 
-	<!-- Test Step Type -->
-	<xs:complexType name="testStepType">
-		<xs:choice minOccurs="1" maxOccurs="unbounded">
-			<xs:element name="ClickHome" type="clickHomeType"/>
-			<xs:element name="ClickElementByXPath" type="clickElementByXPathType"/>
-			<xs:element name="ClickPages" type="clickPagesType"/>
-			<xs:element name="CloseBrowser" type="closeBrowserType"/>
-			<xs:element name="CloseCurrentTab" type="closeCurrentTabType" />
-			<xs:element name="DDLSelectByXPath" type="dDLSelectByXPathType" />
-			<xs:element name="GetToOrg" type="getToOrgType"/>
-			<xs:element name="OpenBrowser" type="openBrowserType" />
-			<xs:element name="PopulateElementByXPath" type="populateElementByXPathType" />
-			<xs:element name="SignIn" type="signInType"/>
-			<xs:element name="SwitchToTab" type="switchToTabType"/>
-			<xs:element name="WaitForElement" type="waitForElementType" />
-			<xs:element name="WaitInSeconds" type="waitInSecondsType" />
-		</xs:choice>
+
+	<!-- Test Action Types -->
+	<xs:complexType name="baseTestStepType">
 		<xs:attribute name="name" type="nonEmptyString" use="required"/>
 		<xs:attribute name="id" type="nonEmptyString" use="required"/>
 		<xs:attribute name="runAODA" type="xs:boolean"/>
 		<xs:attribute name="runAODAPageName" type="nonEmptyString"/>
 		<xs:attribute name="log" type="xs:boolean"/>
 	</xs:complexType>
-	<!--   __________________Third Level Types________________________ -->
-
-
-	<!-- Test Action Types -->
-	<!-- SignIn -->
-	<xs:complexType name="signInType">
-		<xs:attribute name="username" type="nonEmptyString" use="required"/>
-		<xs:attribute name="password" type="nonEmptyString" use="required"/>
+	
+	
+	<!-- ChooseCollection-->
+	<xs:complexType name="chooseCollectionType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="collectionSearchField" type="nonEmptyString" use="required"/>
+				<xs:attribute name="collectionName" type="nonEmptyString" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
-
-	<!-- GetToOrg-->
-	<xs:complexType name="orgType">
-		<xs:attribute name="type" type="nonEmptyString" use="required"/>
-		<xs:attribute name="orgCode" type="nonEmptyString" use="required"/>
-	</xs:complexType>
-
-	<xs:complexType name="orgsType">
-		<xs:sequence minOccurs="1" maxOccurs="unbounded">
-			<xs:element name="org" type="orgType"/>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="getToOrgType">
-		<xs:sequence>
-			<xs:element name="collectionSearchField" type="nonEmptyString"/>
-			<xs:element name="collectionName" type="nonEmptyString"/>
-			<xs:element name="Orgs" type="orgsType"/>
-		</xs:sequence>
-		<xs:attribute name="collectionShortHand" type="nonEmptyString" use="required"/>
-	</xs:complexType>
-
-	<!--ClickPages-->
-	<xs:complexType name="clickPagesType">
-		<xs:sequence>
-			<xs:element name="Pages" type="pagesType"/>
-		</xs:sequence>
-		<xs:attribute name="collectionShortHand" type="nonEmptyString" use="required"/>
-	</xs:complexType>
-
-	<xs:complexType name="pagesType">
-		<xs:sequence>
-			<xs:element name="Page" type="pageType"/>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="pageType">
-		<xs:attribute name="pageCode" type="nonEmptyString" use="required"/>
-		<xs:attribute name="name" type="nonEmptyString" use="required"/>
-	</xs:complexType>
-
-	<!--ClickHome-->
-	<xs:complexType name="clickHomeType">
-	</xs:complexType>
-
-	<!-- CloseBrowserType-->
-	<xs:complexType name="closeBrowserType">
-	</xs:complexType>
-
-	<!-- SwitchToTabType-->
-	<xs:complexType name="switchToTabType">
-		<xs:attribute name="tabIndex" type="positiveInteger" use="required"/>
-	</xs:complexType>
-
-	<!-- CloseTabType-->
-	<xs:complexType name="closeTabType">
-		<xs:attribute name="tabIndex" type="positiveInteger" use="required"/>
-	</xs:complexType>
-
+	
 	<!-- clickElementByXPathType-->
 	<xs:complexType name="clickElementByXPathType">
-		<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
 		<xs:attribute name="useJS" type="nonEmptyString" use="optional">
 			<xs:annotation>
 				<xs:documentation>Give value of true if you want this to be executed by Javascript. Else, do not use this attribute.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- CloseBrowserType-->
+	<xs:complexType name="closeBrowserType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- CloseTabType-->
+	<xs:complexType name="closeTabType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="tabIndex" type="positiveInteger" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- DDLSelectByXPathType-->
+	<xs:complexType name="dDLSelectByXPathType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
+				<xs:attribute name="selection" type="nonEmptyString" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- OpenBrowserType-->
+	<xs:complexType name="openBrowserType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- PopulateObjectByXPathType-->
+	<xs:complexType name="populateElementByXPathType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
+				<xs:attribute name="text" type="nonEmptyString" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- SignIn -->
+	<xs:complexType name="signInType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="username" type="nonEmptyString" use="required"/>
+				<xs:attribute name="password" type="nonEmptyString" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- switchIntoIFrameType -->
+	<xs:complexType name="switchIntoIFrameType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- SwitchToTabType-->
+	<xs:complexType name="switchToTabType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="tabIndex" type="positiveInteger" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<!-- WaitForElementType-->
 	<xs:complexType name="waitForElementType">
-		<xs:attribute name="invisible" type="xs:boolean" use="required"/>
-		<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
-	</xs:complexType>
-
-	<!-- PopulateObjectByXPathType-->
-	<xs:complexType name="populateElementByXPathType">
-		<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
-		<xs:attribute name="text" type="nonEmptyString" use="required"/>
-	</xs:complexType>
-
-
-	<!-- DDLSelectByXPathType-->
-	<xs:complexType name="dDLSelectByXPathType">
-		<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
-		<xs:attribute name="selection" type="nonEmptyString" use="required"/>
-	</xs:complexType>
-
-	<!-- OpenBrowserType-->
-	<xs:complexType name="openBrowserType">
-	</xs:complexType>
-
-	<!-- CloseCurrentTabType-->
-	<xs:complexType name="closeCurrentTabType">
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="invisible" type="xs:boolean" use="required"/>
+				<xs:attribute name="xPath" type="nonEmptyString" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<!-- WaitInSecondsTypee-->
 	<xs:complexType name="waitInSecondsType">
-		<xs:attribute name="seconds" type="positiveInteger" use="required"/>
+		<xs:complexContent>
+			<xs:extension base="baseTestStepType">
+				<xs:attribute name="seconds" type="positiveInteger" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<!-- ______________________________________________________________________ -->

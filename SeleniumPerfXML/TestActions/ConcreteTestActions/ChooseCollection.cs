@@ -1,4 +1,4 @@
-﻿// <copyright file="SignIn.cs" company="PlaceholderCompany">
+﻿// <copyright file="ChooseCollection.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -10,12 +10,12 @@ namespace SeleniumPerfXML.TestActions
     using System.Xml;
 
     /// <summary>
-    /// This class executes the action of signing in.
+    /// This class executes the action of getting to an organization.
     /// </summary>
-    public class SignIn : TestAction
+    public class ChooseCollection : TestAction
     {
         /// <inheritdoc/>
-        public override string Description { get; protected set; } = "SignIn";
+        public override string Description { get; protected set; } = "ChooseCollection";
 
         /// <inheritdoc/>
         [TimeAndLogAspect]

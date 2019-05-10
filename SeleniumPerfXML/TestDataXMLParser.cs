@@ -110,7 +110,7 @@ namespace SeleniumPerfXML
 
         private string ErrorContainer { get; set; }
 
-        private SeleniumDriver seleniumDriver { get; set; }
+        private SeleniumDriver SeleniumDriver { get; set; }
 
         /// <summary>
         /// This function is responsible for parsing parameters in the XML File and updating variables if not overriden.
@@ -257,7 +257,7 @@ namespace SeleniumPerfXML
                 browser = SeleniumDriver.Browser.Edge;
             }
 
-            this.seleniumDriver = new SeleniumDriver(browser, TimeSpan.FromSeconds(this.TimeOutThreshold))
+            this.SeleniumDriver = new SeleniumDriver(browser, TimeSpan.FromSeconds(this.TimeOutThreshold))
             {
                 ErrorContainer = this.ErrorContainer,
                 LoadingSpinner = this.LoadingSpinner,
@@ -328,6 +328,10 @@ namespace SeleniumPerfXML
                 else if (testStep.Name == "If")
                 {
                     this.RunIfTestCase(testStep);
+                }
+                else if (testStep.Name == "RunTestCase")
+                {
+                    this.FindAndRunTestCase(testStep.InnerText);
                 }
                 else
                 {
@@ -415,7 +419,7 @@ namespace SeleniumPerfXML
             // Find the appropriate test steps
             foreach (XmlNode testStep in testSteps.ChildNodes)
             {
-                if (testStep.Name == "TestStep" && testStep.Attributes["id"].Value == testStepID)
+                if (testStep.Name != "#comment" && testStep.Attributes["id"].Value == testStepID)
                 {
                     this.RunTestStep(testStep);
                     return;
@@ -464,23 +468,15 @@ namespace SeleniumPerfXML
             Logger.Info($"Test step '{name}': runAODA->{runAODA} runAODAPageName->{runAODAPageName} log->{log}");
 
             TestAction action = ReflectiveGetter.GetEnumerableOfType<TestAction>()
-                .Find(x => x.Description.Equals(testStep.FirstChild.Name));
+                .Find(x => x.Description.Equals(testStep.Name));
 
             if (action == null)
             {
-                Logger.Error($"Was not able to find the provided test action '{testStep.FirstChild.Name}'.");
+                Logger.Error($"Was not able to find the provided test action '{testStep}'.");
             }
             else
             {
-                // execute
-                action.SeleniumDriver = this.seleniumDriver;
-                action.Log = log;
-                action.Name = name;
-                action.RunAODA = runAODA;
-                action.RunAODAPageName = runAODAPageName;
-                action.TestActionInformation = testStep.FirstChild;
-                action.PerformAction = performAction;
-                action.Execute();
+                action.Execute(log, name, performAction, runAODA, runAODAPageName, testStep, this.SeleniumDriver);
             }
         }
     }

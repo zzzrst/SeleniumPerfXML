@@ -7,6 +7,7 @@ namespace SeleniumPerfXML.TestActions
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Xml;
 
     /// <summary>
     /// This class executes the action of populating the element identified by the xpath.
@@ -17,7 +18,8 @@ namespace SeleniumPerfXML.TestActions
         public override string Description { get; protected set; } = "PopulateElementByXPath";
 
         /// <inheritdoc/>
-        public override void Execute()
+        [TimeAndLogAspect]
+        public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver)
         {
             throw new NotImplementedException();
         }

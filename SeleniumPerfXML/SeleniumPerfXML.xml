@@ -53,6 +53,167 @@
             Sets up the Log4Net Configuration.
             </summary>
         </member>
+        <member name="T:SeleniumPerfXML.SeleniumDriver">
+            <summary>
+            Driver class for Selenium WebDriver.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.seleniumDriverLocation">
+            <summary>
+            Location of the Selenium drivers on the current machine.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.#ctor(SeleniumPerfXML.SeleniumDriver.Browser,System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SeleniumPerfXML.SeleniumDriver"/> class.
+            </summary>
+            <param name="browserType">The browser to use for this driver. </param>
+            <param name="timeOutThreshold"> The timeout threshold in seconds.</param>
+        </member>
+        <member name="T:SeleniumPerfXML.SeleniumDriver.Browser">
+            <summary>
+            Different browsers that are supported.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.Browser.Chrome">
+            <summary>
+            Represents the Chrome browser.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.Browser.Edge">
+            <summary>
+            Represents the Microsoft Edge Browser.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.Browser.Firefox">
+            <summary>
+            Represents the Firefox Browser.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.Browser.IE">
+            <summary>
+            Represents the Internet Explorer browser.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.Browser.Safari">
+            <summary>
+            Represents the Safari Browser.
+            </summary>
+        </member>
+        <member name="T:SeleniumPerfXML.SeleniumDriver.ElementState">
+            <summary>
+            Different states of the element.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.ElementState.Invisible">
+            <summary>
+            Element cannot be found / seen.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.ElementState.Visible">
+            <summary>
+            Element can be seen.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.SeleniumDriver.ElementState.Clickable">
+            <summary>
+            Element can be clicked.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumDriver.CurrentURL">
+            <summary>
+            Gets the url of the page the webdriver is focued on.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumDriver.LoadingSpinner">
+            <summary>
+            Gets or sets the loadiong spinner that appears on the website.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumDriver.ErrorContainer">
+            <summary>
+            Gets or sets the error container to check if any errors are shown on the UI.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.SeleniumDriver.InIFrame">
+            <summary>
+            Gets or sets a value indicating whether the web driver is in an IFrame or not.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.ClickElement(System.String,System.Boolean)">
+            <summary>
+            Performs the actions of clicking the specified element. Uses Selenium binding by default.
+            </summary>
+            <param name="xPath">The xpath to find the specified element.</param>
+            <param name="byJS"> Whether to use JS to perform the click / not. </param>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.CloseBrowser">
+            <summary>
+            Closes the current window. It will quite the browser if it is the last window opened.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.NavigateToURL(System.String)">
+            <summary>
+            Tells the browser to navigate to the provided url.
+            </summary>
+            <param name="url">URL for the browser to navigate to.</param>
+            <returns> <code>true</code> if the navigation was successful. </returns>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.SelectValueInElement(System.String,System.String)">
+            <summary>
+            Performs the action of selecting a value in an element.
+            </summary>
+            <param name="xPath"> The xpath to use to identify the element. </param>
+            <param name="value"> The value to select in the element.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.PopulateElementByXPath(System.String,System.String)">
+            <summary>
+            Performs the action of populating a value.
+            </summary>
+            <param name="xPath"> The xpath to use to identify the element. </param>
+            <param name="value"> The value to populate.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.SwitchToIFrame(System.String)">
+            <summary>
+            Switches to appropriate IFrame.
+            </summary>
+            <param name="xPath"> xPath to find the iFrame.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.SwitchToTab(System.Int32)">
+            <summary>
+            The SwitchToTab.
+            </summary>
+            <param name="tab">The tab<see cref="T:System.Int32"/>.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.WaitForElementState(System.String,SeleniumPerfXML.SeleniumDriver.ElementState)">
+            <summary>
+            Waits for an element state.
+            </summary>
+            <param name="xPath"> The xpath to find the web element. </param>
+            <param name="state"> The state of the web element to wait for. </param>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.ClickOk">
+            <summary>
+            Dismisses the alert dialog box on the browser.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.GetElementByXPath(System.String)">
+            <summary>
+            Finds the first IWebElement By XPath.
+            </summary>
+            <param name="xPath">The xpath to find the web element.</param>
+            <returns> The first IWebElement whose xpath matches. </returns>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.WaitForLoadingSpinner">
+            <summary>
+            Waits until the loading spinner disappears. PR applications only.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.SetActiveTab">
+            <summary>
+            Sets the tab to be the active one.
+            </summary>
+        </member>
         <member name="T:SeleniumPerfXML.SeleniumPerfXMLDriver">
             <summary>
             Driver class.
@@ -67,12 +228,12 @@
         </member>
         <member name="T:SeleniumPerfXML.SeleniumPerfXMLOptions">
             <summary>
-            This class stores the command line arguments that are taken in, both mandatory and optional
+            This class stores the command line arguments that are taken in, both mandatory and optional.
             </summary>
         </member>
         <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.Examples">
             <summary>
-            Gets usage for SeleniumPerfXML
+            Gets usage for SeleniumPerfXML.
             </summary>
         </member>
         <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.Browser">
@@ -141,6 +302,17 @@
             If not set, will use the directory path of CSVSaveFileLocation.
             </summary>
         </member>
+        <member name="T:SeleniumPerfXML.TestActions.ChooseCollection">
+            <summary>
+            This class executes the action of getting to an organization.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestActions.ChooseCollection.Description">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.TestActions.ChooseCollection.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+            <inheritdoc/>
+        </member>
         <member name="T:SeleniumPerfXML.TestActions.ClickElementByXPath">
             <summary>
             This class executes the action of clicking an element by xpath.
@@ -149,29 +321,7 @@
         <member name="P:SeleniumPerfXML.TestActions.ClickElementByXPath.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.ClickElementByXPath.Execute">
-            <inheritdoc/>
-        </member>
-        <member name="T:SeleniumPerfXML.TestActions.ClickHome">
-            <summary>
-            This class executes the action of clicking the home link.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestActions.ClickHome.Description">
-            <inheritdoc/>
-        </member>
-        <member name="M:SeleniumPerfXML.TestActions.ClickHome.Execute">
-            <inheritdoc/>
-        </member>
-        <member name="T:SeleniumPerfXML.TestActions.ClickPages">
-            <summary>
-            This class executes the action of clicking a page.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestActions.ClickPages.Description">
-            <inheritdoc/>
-        </member>
-        <member name="M:SeleniumPerfXML.TestActions.ClickPages.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.ClickElementByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.CloseBrowser">
@@ -182,18 +332,18 @@
         <member name="P:SeleniumPerfXML.TestActions.CloseBrowser.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.CloseBrowser.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.CloseBrowser.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
-        <member name="T:SeleniumPerfXML.TestActions.CloseCurrentTab">
+        <member name="T:SeleniumPerfXML.TestActions.CloseTab">
             <summary>
             This class executes the action of closing the current tab.
             </summary>
         </member>
-        <member name="P:SeleniumPerfXML.TestActions.CloseCurrentTab.Description">
+        <member name="P:SeleniumPerfXML.TestActions.CloseTab.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.CloseCurrentTab.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.CloseTab.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.DDLSelectByXPath">
@@ -204,18 +354,7 @@
         <member name="P:SeleniumPerfXML.TestActions.DDLSelectByXPath.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.DDLSelectByXPath.Execute">
-            <inheritdoc/>
-        </member>
-        <member name="T:SeleniumPerfXML.TestActions.GetToOrg">
-            <summary>
-            This class executes the action of getting to an organization.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestActions.GetToOrg.Description">
-            <inheritdoc/>
-        </member>
-        <member name="M:SeleniumPerfXML.TestActions.GetToOrg.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.DDLSelectByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.OpenBrowser">
@@ -226,7 +365,7 @@
         <member name="P:SeleniumPerfXML.TestActions.OpenBrowser.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.OpenBrowser.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.OpenBrowser.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.PopulateElementByXPath">
@@ -237,7 +376,7 @@
         <member name="P:SeleniumPerfXML.TestActions.PopulateElementByXPath.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.PopulateElementByXPath.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.PopulateElementByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.SignIn">
@@ -248,7 +387,7 @@
         <member name="P:SeleniumPerfXML.TestActions.SignIn.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.SignIn.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.SignIn.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.SwitchToTab">
@@ -259,7 +398,7 @@
         <member name="P:SeleniumPerfXML.TestActions.SwitchToTab.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.SwitchToTab.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.SwitchToTab.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.WaitForElement">
@@ -270,7 +409,7 @@
         <member name="P:SeleniumPerfXML.TestActions.WaitForElement.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.WaitForElement.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.WaitForElement.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.WaitInSeconds">
@@ -281,8 +420,9 @@
         <member name="P:SeleniumPerfXML.TestActions.WaitInSeconds.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.WaitInSeconds.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.WaitInSeconds.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
+            [TimeAndLogAspect]
         </member>
         <member name="T:SeleniumPerfXML.TestActions.ReflectiveGetter">
             <summary>
@@ -308,40 +448,32 @@
             Description mandatory set EXACTLY to test actions set in XML in child classes for reflection to work.
             </summary>
         </member>
-        <member name="P:SeleniumPerfXML.TestActions.TestAction.Log">
-            <summary>
-            Gets or sets a value indicating whether to log this action or not.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestActions.TestAction.Name">
-            <summary>
-            Gets or sets the name of the test action.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestActions.TestAction.PerformAction">
-            <summary>
-            Gets or sets a value indicating whether to perform this action or not.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestActions.TestAction.RunAODA">
-            <summary>
-            Gets or sets a value indicating whether to run AODA or not.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestActions.TestAction.RunAODAPageName">
-            <summary>
-            Gets or sets the page name to use when running AODA.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestActions.TestAction.TestActionInformation">
-            <summary>
-            Gets or sets the test action XML Node.
-            </summary>
-        </member>
-        <member name="M:SeleniumPerfXML.TestActions.TestAction.Execute">
+        <member name="M:SeleniumPerfXML.TestActions.TestAction.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <summary>
             Executes the test action based on the provided information and settings.
             </summary>
+            <param name="log"> Indicates whether to log this test case or not.</param>
+            <param name="name"> The test step name for this action. </param>
+            <param name="performAction"> Indicates whether to perform this action or not.</param>
+            <param name="runAODA"> Indicates whether to run AODA scripts after this action. </param>
+            <param name="runAODAPageName"> Indicates the page name to pass to AODA scripts. </param>
+            <param name="testActionInformation"> Provides the XML information for this test action. </param>
+            <param name="seleniumDriver"> Passes on the driver instance used to interact with the browser. </param>
+        </member>
+        <member name="T:SeleniumPerfXML.TestActions.TimeAndLogAspect">
+            <summary>
+            This aspect is used to surround a test action with try and catch, while timing each action.
+            If the test action is successful (no errors performing the action / passed in not to perform action), then runAODA if specified.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnEntry(PostSharp.Aspects.MethodExecutionArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnException(PostSharp.Aspects.MethodExecutionArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnSuccess(PostSharp.Aspects.MethodExecutionArgs)">
+            <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestDataXMLParser">
             <summary>
@@ -432,6 +564,11 @@
         <member name="M:SeleniumPerfXML.TestDataXMLParser.ParseSpecialElements">
             <summary>
             This function is responsible for parsing the special elements in the XML File and updating variables if not overriden.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.InstantiateSeleniumDriver">
+            <summary>
+            Instantiates the selenim driver to be used in this test run.
             </summary>
         </member>
         <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCaseFlow">
