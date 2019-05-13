@@ -1,0 +1,553 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Selenium.Axe</name>
+    </assembly>
+    <members>
+        <member name="T:Selenium.Axe.AxeBuilder">
+            <summary>
+            Fluent style builder for invoking aXe. Instantiate a new Builder and configure testing with the include(),
+            exclude(), and options() methods before calling analyze() to run.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.AxeBuilder.DefaultOptions">
+            <summary>
+            Defines the DefaultOptions.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.AxeBuilder.webDriver">
+            <summary>
+            Defines the webDriver.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.AxeBuilder.includeExcludeManager">
+            <summary>
+            Defines the includeExcludeManager.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.AxeBuilder.#ctor(OpenQA.Selenium.IWebDriver)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Selenium.Axe.AxeBuilder"/> class.
+            </summary>
+            <param name="webDriver">Selenium driver to use.</param>
+        </member>
+        <member name="M:Selenium.Axe.AxeBuilder.#ctor(OpenQA.Selenium.IWebDriver,Selenium.Axe.AxeBuilderOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Selenium.Axe.AxeBuilder"/> class.
+            </summary>
+            <param name="webDriver">Selenium driver to use.</param>
+            <param name="options">Builder options.</param>
+        </member>
+        <member name="P:Selenium.Axe.AxeBuilder.Options">
+            <summary>
+            Gets or sets the Options.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.AxeBuilder.Include(System.String[])">
+            <summary>
+            Selectors to include in the validation.
+            </summary>
+            <param name="selectors">Any valid CSS selectors.</param>
+            <returns>AxeBuilder with Included selectors.</returns>
+        </member>
+        <member name="M:Selenium.Axe.AxeBuilder.Exclude(System.String[])">
+            <summary>
+            Exclude selectors
+            Selectors to exclude in the validation.
+            </summary>
+            <param name="selectors">Any valid CSS selectors.</param>
+            <returns>AxeBuilder with Excluded selectors.</returns>
+        </member>
+        <member name="M:Selenium.Axe.AxeBuilder.Analyze(OpenQA.Selenium.IWebElement)">
+            <summary>
+            Run aXe against a specific WebElement.
+            </summary>
+            <param name="context"> A WebElement to test.</param>
+            <returns>An aXe results document.</returns>
+        </member>
+        <member name="M:Selenium.Axe.AxeBuilder.Analyze">
+            <summary>
+            Run aXe against the page.
+            </summary>
+            <returns>An aXe results document.</returns>
+        </member>
+        <member name="M:Selenium.Axe.AxeBuilder.Execute(System.String,System.Object[])">
+            <summary>
+            Execute the script into the target.
+            </summary>
+            <param name="command">Script to execute.</param>
+            <param name="args">Arguments for the script.</param>
+            <returns>The <see cref="T:Selenium.Axe.AxeResult"/>.</returns>
+        </member>
+        <member name="M:Selenium.Axe.AxeBuilder.GetAxeSnippet(System.String)">
+            <summary>
+            The getAxeSnippet.
+            </summary>
+            <param name="context">The context<see cref="T:System.String"/>.</param>
+            <returns>The <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="T:Selenium.Axe.AxeBuilderOptions">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.AxeBuilderOptions" />.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeBuilderOptions.ScriptProvider">
+            <summary>
+            Gets or sets the ScriptProvider.
+            </summary>
+        </member>
+        <member name="T:Selenium.Axe.AxeResult">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.AxeResult" />.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.AxeResult.#ctor(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Selenium.Axe.AxeResult"/> class.
+            </summary>
+            <param name="result">The result<see cref="T:JObject"/>.</param>
+        </member>
+        <member name="P:Selenium.Axe.AxeResult.Violations">
+            <summary>
+            Gets the Violations.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResult.Passes">
+            <summary>
+            Gets the Passes.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResult.Inapplicable">
+            <summary>
+            Gets the Inapplicable.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResult.Incomplete">
+            <summary>
+            Gets the Incomplete.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResult.Timestamp">
+            <summary>
+            Gets the Timestamp.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResult.Url">
+            <summary>
+            Gets the Url.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResult.Error">
+            <summary>
+            Gets the Error.
+            </summary>
+        </member>
+        <member name="T:Selenium.Axe.AxeResultCheck">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.AxeResultCheck" />.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultCheck.Data">
+            <summary>
+            Gets or sets the Data.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultCheck.Id">
+            <summary>
+            Gets or sets the Id.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultCheck.Impact">
+            <summary>
+            Gets or sets the Impact.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultCheck.Message">
+            <summary>
+            Gets or sets the Message.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultCheck.RelatedNodes">
+            <summary>
+            Gets or sets the RelatedNodes.
+            </summary>
+        </member>
+        <member name="T:Selenium.Axe.AxeResultItem">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.AxeResultItem" />.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultItem.Id">
+            <summary>
+            Gets or sets the Id.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultItem.Description">
+            <summary>
+            Gets or sets the Description.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultItem.Help">
+            <summary>
+            Gets or sets the Help.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultItem.HelpUrl">
+            <summary>
+            Gets or sets the HelpUrl.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultItem.Impact">
+            <summary>
+            Gets or sets the Impact.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultItem.Tags">
+            <summary>
+            Gets or sets the Tags.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultItem.Nodes">
+            <summary>
+            Gets or sets the Nodes.
+            </summary>
+        </member>
+        <member name="T:Selenium.Axe.AxeResultNode">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.AxeResultNode" />.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultNode.Target">
+            <summary>
+            Gets or sets the Target.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultNode.Html">
+            <summary>
+            Gets or sets the Html.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultNode.Impact">
+            <summary>
+            Gets or sets the Impact.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultNode.Any">
+            <summary>
+            Gets or sets the Any.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultNode.All">
+            <summary>
+            Gets or sets the All.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultNode.None">
+            <summary>
+            Gets or sets the None.
+            </summary>
+        </member>
+        <member name="T:Selenium.Axe.AxeResultRelatedNode">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.AxeResultRelatedNode" />.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultRelatedNode.Html">
+            <summary>
+            Gets or sets the Html.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.AxeResultRelatedNode.Target">
+            <summary>
+            Gets or sets the Target.
+            </summary>
+        </member>
+        <member name="T:Selenium.Axe.CachedContentDownloader">
+            <summary>
+            Cache downloaded extenal resources.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.CachedContentDownloader.ResourcesCache">
+            <summary>
+            Defines the ResourcesCache.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.CachedContentDownloader.contentDownloader">
+            <summary>
+            Defines the contentDownloader.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.CachedContentDownloader.#ctor(System.Net.WebClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Selenium.Axe.CachedContentDownloader"/> class.
+            </summary>
+            <param name="webClient">WebClient instace to use.</param>
+        </member>
+        <member name="M:Selenium.Axe.CachedContentDownloader.GetContent(System.Uri)">
+            <summary>
+            Get the content from the cache if exists, otherwise get ir from the resource url.
+            </summary>
+            <param name="resourceUrl">Resource url.</param>
+            <returns>Content of the resource.</returns>
+        </member>
+        <member name="T:Selenium.Axe.ContentDownloader">
+            <summary>
+            Get resources content from URLs.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.ContentDownloader.webClient">
+            <summary>
+            Defines the webClient.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.ContentDownloader.#ctor(System.Net.WebClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Selenium.Axe.ContentDownloader"/> class.
+            </summary>
+            <param name="webClient">WebClient instace to use.</param>
+        </member>
+        <member name="M:Selenium.Axe.ContentDownloader.GetContent(System.Uri)">
+            <summary>
+            Get the resource's content.
+            </summary>
+            <param name="resourceUrl">Resource url.</param>
+            <returns>Content of the resource.</returns>
+        </member>
+        <member name="T:Selenium.Axe.EmbeddedResourceAxeProvider">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.EmbeddedResourceAxeProvider" />.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.EmbeddedResourceAxeProvider.GetScript">
+            <summary>
+            The GetScript.
+            </summary>
+            <returns>The <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="T:Selenium.Axe.ExternalAxeScriptProvider">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.ExternalAxeScriptProvider" />.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.ExternalAxeScriptProvider.scriptUri">
+            <summary>
+            Defines the scriptUri.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.ExternalAxeScriptProvider.contentDownloader">
+            <summary>
+            Defines the contentDownloader.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.ExternalAxeScriptProvider.#ctor(System.Net.WebClient,System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Selenium.Axe.ExternalAxeScriptProvider"/> class.
+            </summary>
+            <param name="webClient">The webClient<see cref="T:System.Net.WebClient"/>.</param>
+            <param name="scriptUri">The scriptUri<see cref="T:System.Uri"/>.</param>
+        </member>
+        <member name="M:Selenium.Axe.ExternalAxeScriptProvider.GetScript">
+            <summary>
+            The GetScript.
+            </summary>
+            <returns>The <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="T:Selenium.Axe.FileAxeScriptProvider">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.FileAxeScriptProvider" />.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.FileAxeScriptProvider.filePath">
+            <summary>
+            Defines the filePath.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.FileAxeScriptProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Selenium.Axe.FileAxeScriptProvider"/> class.
+            </summary>
+            <param name="filePath">The filePath<see cref="T:System.String"/>.</param>
+        </member>
+        <member name="M:Selenium.Axe.FileAxeScriptProvider.GetScript">
+            <summary>
+            The GetScript.
+            </summary>
+            <returns>The <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="T:Selenium.Axe.IAxeScriptProvider">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.IAxeScriptProvider" />.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.IAxeScriptProvider.GetScript">
+            <summary>
+            The GetScript.
+            </summary>
+            <returns>The <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="T:Selenium.Axe.IContentDownloader">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.IContentDownloader" />.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.IContentDownloader.GetContent(System.Uri)">
+            <summary>
+            Get the resource's content.
+            </summary>
+            <param name="resourceUrl">Resource url.</param>
+            <returns>Content of the resource.</returns>
+        </member>
+        <member name="T:Selenium.Axe.IncludeExcludeManager">
+            <summary>
+            Handle all initialization, serialization and validations for includeExclude aXe object.
+            For more info check this: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#include-exclude-object.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.IncludeExcludeManager.JsonSerializerSettings">
+            <summary>
+            Defines the JsonSerializerSettings.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.IncludeExcludeManager.includeList">
+            <summary>
+            Defines the includeList.
+            </summary>
+        </member>
+        <member name="F:Selenium.Axe.IncludeExcludeManager.excludeList">
+            <summary>
+            Defines the excludeList.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.IncludeExcludeManager.Include(System.String[])">
+            <summary>
+            Include the given selectors, i.e "#foo", "ul.bar .target", "div".
+            </summary>
+            <param name="selectors">Selectors to include.</param>
+        </member>
+        <member name="M:Selenium.Axe.IncludeExcludeManager.Exclude(System.String[])">
+            <summary>
+            Include the given selectors, i.e "frame", "div.foo".
+            </summary>
+            <param name="selectors">Selectors to exclude.</param>
+        </member>
+        <member name="M:Selenium.Axe.IncludeExcludeManager.HasMoreThanOneSelectorsToIncludeOrSomeToExclude">
+            <summary>
+            Indicate if we have more than one entry on include list or we have entries on exclude list.
+            </summary>
+            <returns>True or False.</returns>
+        </member>
+        <member name="M:Selenium.Axe.IncludeExcludeManager.HasOneItemToInclude">
+            <summary>
+            Indicate we have one entry on the include list.
+            </summary>
+            <returns>True or False.</returns>
+        </member>
+        <member name="M:Selenium.Axe.IncludeExcludeManager.GetFirstItemToInclude">
+            <summary>
+            Get first selector of the first entry on include list.
+            </summary>
+            <returns>Returns the first selector of the first entry on include list.</returns>
+        </member>
+        <member name="M:Selenium.Axe.IncludeExcludeManager.ToJson">
+            <summary>
+            Serialize this instance on JSON format.
+            </summary>
+            <returns>This instance serialized in JSON format.</returns>
+        </member>
+        <member name="M:Selenium.Axe.IncludeExcludeManager.ValidateParameters(System.String[])">
+            <summary>
+            The ValidateParameters.
+            </summary>
+            <param name="selectors">The selectors<see cref="T:string[]"/>.</param>
+        </member>
+        <member name="T:Selenium.Axe.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Selenium.Axe.Resources.axe_min">
+             <summary>
+               Looks up a localized string similar to /*! aXe v3.2.2
+             * Copyright (c) 2019 Deque Systems, Inc.
+             *
+             * Your use of this Source Code Form is subject to the terms of the Mozilla Public
+             * License, v. 2.0. If a copy of the MPL was not distributed with this
+             * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+             *
+             * This entire copyright notice must appear in every copy of this file you
+             * distribute or in any file that contains substantial portions of this source
+             * code.
+             */
+            !function e(window){var t=window,document=window.document,N=&quot;functio [rest of string was truncated]&quot;;.
+             </summary>
+        </member>
+        <member name="T:Selenium.Axe.WebDriverExtensions">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.WebDriverExtensions" />.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.WebDriverExtensions.Analyze(OpenQA.Selenium.IWebDriver)">
+            <summary>
+            The Analyze.
+            </summary>
+            <param name="webDriver">The webDriver<see cref="T:OpenQA.Selenium.IWebDriver"/>.</param>
+            <returns>The <see cref="T:Selenium.Axe.AxeResult"/>.</returns>
+        </member>
+        <member name="M:Selenium.Axe.WebDriverExtensions.Analyze(OpenQA.Selenium.IWebDriver,Selenium.Axe.AxeBuilderOptions)">
+            <summary>
+            The Analyze.
+            </summary>
+            <param name="webDriver">The webDriver<see cref="T:OpenQA.Selenium.IWebDriver"/>.</param>
+            <param name="axeBuilderOptions">The axeBuilderOptions<see cref="T:Selenium.Axe.AxeBuilderOptions"/>.</param>
+            <returns>The <see cref="T:Selenium.Axe.AxeResult"/>.</returns>
+        </member>
+        <member name="M:Selenium.Axe.WebDriverExtensions.Analyze(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.IWebElement)">
+            <summary>
+            The Analyze.
+            </summary>
+            <param name="webDriver">The webDriver<see cref="T:OpenQA.Selenium.IWebDriver"/>.</param>
+            <param name="context">The context<see cref="T:OpenQA.Selenium.IWebElement"/>.</param>
+            <returns>The <see cref="T:Selenium.Axe.AxeResult"/>.</returns>
+        </member>
+        <member name="M:Selenium.Axe.WebDriverExtensions.Analyze(OpenQA.Selenium.IWebDriver,OpenQA.Selenium.IWebElement,Selenium.Axe.AxeBuilderOptions)">
+            <summary>
+            The Analyze.
+            </summary>
+            <param name="webDriver">The webDriver<see cref="T:OpenQA.Selenium.IWebDriver"/>.</param>
+            <param name="context">The context<see cref="T:OpenQA.Selenium.IWebElement"/>.</param>
+            <param name="axeBuilderOptions">The axeBuilderOptions<see cref="T:Selenium.Axe.AxeBuilderOptions"/>.</param>
+            <returns>The <see cref="T:Selenium.Axe.AxeResult"/>.</returns>
+        </member>
+        <member name="T:Selenium.Axe.WebDriverInjectorExtensions">
+            <summary>
+            Defines the <see cref="T:Selenium.Axe.WebDriverInjectorExtensions" />.
+            </summary>
+        </member>
+        <member name="M:Selenium.Axe.WebDriverInjectorExtensions.Inject(OpenQA.Selenium.IWebDriver,Selenium.Axe.IAxeScriptProvider)">
+            <summary>
+            Injects Axe script into frames.
+            </summary>
+            <param name="driver">WebDriver instance to inject into.</param>
+            <param name="scriptProvider">Provider that get the aXe script to inject.</param>
+        </member>
+        <member name="M:Selenium.Axe.WebDriverInjectorExtensions.InjectIntoFrames(OpenQA.Selenium.IWebDriver,System.String,System.Collections.Generic.IList{OpenQA.Selenium.IWebElement})">
+            <summary>
+            Recursively find frames and inject a script into them.
+            </summary>
+            <param name="driver">An initialized WebDriver.</param>
+            <param name="script">Script to inject.</param>
+            <param name="parents">A list of all toplevel frames.</param>
+        </member>
+    </members>
+</doc>

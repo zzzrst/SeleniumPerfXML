@@ -14,6 +14,7 @@ namespace SeleniumPerfXML
     using OpenQA.Selenium.Firefox;
     using OpenQA.Selenium.IE;
     using OpenQA.Selenium.Support.UI;
+    using SeleniumPerfXML.Axe;
 
     /// <summary>
     /// Driver class for Selenium WebDriver.
@@ -30,6 +31,7 @@ namespace SeleniumPerfXML
         private string url;
         private IWebDriver webDriver;
         private WebDriverWait wdWait;
+        private AxeDriver axeDriver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SeleniumDriver"/> class.
@@ -99,6 +101,8 @@ namespace SeleniumPerfXML
             }
 
             this.wdWait = new WebDriverWait(this.webDriver, timeOutThreshold);
+
+            this.axeDriver = new AxeDriver();
         }
 
         /// <summary>
@@ -197,7 +201,7 @@ namespace SeleniumPerfXML
             }
             catch (Exception e)
             {
-               Logger.Error(e.ToString());
+                Logger.Error(e.ToString());
             }
 
             switch (state)
@@ -245,6 +249,15 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
+        /// Generates the AODA results.
+        /// </summary>
+        /// <param name="folderLocation"> The folder to generate AODA results in. </param>
+        public void GenerateAODAResults(string folderLocation)
+        {
+            this.axeDriver.LogResults(folderLocation);
+        }
+
+        /// <summary>
         /// Tells the browser to navigate to the provided url.
         /// </summary>
         /// <param name="url">URL for the browser to navigate to.</param>
@@ -257,6 +270,7 @@ namespace SeleniumPerfXML
                 {
                     url = this.url;
                 }
+
                 this.webDriver.Url = url;
                 return true;
             }
@@ -285,6 +299,15 @@ namespace SeleniumPerfXML
         public void RefreshWebPage()
         {
             this.webDriver.Navigate().Refresh();
+        }
+
+        /// <summary>
+        /// Method to run aoda on the current web page.
+        /// </summary>
+        /// <param name="providedPageTitle"> Title of the web page the user provides. </param>
+        public void RunAODA(string providedPageTitle)
+        {
+            this.axeDriver.CaptureResult(this.webDriver, providedPageTitle);
         }
 
         /// <summary>
@@ -422,7 +445,7 @@ namespace SeleniumPerfXML
         /// Finds the first IWebElement By XPath.
         /// </summary>
         /// <param name="xPath">The xpath to find the web element.</param>
-        /// <param name="seconds"> The amount in seconds to wait for</param>
+        /// <param name="seconds"> The amount in seconds to wait for.</param>
         /// <returns> The first IWebElement whose xpath matches. </returns>
         private IWebElement GetElementByXPath(string xPath, TimeSpan seconds)
         {

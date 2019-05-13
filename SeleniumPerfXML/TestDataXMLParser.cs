@@ -110,6 +110,7 @@ namespace SeleniumPerfXML
 
         private string ErrorContainer { get; set; }
 
+        [field:NonSerialized]
         private SeleniumDriver SeleniumDriver { get; set; }
 
         /// <summary>
@@ -138,6 +139,11 @@ namespace SeleniumPerfXML
                 {
                     Logger.Warn($"We currently do not deal with this. {innerFlow.Name}");
                 }
+            }
+
+            if (this.RespectRunAODAFlag)
+            {
+                this.SeleniumDriver.GenerateAODAResults(this.LogSaveFileLocation);
             }
         }
 
@@ -236,6 +242,10 @@ namespace SeleniumPerfXML
                     this.ScreenshotSaveLocation = this.CsvSaveFileLocation;
                 }
             }
+
+            Directory.CreateDirectory(this.CsvSaveFileLocation);
+            Directory.CreateDirectory(this.LogSaveFileLocation);
+            Directory.CreateDirectory(this.ScreenshotSaveLocation);
         }
 
         /// <summary>
@@ -330,7 +340,7 @@ namespace SeleniumPerfXML
         /// Runs the test case based on the provided XMLNode.
         /// </summary>
         /// <param name="testCase"> Optional XmlNode to represent testCases. </param>
-        /// <param name="performAction"> Performs the action, </param>
+        /// <param name="performAction"> Performs the action. </param>
         private void RunTestCase(XmlNode testCase, bool performAction = true)
         {
             // Run Each Test Step Here
@@ -381,8 +391,8 @@ namespace SeleniumPerfXML
             {
                 if (ifSection.Name == "Then")
                 {
-                   // we run this test case only if performAction is true, and the condition for the element has passed.
-                   this.RunTestCase(ifSection, performAction && ifCondition);
+                    // we run this test case only if performAction is true, and the condition for the element has passed.
+                    this.RunTestCase(ifSection, performAction && ifCondition);
                 }
                 else if (ifSection.Name == "ElseIf")
                 {

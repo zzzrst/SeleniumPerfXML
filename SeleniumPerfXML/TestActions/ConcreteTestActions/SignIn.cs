@@ -4,9 +4,6 @@
 
 namespace SeleniumPerfXML.TestActions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Xml;
 
     /// <summary>
@@ -21,7 +18,6 @@ namespace SeleniumPerfXML.TestActions
         [TimeAndLogAspect]
         public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver)
         {
-
             string usernameXPath = "//input[@id='username']";
             string username = testActionInformation.Attributes["username"].Value;
 

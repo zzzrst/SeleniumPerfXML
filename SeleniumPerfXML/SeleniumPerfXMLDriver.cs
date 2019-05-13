@@ -4,9 +4,7 @@
 
 namespace SeleniumPerfXML
 {
-    using System;
     using CommandLine;
-    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Driver class.
@@ -44,7 +42,7 @@ namespace SeleniumPerfXML
                    environment = o.Environment ?? string.Empty;
                    url = o.URL ?? string.Empty;
                    respectRepeatFor = o.RespectRepeatFor ?? string.Empty;
-                   respectRunAODAFlag = o.RespectRepeatFor ?? string.Empty;
+                   respectRunAODAFlag = o.RespectRunAodaFlag ?? string.Empty;
                    timeOutThreshold = o.TimeOutThreshold;
                    warningThreshold = o.WarningThreshold;
                    dataFile = o.DataFile ?? string.Empty;

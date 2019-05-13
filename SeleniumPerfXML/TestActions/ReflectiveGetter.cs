@@ -8,7 +8,6 @@ namespace SeleniumPerfXML.TestActions
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
 
     /// <summary>
     /// Class to get test action using reflection.

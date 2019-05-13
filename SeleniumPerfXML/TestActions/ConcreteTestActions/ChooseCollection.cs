@@ -4,9 +4,6 @@
 
 namespace SeleniumPerfXML.TestActions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Xml;
 
     /// <summary>
@@ -30,10 +27,7 @@ namespace SeleniumPerfXML.TestActions
 
             seleniumDriver.RefreshWebPage();
 
-            if (seleniumDriver.CheckForElementState(collectionElementXpath, SeleniumDriver.ElementState.Visible)) {
-                // 
-            }
-            else
+            if (!seleniumDriver.CheckForElementState(collectionElementXpath, SeleniumDriver.ElementState.Visible))
             {
                 seleniumDriver.ClickElement(collectionDropDown);
                 seleniumDriver.PopulateElement(collectionSearchBarXPath, collectionSearchField);

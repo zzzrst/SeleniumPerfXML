@@ -5,11 +5,7 @@
 namespace SeleniumPerfXML.TestActions
 {
     using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Text;
-    using PostSharp.Aspects;
-    using PostSharp.Reflection;
+    using MethodBoundaryAspect.Fody.Attributes;
 
     /// <summary>
     /// This aspect is used to surround a test action with try and catch, while timing each action.
@@ -27,6 +23,9 @@ namespace SeleniumPerfXML.TestActions
         private DateTime start;
         private DateTime end;
 
+        [NonSerialized]
+        private SeleniumDriver seleniumDriver;
+
         /// <inheritdoc/>
         public override void OnEntry(MethodExecutionArgs args)
         {
@@ -36,6 +35,7 @@ namespace SeleniumPerfXML.TestActions
             this.performAction = bool.Parse(args.Arguments[2].ToString());
             this.runAODA = bool.Parse(args.Arguments[3].ToString());
             this.runAODAName = args.Arguments[4].ToString();
+            this.seleniumDriver = (SeleniumDriver)args.Arguments[6];
             base.OnEntry(args);
         }
 
@@ -52,7 +52,7 @@ namespace SeleniumPerfXML.TestActions
         }
 
         /// <inheritdoc/>
-        public override void OnSuccess(MethodExecutionArgs args)
+        public override void OnExit(MethodExecutionArgs args)
         {
             this.end = DateTime.UtcNow;
             double totalTime = this.GetTotalElapsedTime();
@@ -71,10 +71,10 @@ namespace SeleniumPerfXML.TestActions
 
             if (this.runAODA)
             {
-                Logger.Info("We are going to run AODA!");
+                this.seleniumDriver.RunAODA(this.runAODAName);
             }
 
-            base.OnSuccess(args);
+            base.OnExit(args);
         }
 
         private double GetTotalElapsedTime()

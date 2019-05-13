@@ -4,6 +4,142 @@
         <name>SeleniumPerfXML</name>
     </assembly>
     <members>
+        <member name="T:SeleniumPerfXML.Axe.AxeDriver">
+            <summary>
+            This is the driver to deal with Axe.core.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Axe.AxeDriver.results">
+            <summary>
+            Result Type -> { Rule ID -> {Page URL -> HTML, Target, Data, Related Nodes} }.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Axe.AxeDriver.pageInfo">
+            <summary>
+            Page URL -> Provided Page Title, Browser Page Title.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Axe.AxeDriver.ruleInfo">
+            <summary>
+            Rule ID -> Description, Rule Tag, Impact, Help, Help URL.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Axe.AxeDriver.pageSummary">
+            <summary>
+            [Page URL, Provided Page Title, Browser Page Title, Passes, Violations, Incomplete, Inapplicable].
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Axe.AxeDriver.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SeleniumPerfXML.Axe.AxeDriver"/> class.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Axe.AxeDriver.CaptureResult(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            This captures the AODA result for this webpage.
+            </summary>
+            <param name="driver">Selenium WebDriver used. </param>
+            <param name="providedPageTitle"> Title of the page. </param>
+        </member>
+        <member name="M:SeleniumPerfXML.Axe.AxeDriver.LogResults(System.String)">
+            <summary>
+            Logs the result for this file.
+            </summary>
+            <param name="folderLocation">Location to save all the results.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.Axe.AxeDriver.MapAxeResult(Selenium.Axe.AxeResultItem[],System.String,System.String)">
+            <summary>
+            Populate RuleInfo and Results based on AxeResultItems[] passed in.
+            </summary>
+            <param name="axeResults">The different results that were found.</param>
+            <param name="resultType"> The type of result. </param>
+            <param name="url">The url used for this page.</param>
+        </member>
+        <member name="T:SeleniumPerfXML.Axe.AxeResultType">
+            <summary>
+            The different result types for Axe.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Axe.AxeResultType.INAPPLICABLE">
+            <summary>
+            The result type INAPPLICABLE.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Axe.AxeResultType.INCOMPLETE">
+            <summary>
+            The result type INCOMPLETE.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Axe.AxeResultType.PASS">
+            <summary>
+            The result type PASS.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Axe.AxeResultType.VIOLATIONS">
+            <summary>
+            The result type VIOLATIONS.
+            </summary>
+        </member>
+        <member name="T:SeleniumPerfXML.Axe.PageInformation">
+            <summary>
+            Class to represent information on a page.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.PageInformation.BrowserPageTitle">
+            <summary>
+            Gets or sets the title found on the page the browser is on..
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.PageInformation.ProvidedPageTitle">
+            <summary>
+            Gets or sets the title provided by the user for the page.
+            </summary>
+        </member>
+        <member name="T:SeleniumPerfXML.Axe.RuleInformation">
+            <summary>
+            Class to represent the information for each rule.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.RuleInformation.Description">
+            <summary>
+            Gets or sets the description of the rule.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.RuleInformation.Help">
+            <summary>
+            Gets or sets the help text for this rule.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.RuleInformation.HelpUrl">
+            <summary>
+            Gets or sets the help url associated with this rule.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.RuleInformation.Impact">
+            <summary>
+            Gets or sets the impact associated with this rule.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.RuleInformation.RuleTag">
+            <summary>
+            Gets or sets the rule tag associated with this rule.
+            </summary>
+        </member>
+        <member name="T:SeleniumPerfXML.Axe.RuleNodeInformation">
+            <summary>
+            Class to represent the information on a rule node.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.RuleNodeInformation.HTML">
+            <summary>
+            Gets or sets the HTML element this rule pertains to.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.RuleNodeInformation.Target">
+            <summary>
+            Gets or sets the list of target HTML elements / information this rule has.
+            </summary>
+        </member>
         <member name="T:SeleniumPerfXML.Logger">
             <summary>
             Logger class to be used. \n
@@ -162,6 +298,12 @@
             Closes the current window. It will quite the browser if it is the last window opened.
             </summary>
         </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.GenerateAODAResults(System.String)">
+            <summary>
+            Generates the AODA results.
+            </summary>
+            <param name="folderLocation"> The folder to generate AODA results in. </param>
+        </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.NavigateToURL(System.String)">
             <summary>
             Tells the browser to navigate to the provided url.
@@ -180,6 +322,12 @@
             <summary>
             Refreshes the webpage.
             </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.RunAODA(System.String)">
+            <summary>
+            Method to run aoda on the current web page.
+            </summary>
+            <param name="providedPageTitle"> Title of the web page the user provides. </param>
         </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.SelectValueInElement(System.String,System.String)">
             <summary>
@@ -229,7 +377,7 @@
             Finds the first IWebElement By XPath.
             </summary>
             <param name="xPath">The xpath to find the web element.</param>
-            <param name="seconds"> The amount in seconds to wait for</param>
+            <param name="seconds"> The amount in seconds to wait for.</param>
             <returns> The first IWebElement whose xpath matches. </returns>
         </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.SetActiveTab">
@@ -488,13 +636,13 @@
             If the test action is successful (no errors performing the action / passed in not to perform action), then runAODA if specified.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnEntry(PostSharp.Aspects.MethodExecutionArgs)">
+        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnEntry(MethodBoundaryAspect.Fody.Attributes.MethodExecutionArgs)">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnException(PostSharp.Aspects.MethodExecutionArgs)">
+        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnException(MethodBoundaryAspect.Fody.Attributes.MethodExecutionArgs)">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnSuccess(PostSharp.Aspects.MethodExecutionArgs)">
+        <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnExit(MethodBoundaryAspect.Fody.Attributes.MethodExecutionArgs)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestDataXMLParser">
@@ -610,7 +758,7 @@
             Runs the test case based on the provided XMLNode.
             </summary>
             <param name="testCase"> Optional XmlNode to represent testCases. </param>
-            <param name="performAction"> Performs the action, </param>
+            <param name="performAction"> Performs the action. </param>
         </member>
         <member name="M:SeleniumPerfXML.TestDataXMLParser.RunIfTestCase(System.Xml.XmlNode,System.Boolean)">
             <summary>
