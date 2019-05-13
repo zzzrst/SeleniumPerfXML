@@ -113,9 +113,38 @@ namespace SeleniumPerfXML
         private SeleniumDriver SeleniumDriver { get; set; }
 
         /// <summary>
+        /// This function parses the test case flow and starts executing.
+        /// </summary>
+        public void RunTestCaseFlow()
+        {
+            this.ParseParameters();
+            this.ParseSpecialElements();
+            this.InstantiateSeleniumDriver();
+
+            XmlNode testCaseFlow = this.XMLDocObj.GetElementsByTagName("TestCaseFlow")[0];
+
+            // inside the testCaseFlow, you can only have either RunTestCase element or an If element.
+            foreach (XmlNode innerFlow in testCaseFlow.ChildNodes)
+            {
+                if (innerFlow.Name == "RunTestCase")
+                {
+                    this.FindAndRunTestCase(innerFlow.InnerText);
+                }
+                else if (innerFlow.Name == "If")
+                {
+                    this.RunIfTestCase(innerFlow);
+                }
+                else
+                {
+                    Logger.Warn($"We currently do not deal with this. {innerFlow.Name}");
+                }
+            }
+        }
+
+        /// <summary>
         /// This function is responsible for parsing parameters in the XML File and updating variables if not overriden.
         /// </summary>
-        public void ParseParameters()
+        private void ParseParameters()
         {
             // URL has precedence over the environment.
             // Passed in parameters overide what is in the XML.
@@ -153,12 +182,12 @@ namespace SeleniumPerfXML
             {
                 if (this.XMLDocObj.GetElementsByTagName("RespectRunAODAFlag").Count > 0)
                 {
-                    this.RespectRepeatFor = bool.Parse(this.XMLDocObj.GetElementsByTagName("RespectRunAODAFlag")[0].InnerText);
+                    this.RespectRunAODAFlag = bool.Parse(this.XMLDocObj.GetElementsByTagName("RespectRunAODAFlag")[0].InnerText);
                 }
             }
             else
             {
-                this.RespectRepeatFor = bool.Parse(this.PassedInRespectRunAODAFlag);
+                this.RespectRunAODAFlag = bool.Parse(this.PassedInRespectRunAODAFlag);
             }
 
             if (this.TimeOutThreshold == 0)
@@ -212,7 +241,7 @@ namespace SeleniumPerfXML
         /// <summary>
         /// This function is responsible for parsing the special elements in the XML File and updating variables if not overriden.
         /// </summary>
-        public void ParseSpecialElements()
+        private void ParseSpecialElements()
         {
             if (this.XMLDocObj.GetElementsByTagName("LoadingSpinner").Count > 0)
             {
@@ -236,7 +265,7 @@ namespace SeleniumPerfXML
         /// <summary>
         /// Instantiates the selenim driver to be used in this test run.
         /// </summary>
-        public void InstantiateSeleniumDriver()
+        private void InstantiateSeleniumDriver()
         {
             SeleniumDriver.Browser browser = SeleniumDriver.Browser.Chrome;
 
@@ -257,36 +286,11 @@ namespace SeleniumPerfXML
                 browser = SeleniumDriver.Browser.Edge;
             }
 
-            this.SeleniumDriver = new SeleniumDriver(browser, TimeSpan.FromSeconds(this.TimeOutThreshold))
+            this.SeleniumDriver = new SeleniumDriver(browser, TimeSpan.FromSeconds(this.TimeOutThreshold), this.Environment, this.URL)
             {
                 ErrorContainer = this.ErrorContainer,
                 LoadingSpinner = this.LoadingSpinner,
             };
-        }
-
-        /// <summary>
-        /// This function parses the test case flow and starts executing.
-        /// </summary>
-        public void RunTestCaseFlow()
-        {
-            XmlNode testCaseFlow = this.XMLDocObj.GetElementsByTagName("TestCaseFlow")[0];
-
-            // inside the testCaseFlow, you can only have either RunTestCase element or an If element.
-            foreach (XmlNode innerFlow in testCaseFlow.ChildNodes)
-            {
-                if (innerFlow.Name == "RunTestCase")
-                {
-                    this.FindAndRunTestCase(innerFlow.InnerText);
-                }
-                else if (innerFlow.Name == "If")
-                {
-                    this.RunIfTestCase(innerFlow);
-                }
-                else
-                {
-                    Logger.Warn($"We currently do not deal with this. {innerFlow.Name}");
-                }
-            }
         }
 
         /// <summary>
@@ -314,6 +318,7 @@ namespace SeleniumPerfXML
                     {
                         this.RunTestCase(testcase, performAction);
                     }
+
                     return;
                 }
             }
@@ -475,7 +480,7 @@ namespace SeleniumPerfXML
                 log = bool.Parse(testStep.Attributes["log"].Value);
             }
 
-            Logger.Info($"Test step '{name}': runAODA->{runAODA} runAODAPageName->{runAODAPageName} log->{log}");
+            Logger.Debug($"Test step '{name}': runAODA->{runAODA} runAODAPageName->{runAODAPageName} log->{log}");
 
             TestAction action = ReflectiveGetter.GetEnumerableOfType<TestAction>()
                 .Find(x => x.Description.Equals(testStep.Name));

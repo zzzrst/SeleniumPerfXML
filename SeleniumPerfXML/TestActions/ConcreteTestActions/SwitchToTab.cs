@@ -18,10 +18,10 @@ namespace SeleniumPerfXML.TestActions
         public override string Description { get; protected set; } = "SwitchToTab";
 
         /// <inheritdoc/>
-        [TimeAndLogAspect]
         public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver)
         {
-            throw new NotImplementedException();
+            int tabIndex = Convert.ToInt32(testActionInformation.Attributes["tabIndex"].Value);
+            seleniumDriver.SwitchToTab(tabIndex);
         }
     }
 }

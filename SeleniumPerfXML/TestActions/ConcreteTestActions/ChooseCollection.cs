@@ -21,7 +21,25 @@ namespace SeleniumPerfXML.TestActions
         [TimeAndLogAspect]
         public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver)
         {
-            throw new NotImplementedException();
+            string collectionSearchField = testActionInformation.Attributes["collectionSearchField"].Value;
+            string collectionName = testActionInformation.Attributes["collectionName"].Value;
+
+            string collectionDropDown = "//*[@aria-label='Choose a collection activate']";
+            string collectionSearchBarXPath = "//*[@aria-label='Choose a collection']";
+            string collectionElementXpath = $"//*[contains(text(), \"{collectionName}\")]";
+
+            seleniumDriver.RefreshWebPage();
+
+            if (seleniumDriver.CheckForElementState(collectionElementXpath, SeleniumDriver.ElementState.Visible)) {
+                // 
+            }
+            else
+            {
+                seleniumDriver.ClickElement(collectionDropDown);
+                seleniumDriver.PopulateElement(collectionSearchBarXPath, collectionSearchField);
+                seleniumDriver.ClickElement(collectionElementXpath);
+                seleniumDriver.WaitForLoadingSpinner();
+            }
         }
     }
 }

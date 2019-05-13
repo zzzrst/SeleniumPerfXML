@@ -25,6 +25,9 @@ namespace SeleniumPerfXML
         /// </summary>
         private readonly string seleniumDriverLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
+        private string environment;
+        private TimeSpan timeoutThreshold;
+        private string url;
         private IWebDriver webDriver;
         private WebDriverWait wdWait;
 
@@ -33,8 +36,13 @@ namespace SeleniumPerfXML
         /// </summary>
         /// <param name="browserType">The browser to use for this driver. </param>
         /// <param name="timeOutThreshold"> The timeout threshold in seconds.</param>
-        public SeleniumDriver(Browser browserType, TimeSpan timeOutThreshold)
+        /// <param name="environment"> The environment set. </param>
+        /// <param name="url"> The url set. </param>
+        public SeleniumDriver(Browser browserType, TimeSpan timeOutThreshold, string environment, string url)
         {
+            this.environment = environment;
+            this.url = url;
+            this.timeoutThreshold = timeOutThreshold;
             TimeSpan actualTimeOut = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["ActualTimeOut"]));
 
             switch (browserType)
@@ -177,9 +185,13 @@ namespace SeleniumPerfXML
 
             try
             {
-                this.GetElementByXPath(xPath);
+                element = this.GetElementByXPath(xPath, TimeSpan.FromSeconds(0));
             }
             catch (NoSuchElementException)
+            {
+                // this is expected if we are checking that it is not visible.
+            }
+            catch (WebDriverTimeoutException)
             {
                 // this is expected if we are checking that it is not visible.
             }
@@ -237,10 +249,14 @@ namespace SeleniumPerfXML
         /// </summary>
         /// <param name="url">URL for the browser to navigate to.</param>
         /// <returns> <code>true</code> if the navigation was successful. </returns>
-        public bool NavigateToURL(string url)
+        public bool NavigateToURL(string url = "")
         {
             try
             {
+                if (url == string.Empty)
+                {
+                    url = this.url;
+                }
                 this.webDriver.Url = url;
                 return true;
             }
@@ -256,11 +272,19 @@ namespace SeleniumPerfXML
         /// </summary>
         /// <param name="xPath"> The xpath to use to identify the element. </param>
         /// <param name="value"> The value to populate.</param>
-        public void PopulateElementByXPath(string xPath, string value)
+        public void PopulateElement(string xPath, string value)
         {
             IWebElement element = this.GetElementByXPath(xPath);
             this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
             element.SendKeys(value);
+        }
+
+        /// <summary>
+        /// Refreshes the webpage.
+        /// </summary>
+        public void RefreshWebPage()
+        {
+            this.webDriver.Navigate().Refresh();
         }
 
         /// <summary>
@@ -332,6 +356,28 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
+        /// Waits until the loading spinner disappears.
+        /// </summary>
+        public void WaitForLoadingSpinner()
+        {
+            try
+            {
+                this.SetActiveTab();
+
+                if (this.LoadingSpinner != string.Empty)
+                {
+                    this.wdWait.Until(
+                        SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(
+                            By.XPath(this.LoadingSpinner)));
+                }
+            }
+            catch (Exception)
+            {
+                // we want to do nothing here
+            }
+        }
+
+        /// <summary>
         /// Dismisses the alert dialog box on the browser.
         /// </summary>
         private void ClickOk()
@@ -373,25 +419,16 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
-        /// Waits until the loading spinner disappears. PR applications only.
+        /// Finds the first IWebElement By XPath.
         /// </summary>
-        private void WaitForLoadingSpinner()
+        /// <param name="xPath">The xpath to find the web element.</param>
+        /// <param name="seconds"> The amount in seconds to wait for</param>
+        /// <returns> The first IWebElement whose xpath matches. </returns>
+        private IWebElement GetElementByXPath(string xPath, TimeSpan seconds)
         {
-            try
-            {
-                this.SetActiveTab();
-
-                if (this.LoadingSpinner != string.Empty)
-                {
-                    this.wdWait.Until(
-                        SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(
-                            By.XPath(this.LoadingSpinner)));
-                }
-            }
-            catch (Exception)
-            {
-                // we want to do nothing here
-            }
+            this.WaitForLoadingSpinner();
+            WebDriverWait wdWait = new WebDriverWait(this.webDriver, seconds);
+            return wdWait.Until(driver => driver.FindElement(By.XPath(xPath)));
         }
 
         /// <summary>

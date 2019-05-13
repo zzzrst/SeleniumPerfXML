@@ -63,12 +63,14 @@
             Location of the Selenium drivers on the current machine.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.SeleniumDriver.#ctor(SeleniumPerfXML.SeleniumDriver.Browser,System.TimeSpan)">
+        <member name="M:SeleniumPerfXML.SeleniumDriver.#ctor(SeleniumPerfXML.SeleniumDriver.Browser,System.TimeSpan,System.String,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:SeleniumPerfXML.SeleniumDriver"/> class.
             </summary>
             <param name="browserType">The browser to use for this driver. </param>
             <param name="timeOutThreshold"> The timeout threshold in seconds.</param>
+            <param name="environment"> The environment set. </param>
+            <param name="url"> The url set. </param>
         </member>
         <member name="T:SeleniumPerfXML.SeleniumDriver.Browser">
             <summary>
@@ -140,6 +142,14 @@
             Gets or sets a value indicating whether the web driver is in an IFrame or not.
             </summary>
         </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.CheckForElementState(System.String,SeleniumPerfXML.SeleniumDriver.ElementState)">
+            <summary>
+            Checks for an element state.
+            </summary>
+            <param name="xPath"> The xpath to find the web element. </param>
+            <param name="state"> The state of the web element to wait for. </param>
+            <returns> If the element state is as wanted.</returns>
+        </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.ClickElement(System.String,System.Boolean)">
             <summary>
             Performs the actions of clicking the specified element. Uses Selenium binding by default.
@@ -159,19 +169,24 @@
             <param name="url">URL for the browser to navigate to.</param>
             <returns> <code>true</code> if the navigation was successful. </returns>
         </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.PopulateElement(System.String,System.String)">
+            <summary>
+            Performs the action of populating a value.
+            </summary>
+            <param name="xPath"> The xpath to use to identify the element. </param>
+            <param name="value"> The value to populate.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.RefreshWebPage">
+            <summary>
+            Refreshes the webpage.
+            </summary>
+        </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.SelectValueInElement(System.String,System.String)">
             <summary>
             Performs the action of selecting a value in an element.
             </summary>
             <param name="xPath"> The xpath to use to identify the element. </param>
             <param name="value"> The value to select in the element.</param>
-        </member>
-        <member name="M:SeleniumPerfXML.SeleniumDriver.PopulateElementByXPath(System.String,System.String)">
-            <summary>
-            Performs the action of populating a value.
-            </summary>
-            <param name="xPath"> The xpath to use to identify the element. </param>
-            <param name="value"> The value to populate.</param>
         </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.SwitchToIFrame(System.String)">
             <summary>
@@ -192,6 +207,11 @@
             <param name="xPath"> The xpath to find the web element. </param>
             <param name="state"> The state of the web element to wait for. </param>
         </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.WaitForLoadingSpinner">
+            <summary>
+            Waits until the loading spinner disappears.
+            </summary>
+        </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.ClickOk">
             <summary>
             Dismisses the alert dialog box on the browser.
@@ -204,10 +224,13 @@
             <param name="xPath">The xpath to find the web element.</param>
             <returns> The first IWebElement whose xpath matches. </returns>
         </member>
-        <member name="M:SeleniumPerfXML.SeleniumDriver.WaitForLoadingSpinner">
+        <member name="M:SeleniumPerfXML.SeleniumDriver.GetElementByXPath(System.String,System.TimeSpan)">
             <summary>
-            Waits until the loading spinner disappears. PR applications only.
+            Finds the first IWebElement By XPath.
             </summary>
+            <param name="xPath">The xpath to find the web element.</param>
+            <param name="seconds"> The amount in seconds to wait for</param>
+            <returns> The first IWebElement whose xpath matches. </returns>
         </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.SetActiveTab">
             <summary>
@@ -422,7 +445,6 @@
         </member>
         <member name="M:SeleniumPerfXML.TestActions.WaitInSeconds.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
             <inheritdoc/>
-            [TimeAndLogAspect]
         </member>
         <member name="T:SeleniumPerfXML.TestActions.ReflectiveGetter">
             <summary>
@@ -556,6 +578,11 @@
             Gets or sets a value indicating whether to respectRepeatFor or not.
             </summary>
         </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCaseFlow">
+            <summary>
+            This function parses the test case flow and starts executing.
+            </summary>
+        </member>
         <member name="M:SeleniumPerfXML.TestDataXMLParser.ParseParameters">
             <summary>
             This function is responsible for parsing parameters in the XML File and updating variables if not overriden.
@@ -571,34 +598,33 @@
             Instantiates the selenim driver to be used in this test run.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCaseFlow">
-            <summary>
-            This function parses the test case flow and starts executing.
-            </summary>
-        </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestCase(System.String)">
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestCase(System.String,System.Boolean)">
             <summary>
             Runs the test case based on the provided ID.
             </summary>
             <param name="testCaseID">ID to find the testcase to run.</param>
+            <param name="performAction"> Perfoms the action. </param>
         </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCase(System.Xml.XmlNode)">
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCase(System.Xml.XmlNode,System.Boolean)">
             <summary>
             Runs the test case based on the provided XMLNode.
             </summary>
             <param name="testCase"> Optional XmlNode to represent testCases. </param>
+            <param name="performAction"> Performs the action, </param>
         </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunIfTestCase(System.Xml.XmlNode)">
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunIfTestCase(System.Xml.XmlNode,System.Boolean)">
             <summary>
             This function parses the if test case flow and starts executing.
             </summary>
             <param name="ifXMLNode"> XML Node that has the if block. </param>
+            <param name="performAction"> Perfoms the action. </param>
         </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestStep(System.String)">
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestStep(System.String,System.Boolean)">
             <summary>
             This function will go through the list of steps and run the appropriate test step if found.
             </summary>
             <param name="testStepID"> The ID of the test step to run. </param>
+            <param name="performAction"> Perfoms the action. </param>
         </member>
     </members>
 </doc>

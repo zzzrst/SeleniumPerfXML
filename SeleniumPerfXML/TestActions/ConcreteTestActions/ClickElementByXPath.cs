@@ -21,7 +21,15 @@ namespace SeleniumPerfXML.TestActions
         [TimeAndLogAspect]
         public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver)
         {
-            throw new NotImplementedException();
+            string xPath = testActionInformation.Attributes["xPath"].Value;
+            bool useJS = false;
+            if (testActionInformation.Attributes["useJS"] != null)
+            {
+                useJS = bool.Parse(testActionInformation.Attributes["useJS"].Value);
+            }
+
+            seleniumDriver.ClickElement(xPath, useJS);
+            seleniumDriver.WaitForLoadingSpinner();
         }
     }
 }
