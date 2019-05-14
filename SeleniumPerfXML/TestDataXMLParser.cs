@@ -296,7 +296,7 @@ namespace SeleniumPerfXML
                 browser = SeleniumDriver.Browser.Edge;
             }
 
-            this.SeleniumDriver = new SeleniumDriver(browser, TimeSpan.FromSeconds(this.TimeOutThreshold), this.Environment, this.URL)
+            this.SeleniumDriver = new SeleniumDriver(browser, TimeSpan.FromSeconds(this.TimeOutThreshold), this.Environment, this.URL, this.ScreenshotSaveLocation)
             {
                 ErrorContainer = this.ErrorContainer,
                 LoadingSpinner = this.LoadingSpinner,

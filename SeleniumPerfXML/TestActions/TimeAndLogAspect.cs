@@ -42,13 +42,14 @@ namespace SeleniumPerfXML.TestActions
         /// <inheritdoc/>
         public override void OnException(MethodExecutionArgs args)
         {
-            this.end = DateTime.UtcNow;
-            double totalTime = this.GetTotalElapsedTime();
-            args.FlowBehavior = FlowBehavior.Return;
             if (this.log)
             {
                 Logger.Info($"\"{this.result}\",\"F\"");
             }
+
+            this.seleniumDriver.TakeScreenShot();
+
+            args.FlowBehavior = FlowBehavior.Return;
         }
 
         /// <inheritdoc/>

@@ -13,6 +13,7 @@ namespace SeleniumPerfXML
     using OpenQA.Selenium.Edge;
     using OpenQA.Selenium.Firefox;
     using OpenQA.Selenium.IE;
+    using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
     using SeleniumPerfXML.Axe;
 
@@ -26,12 +27,16 @@ namespace SeleniumPerfXML
         /// </summary>
         private readonly string seleniumDriverLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        private string environment;
-        private TimeSpan timeoutThreshold;
-        private string url;
+        private AxeDriver axeDriver;
         private IWebDriver webDriver;
         private WebDriverWait wdWait;
-        private AxeDriver axeDriver;
+
+        private string environment;
+        private string url;
+
+        private string screenshotSaveLocation;
+
+        private TimeSpan timeoutThreshold;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SeleniumDriver"/> class.
@@ -40,10 +45,14 @@ namespace SeleniumPerfXML
         /// <param name="timeOutThreshold"> The timeout threshold in seconds.</param>
         /// <param name="environment"> The environment set. </param>
         /// <param name="url"> The url set. </param>
-        public SeleniumDriver(Browser browserType, TimeSpan timeOutThreshold, string environment, string url)
+        /// <param name="screenshotSaveLocation"> Location to save screenshots when it fails.</param>
+        public SeleniumDriver(Browser browserType, TimeSpan timeOutThreshold, string environment, string url, string screenshotSaveLocation)
         {
             this.environment = environment;
             this.url = url;
+
+            this.screenshotSaveLocation = screenshotSaveLocation;
+
             this.timeoutThreshold = timeOutThreshold;
             TimeSpan actualTimeOut = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["ActualTimeOut"]));
 
@@ -352,6 +361,15 @@ namespace SeleniumPerfXML
         {
             var tabs = this.webDriver.WindowHandles;
             this.webDriver.SwitchTo().Window(tabs[tab]);
+        }
+
+        /// <summary>
+        /// Takes a screenshot of the browser. Screenshot will have the datestamp as its name. Year Month Date Hour Minutes Seconds (AM/PM).
+        /// </summary>
+        public void TakeScreenShot()
+        {
+            Screenshot screenshot = this.webDriver.TakeScreenshot();
+            screenshot.SaveAsFile(this.screenshotSaveLocation + "\\" + $"{DateTime.Now:yyyy_MM_dd-hh_mm_ss_tt}.png");
         }
 
         /// <summary>
