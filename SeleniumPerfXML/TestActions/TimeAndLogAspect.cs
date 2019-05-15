@@ -15,7 +15,6 @@ namespace SeleniumPerfXML.TestActions
     public class TimeAndLogAspect : OnMethodBoundaryAspect
     {
         private string result = string.Empty;
-        private string warning = string.Empty;
         private bool log = false;
         private bool performAction = true;
         private bool runAODA = false;
@@ -25,6 +24,8 @@ namespace SeleniumPerfXML.TestActions
 
         [NonSerialized]
         private SeleniumDriver seleniumDriver;
+
+        private CSVLogger csvLogger;
 
         /// <inheritdoc/>
         public override void OnEntry(MethodExecutionArgs args)
@@ -36,6 +37,7 @@ namespace SeleniumPerfXML.TestActions
             this.runAODA = bool.Parse(args.Arguments[3].ToString());
             this.runAODAName = args.Arguments[4].ToString();
             this.seleniumDriver = (SeleniumDriver)args.Arguments[6];
+            this.csvLogger = (CSVLogger)args.Arguments[7];
             base.OnEntry(args);
         }
 
@@ -44,9 +46,10 @@ namespace SeleniumPerfXML.TestActions
         {
             if (this.log)
             {
-                Logger.Info($"\"{this.result}\",\"F\"");
+                this.csvLogger.AddResults($"\"{this.result}\",\"F\"");
             }
 
+            this.seleniumDriver.CheckErrorContainer();
             this.seleniumDriver.TakeScreenShot();
 
             args.FlowBehavior = FlowBehavior.Return;
@@ -62,14 +65,15 @@ namespace SeleniumPerfXML.TestActions
             {
                 if (this.performAction)
                 {
-                    Logger.Info($"\"{this.result}\",\"{totalTime.ToString()}\"");
+                    this.csvLogger.AddResults($"\"{this.result}\",\"{totalTime.ToString()}\"");
                 }
                 else
                 {
-                    Logger.Info($"\"{this.result}\",\"N/A\"");
+                    this.csvLogger.AddResults($"\"{this.result}\",\"N/A\"");
                 }
             }
 
+            this.seleniumDriver.CheckErrorContainer();
             if (this.runAODA)
             {
                 this.seleniumDriver.RunAODA(this.runAODAName);

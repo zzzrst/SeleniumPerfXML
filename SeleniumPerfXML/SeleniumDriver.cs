@@ -36,8 +36,6 @@ namespace SeleniumPerfXML
 
         private string screenshotSaveLocation;
 
-        private TimeSpan timeoutThreshold;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SeleniumDriver"/> class.
         /// </summary>
@@ -53,7 +51,6 @@ namespace SeleniumPerfXML
 
             this.screenshotSaveLocation = screenshotSaveLocation;
 
-            this.timeoutThreshold = timeOutThreshold;
             TimeSpan actualTimeOut = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["ActualTimeOut"]));
 
             switch (browserType)
@@ -198,7 +195,7 @@ namespace SeleniumPerfXML
 
             try
             {
-                element = this.GetElementByXPath(xPath, TimeSpan.FromSeconds(0));
+                element = this.GetElementByXPath(xPath, 3);
             }
             catch (NoSuchElementException)
             {
@@ -419,20 +416,9 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
-        /// Dismisses the alert dialog box on the browser.
+        /// Checks if there are any errors in the error container.
         /// </summary>
-        private void ClickOk()
-        {
-            try
-            {
-                this.webDriver.SwitchTo().Alert().Dismiss();
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        private void CheckErrorContainer()
+        public void CheckErrorContainer()
         {
             if (this.ErrorContainer != string.Empty)
             {
@@ -463,13 +449,25 @@ namespace SeleniumPerfXML
         /// Finds the first IWebElement By XPath.
         /// </summary>
         /// <param name="xPath">The xpath to find the web element.</param>
-        /// <param name="seconds"> The amount in seconds to wait for.</param>
+        /// <param name="tries"> The amount in seconds to wait for.</param>
         /// <returns> The first IWebElement whose xpath matches. </returns>
-        private IWebElement GetElementByXPath(string xPath, TimeSpan seconds)
+        private IWebElement GetElementByXPath(string xPath, int tries)
         {
             this.WaitForLoadingSpinner();
-            WebDriverWait wdWait = new WebDriverWait(this.webDriver, seconds);
-            return wdWait.Until(driver => driver.FindElement(By.XPath(xPath)));
+            IWebElement element = null;
+            for (int i = 0; i < tries; i++)
+            {
+                try
+                {
+                    element = this.webDriver.FindElement(By.XPath(xPath));
+                    break;
+                }
+                catch
+                {
+                }
+            }
+
+            return element;
         }
 
         /// <summary>

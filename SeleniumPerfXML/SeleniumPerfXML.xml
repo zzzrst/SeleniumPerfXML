@@ -140,6 +140,40 @@
             Gets or sets the list of target HTML elements / information this rule has.
             </summary>
         </member>
+        <member name="T:SeleniumPerfXML.CSVLogger">
+            <summary>
+            Logger class for CSV.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.CSVLogger.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SeleniumPerfXML.CSVLogger"/> class.
+            </summary>
+            <param name="csvSaveFileLocation">The location to save the csv file.</param>
+        </member>
+        <member name="P:SeleniumPerfXML.CSVLogger.CsvSaveFileLocation">
+            <summary>
+            Gets or sets the csv save file location.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.CSVLogger.AddResults(System.String)">
+            <summary>
+            Saves the results to be written to the CSV.
+            </summary>
+            <param name="result"> The result to be written to the csv. </param>
+        </member>
+        <member name="M:SeleniumPerfXML.CSVLogger.WriteOutResults">
+            <summary>
+            Writes to the CSV file for the accumulated results saved.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.CSVLogger.IsFileReady(System.String)">
+            <summary>
+            Checks if the file is ready before attempting to write to it.
+            </summary>
+            <param name="filename">The name of the file to write to.</param>
+            <returns><code>true</code> if the file is ready. </returns>
+        </member>
         <member name="T:SeleniumPerfXML.Logger">
             <summary>
             Logger class to be used. \n
@@ -199,7 +233,7 @@
             Location of the Selenium drivers on the current machine.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.SeleniumDriver.#ctor(SeleniumPerfXML.SeleniumDriver.Browser,System.TimeSpan,System.String,System.String)">
+        <member name="M:SeleniumPerfXML.SeleniumDriver.#ctor(SeleniumPerfXML.SeleniumDriver.Browser,System.TimeSpan,System.String,System.String,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:SeleniumPerfXML.SeleniumDriver"/> class.
             </summary>
@@ -207,6 +241,7 @@
             <param name="timeOutThreshold"> The timeout threshold in seconds.</param>
             <param name="environment"> The environment set. </param>
             <param name="url"> The url set. </param>
+            <param name="screenshotSaveLocation"> Location to save screenshots when it fails.</param>
         </member>
         <member name="T:SeleniumPerfXML.SeleniumDriver.Browser">
             <summary>
@@ -348,6 +383,11 @@
             </summary>
             <param name="tab">The tab<see cref="T:System.Int32"/>.</param>
         </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.TakeScreenShot">
+            <summary>
+            Takes a screenshot of the browser. Screenshot will have the datestamp as its name. Year Month Date Hour Minutes Seconds (AM/PM).
+            </summary>
+        </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.WaitForElementState(System.String,SeleniumPerfXML.SeleniumDriver.ElementState)">
             <summary>
             Waits for an element state.
@@ -360,9 +400,9 @@
             Waits until the loading spinner disappears.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.SeleniumDriver.ClickOk">
+        <member name="M:SeleniumPerfXML.SeleniumDriver.CheckErrorContainer">
             <summary>
-            Dismisses the alert dialog box on the browser.
+            Checks if there are any errors in the error container.
             </summary>
         </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.GetElementByXPath(System.String)">
@@ -372,12 +412,12 @@
             <param name="xPath">The xpath to find the web element.</param>
             <returns> The first IWebElement whose xpath matches. </returns>
         </member>
-        <member name="M:SeleniumPerfXML.SeleniumDriver.GetElementByXPath(System.String,System.TimeSpan)">
+        <member name="M:SeleniumPerfXML.SeleniumDriver.GetElementByXPath(System.String,System.Int32)">
             <summary>
             Finds the first IWebElement By XPath.
             </summary>
             <param name="xPath">The xpath to find the web element.</param>
-            <param name="seconds"> The amount in seconds to wait for.</param>
+            <param name="tries"> The amount in seconds to wait for.</param>
             <returns> The first IWebElement whose xpath matches. </returns>
         </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.SetActiveTab">
@@ -481,7 +521,7 @@
         <member name="P:SeleniumPerfXML.TestActions.ChooseCollection.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.ChooseCollection.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.ChooseCollection.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.ClickElementByXPath">
@@ -492,7 +532,7 @@
         <member name="P:SeleniumPerfXML.TestActions.ClickElementByXPath.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.ClickElementByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.ClickElementByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.CloseBrowser">
@@ -503,7 +543,7 @@
         <member name="P:SeleniumPerfXML.TestActions.CloseBrowser.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.CloseBrowser.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.CloseBrowser.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.CloseTab">
@@ -514,7 +554,7 @@
         <member name="P:SeleniumPerfXML.TestActions.CloseTab.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.CloseTab.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.CloseTab.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.DDLSelectByXPath">
@@ -525,7 +565,7 @@
         <member name="P:SeleniumPerfXML.TestActions.DDLSelectByXPath.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.DDLSelectByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.DDLSelectByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.OpenBrowser">
@@ -536,7 +576,7 @@
         <member name="P:SeleniumPerfXML.TestActions.OpenBrowser.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.OpenBrowser.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.OpenBrowser.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.PopulateElementByXPath">
@@ -547,7 +587,7 @@
         <member name="P:SeleniumPerfXML.TestActions.PopulateElementByXPath.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.PopulateElementByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.PopulateElementByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.SignIn">
@@ -558,7 +598,7 @@
         <member name="P:SeleniumPerfXML.TestActions.SignIn.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.SignIn.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.SignIn.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.SwitchToTab">
@@ -569,7 +609,7 @@
         <member name="P:SeleniumPerfXML.TestActions.SwitchToTab.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.SwitchToTab.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.SwitchToTab.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.WaitForElement">
@@ -580,7 +620,7 @@
         <member name="P:SeleniumPerfXML.TestActions.WaitForElement.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.WaitForElement.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.WaitForElement.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.WaitInSeconds">
@@ -591,7 +631,7 @@
         <member name="P:SeleniumPerfXML.TestActions.WaitInSeconds.Description">
             <inheritdoc/>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.WaitInSeconds.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.WaitInSeconds.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.ReflectiveGetter">
@@ -618,7 +658,7 @@
             Description mandatory set EXACTLY to test actions set in XML in child classes for reflection to work.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.TestActions.TestAction.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver)">
+        <member name="M:SeleniumPerfXML.TestActions.TestAction.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <summary>
             Executes the test action based on the provided information and settings.
             </summary>
@@ -629,6 +669,7 @@
             <param name="runAODAPageName"> Indicates the page name to pass to AODA scripts. </param>
             <param name="testActionInformation"> Provides the XML information for this test action. </param>
             <param name="seleniumDriver"> Passes on the driver instance used to interact with the browser. </param>
+            <param name="csvLogger"> Passes on the csv logger used to log results. </param>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.TimeAndLogAspect">
             <summary>

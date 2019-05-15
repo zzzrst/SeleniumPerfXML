@@ -113,6 +113,8 @@ namespace SeleniumPerfXML
         [field:NonSerialized]
         private SeleniumDriver SeleniumDriver { get; set; }
 
+        private CSVLogger CSVLogger { get; set; }
+
         /// <summary>
         /// This function parses the test case flow and starts executing.
         /// </summary>
@@ -123,6 +125,8 @@ namespace SeleniumPerfXML
             this.InstantiateSeleniumDriver();
 
             XmlNode testCaseFlow = this.XMLDocObj.GetElementsByTagName("TestCaseFlow")[0];
+
+            DateTime start = DateTime.UtcNow;
 
             // inside the testCaseFlow, you can only have either RunTestCase element or an If element.
             foreach (XmlNode innerFlow in testCaseFlow.ChildNodes)
@@ -145,6 +149,10 @@ namespace SeleniumPerfXML
             {
                 this.SeleniumDriver.GenerateAODAResults(this.LogSaveFileLocation);
             }
+
+            DateTime end = DateTime.UtcNow;
+            this.CSVLogger.AddResults($"Total, {Math.Abs((start - end).TotalSeconds)}");
+            this.CSVLogger.WriteOutResults();
         }
 
         /// <summary>
@@ -218,6 +226,13 @@ namespace SeleniumPerfXML
             {
                 this.CsvSaveFileLocation = this.XMLDocObj.GetElementsByTagName("CSVSaveLocation")[0].InnerText;
             }
+
+            string xmlFileName = this.XMLFile.Substring(this.XMLFile.LastIndexOf("\\") + 1);
+            xmlFileName = xmlFileName.Substring(0, xmlFileName.Length - 4);
+
+            this.CSVLogger = new CSVLogger(this.CsvSaveFileLocation + "\\" + $"{xmlFileName}.csv");
+            this.CSVLogger.AddResults($"Transaction, {DateTime.Now.ToString("G")}");
+            this.CSVLogger.AddResults($"Environment URL, {this.URL}");
 
             if (this.LogSaveFileLocation == string.Empty)
             {
@@ -361,7 +376,7 @@ namespace SeleniumPerfXML
                 }
                 else
                 {
-                    Logger.Warn($"We currently do not deal with this. {testStep.Name}");
+                    Logger.Warn($"We currently do not deal with this: {testStep.Name}");
                 }
             }
         }
@@ -501,7 +516,7 @@ namespace SeleniumPerfXML
             }
             else
             {
-                action.Execute(log, name, performAction, runAODA, runAODAPageName, testStep, this.SeleniumDriver);
+                action.Execute(log, name, performAction, runAODA, runAODAPageName, testStep, this.SeleniumDriver, this.CSVLogger);
             }
         }
     }

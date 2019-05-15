@@ -15,7 +15,7 @@ namespace SeleniumPerfXML
     /// Reference 1: https://stackify.com/log4net-guide-dotnet-logging/ \n
     /// Reference 2: https://www.dotnetdepth.in/2018/06/how-to-use-log4net-in-net-core-20.html.
     /// </summary>
-    public class Logger
+    public static class Logger
     {
         private static readonly string LOGCONFIGFILE = @"log4net.config";
 

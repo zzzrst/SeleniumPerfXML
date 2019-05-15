@@ -27,6 +27,7 @@ namespace SeleniumPerfXML.TestActions
         /// <param name="runAODAPageName"> Indicates the page name to pass to AODA scripts. </param>
         /// <param name="testActionInformation"> Provides the XML information for this test action. </param>
         /// <param name="seleniumDriver"> Passes on the driver instance used to interact with the browser. </param>
+        /// <param name="csvLogger"> Passes on the csv logger used to log results. </param>
         public abstract void Execute(
             bool log,
             string name,
@@ -34,6 +35,7 @@ namespace SeleniumPerfXML.TestActions
             bool runAODA,
             string runAODAPageName,
             XmlNode testActionInformation,
-            SeleniumDriver seleniumDriver);
+            SeleniumDriver seleniumDriver,
+            CSVLogger csvLogger);
     }
 }
