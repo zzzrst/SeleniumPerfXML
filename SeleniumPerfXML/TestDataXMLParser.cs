@@ -30,7 +30,7 @@ namespace SeleniumPerfXML
             }
             else
             {
-                Console.WriteLine("XML File could not be found!");
+                Logger.Error("XML File could not be found!");
             }
         }
 
@@ -119,6 +119,8 @@ namespace SeleniumPerfXML
 
         private int TestStepNumber { get; set; } = 0;
 
+        private XmlDocument XMLDataFile { get; set; }
+
         /// <summary>
         /// This function parses the test case flow and starts executing.
         /// </summary>
@@ -137,7 +139,7 @@ namespace SeleniumPerfXML
             {
                 if (innerFlow.Name == "RunTestCase")
                 {
-                    this.FindAndRunTestCase(innerFlow.InnerText);
+                    this.FindAndRunTestCase(this.ReplaceIfToken(innerFlow.InnerText));
                 }
                 else if (innerFlow.Name == "If")
                 {
@@ -164,24 +166,42 @@ namespace SeleniumPerfXML
         /// </summary>
         private void ParseParameters()
         {
+            // Must parse data file first since values above it can be a token.
+            if (this.DataFile == string.Empty)
+            {
+                if (this.XMLDocObj.GetElementsByTagName("DataFile").Count > 0)
+                {
+                    this.DataFile = this.XMLDocObj.GetElementsByTagName("DataFile")[0].InnerText;
+                    if (File.Exists(this.DataFile))
+                    {
+                        this.XMLDataFile = new XmlDocument();
+                        this.XMLDataFile.Load(this.DataFile);
+                    }
+                    else
+                    {
+                        Logger.Error("XML File could not be found!");
+                    }
+                }
+            }
+
             // URL has precedence over the environment.
             // Passed in parameters overide what is in the XML.
             if (this.Environment == string.Empty && this.URL == string.Empty)
             {
                 if (this.XMLDocObj.GetElementsByTagName("URL").Count > 0)
                 {
-                    this.URL = this.XMLDocObj.GetElementsByTagName("URL")[0].InnerText;
+                    this.URL = this.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("URL")[0].InnerText);
                 }
                 else
                 {
-                    this.Environment = this.XMLDocObj.GetElementsByTagName("Environment")[0].InnerText;
+                    this.Environment = this.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("Environment")[0].InnerText);
                     this.URL = ConfigurationManager.AppSettings[this.Environment].ToString();
                 }
             }
 
             if (this.Browser == string.Empty)
             {
-                this.Browser = this.XMLDocObj.GetElementsByTagName("Browser")[0].InnerText;
+                this.Browser = this.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("Browser")[0].InnerText);
             }
 
             if (this.PassedInRespectRepeatFor == string.Empty)
@@ -218,17 +238,9 @@ namespace SeleniumPerfXML
                 this.WarningThreshold = int.Parse(this.XMLDocObj.GetElementsByTagName("WarningThreshold")[0].InnerText);
             }
 
-            if (this.DataFile == string.Empty)
-            {
-                if (this.XMLDocObj.GetElementsByTagName("DataFile").Count > 0)
-                {
-                    this.DataFile = this.XMLDocObj.GetElementsByTagName("DataFile")[0].InnerText;
-                }
-            }
-
             if (this.CsvSaveFileLocation == string.Empty)
             {
-                this.CsvSaveFileLocation = this.XMLDocObj.GetElementsByTagName("CSVSaveLocation")[0].InnerText;
+                this.CsvSaveFileLocation = this.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("CSVSaveLocation")[0].InnerText);
             }
 
             string xmlFileName = this.XMLFile.Substring(this.XMLFile.LastIndexOf("\\") + 1);
@@ -242,7 +254,7 @@ namespace SeleniumPerfXML
             {
                 if (this.XMLDocObj.GetElementsByTagName("LogSaveLocation").Count > 0)
                 {
-                    this.LogSaveFileLocation = this.XMLDocObj.GetElementsByTagName("LogSaveLocation")[0].InnerText;
+                    this.LogSaveFileLocation = this.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("LogSaveLocation")[0].InnerText);
                 }
                 else
                 {
@@ -254,7 +266,7 @@ namespace SeleniumPerfXML
             {
                 if (this.XMLDocObj.GetElementsByTagName("ScreenshotSaveLocation").Count > 0)
                 {
-                    this.ScreenshotSaveLocation = this.XMLDocObj.GetElementsByTagName("ScreenshotSaveLocation")[0].InnerText;
+                    this.ScreenshotSaveLocation = this.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("ScreenshotSaveLocation")[0].InnerText);
                 }
                 else
                 {
@@ -274,7 +286,7 @@ namespace SeleniumPerfXML
         {
             if (this.XMLDocObj.GetElementsByTagName("LoadingSpinner").Count > 0)
             {
-                this.LoadingSpinner = this.XMLDocObj.GetElementsByTagName("LoadingSpinner")[0].InnerText;
+                this.LoadingSpinner = this.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("LoadingSpinner")[0].InnerText);
             }
             else
             {
@@ -283,7 +295,7 @@ namespace SeleniumPerfXML
 
             if (this.XMLDocObj.GetElementsByTagName("ErrorContainer").Count > 0)
             {
-                this.ErrorContainer = this.XMLDocObj.GetElementsByTagName("ErrorContainer")[0].InnerText;
+                this.ErrorContainer = this.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("ErrorContainer")[0].InnerText);
             }
             else
             {
@@ -335,7 +347,7 @@ namespace SeleniumPerfXML
             // Find the appropriate testcase;
             foreach (XmlNode testcase in testCases.ChildNodes)
             {
-                if (testcase.Name == "TestCase" && testcase.Attributes["id"].Value == testCaseID)
+                if (testcase.Name == "TestCase" && this.ReplaceIfToken(testcase.Attributes["id"].Value) == testCaseID)
                 {
                     int repeat = 1;
                     if (this.RespectRepeatFor && testcase.Attributes["repeatFor"] != null)
@@ -371,7 +383,7 @@ namespace SeleniumPerfXML
                 // the testStepFlow can be either RunTestStep or If
                 if (testStep.Name == "RunTestStep")
                 {
-                    this.FindAndRunTestStep(testStep.InnerText, performAction);
+                    this.FindAndRunTestStep(this.ReplaceIfToken(testStep.InnerText), performAction);
                 }
                 else if (testStep.Name == "If")
                 {
@@ -379,7 +391,7 @@ namespace SeleniumPerfXML
                 }
                 else if (testStep.Name == "RunTestCase")
                 {
-                    this.FindAndRunTestCase(testStep.InnerText, performAction);
+                    this.FindAndRunTestCase(this.ReplaceIfToken(testStep.InnerText), performAction);
                 }
                 else
                 {
@@ -400,7 +412,7 @@ namespace SeleniumPerfXML
             // we check condition if we have to perfom this action.
             if (performAction)
             {
-                string elementXPath = ifXMLNode.Attributes["elementXPath"].Value;
+                string elementXPath = this.ReplaceIfToken(ifXMLNode.Attributes["elementXPath"].Value);
                 string condition = ifXMLNode.Attributes["condition"].Value;
 
                 SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
@@ -424,7 +436,7 @@ namespace SeleniumPerfXML
 
                     if (performAction && !ifCondition)
                     {
-                        string elementXPath = ifXMLNode.Attributes["elementXPath"].Value;
+                        string elementXPath = this.ReplaceIfToken(ifXMLNode.Attributes["elementXPath"].Value);
                         string condition = ifXMLNode.Attributes["condition"].Value;
 
                         SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
@@ -444,7 +456,7 @@ namespace SeleniumPerfXML
                 }
                 else if (ifSection.Name == "RunTestCase")
                 {
-                    this.FindAndRunTestCase(ifSection.InnerText, performAction);
+                    this.FindAndRunTestCase(this.ReplaceIfToken(ifSection.InnerText), performAction);
                 }
                 else
                 {
@@ -466,7 +478,7 @@ namespace SeleniumPerfXML
             // Find the appropriate test steps
             foreach (XmlNode testStep in testSteps.ChildNodes)
             {
-                if (testStep.Name != "#comment" && testStep.Attributes["id"].Value == testStepID)
+                if (testStep.Name != "#comment" && this.ReplaceIfToken(testStep.Attributes["id"].Value) == testStepID)
                 {
                     this.RunTestStep(testStep, performAction);
                     return;
@@ -478,7 +490,7 @@ namespace SeleniumPerfXML
 
         private void RunTestStep(XmlNode testStep, bool performAction = true)
         {
-            string name = testStep.Attributes["name"].Value;
+            string name = this.ReplaceIfToken(testStep.Attributes["name"].Value);
 
             // initial value is respectRunAODAFlag
             // if we respect the flag, and it is not found, then default value is false.
@@ -501,7 +513,7 @@ namespace SeleniumPerfXML
             {
                 if (testStep.Attributes["runAODAPageName"] != null)
                 {
-                    runAODAPageName = testStep.Attributes["runAODAPageName"].Value;
+                    runAODAPageName = this.ReplaceIfToken(testStep.Attributes["runAODAPageName"].Value);
                 }
             }
 
@@ -526,8 +538,40 @@ namespace SeleniumPerfXML
                 this.TestStepNumber++;
 
                 string namePrepender = this.TestCaseRepeatNumber > 0 ? $"{this.TestCaseRepeatNumber}.{this.TestStepNumber} " : $"";
+
+                for (int index = 0; index < testStep.Attributes.Count; index++)
+                {
+                    testStep.Attributes[index].InnerText = this.ReplaceIfToken(testStep.Attributes[index].InnerText);
+                }
+
                 action.Execute(log, $"{namePrepender}{name} ", performAction, runAODA, runAODAPageName, testStep, this.SeleniumDriver, this.CSVLogger);
             }
+        }
+
+        /// <summary>
+        /// Replaces a string if it is a token and shown.
+        /// </summary>
+        /// <param name="possibleToken">A string that may be a token.</param>
+        /// <returns>The provided string or value of the token.</returns>
+        private string ReplaceIfToken(string possibleToken)
+        {
+            if (possibleToken.Contains("${{") && possibleToken.Contains("}}") && this.XMLDataFile != null)
+            {
+                XmlNode tokens = this.XMLDataFile.GetElementsByTagName("Tokens")[0];
+                string tokenKey = possibleToken.Substring(possibleToken.IndexOf("${{") + 3);
+                tokenKey = tokenKey.Substring(0, tokenKey.IndexOf("}}"));
+
+                // Find the appropriate token
+                foreach (XmlNode token in tokens.ChildNodes)
+                {
+                    if (token.Attributes["key"] != null && token.Attributes["key"].InnerText == tokenKey && token.Attributes["value"] != null)
+                    {
+                        return possibleToken.Replace("${{" + $"{tokenKey}" + "}}", token.Attributes["value"].InnerText);
+                    }
+                }
+            }
+
+            return possibleToken;
         }
     }
 }

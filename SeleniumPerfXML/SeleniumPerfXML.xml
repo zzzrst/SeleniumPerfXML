@@ -815,5 +815,12 @@
             <param name="testStepID"> The ID of the test step to run. </param>
             <param name="performAction"> Perfoms the action. </param>
         </member>
+        <member name="M:SeleniumPerfXML.TestDataXMLParser.ReplaceIfToken(System.String)">
+            <summary>
+            Replaces a string if it is a token and shown.
+            </summary>
+            <param name="possibleToken">A string that may be a token.</param>
+            <returns>The provided string or value of the token.</returns>
+        </member>
     </members>
 </doc>
