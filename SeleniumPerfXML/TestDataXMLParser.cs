@@ -115,6 +115,10 @@ namespace SeleniumPerfXML
 
         private CSVLogger CSVLogger { get; set; }
 
+        private int TestCaseRepeatNumber { get; set; } = -1;
+
+        private int TestStepNumber { get; set; } = 0;
+
         /// <summary>
         /// This function parses the test case flow and starts executing.
         /// </summary>
@@ -337,10 +341,13 @@ namespace SeleniumPerfXML
                     if (this.RespectRepeatFor && testcase.Attributes["repeatFor"] != null)
                     {
                         repeat = int.Parse(testcase.Attributes["repeatFor"].Value);
+                        this.TestCaseRepeatNumber = repeat > 1 ? 1 : -1;
                     }
 
                     for (int i = 0; i < repeat; i++)
                     {
+                        this.TestStepNumber = 0;
+                        this.TestCaseRepeatNumber = this.TestCaseRepeatNumber > 0 ? i + 1 : -1;
                         this.RunTestCase(testcase, performAction);
                     }
 
@@ -516,7 +523,10 @@ namespace SeleniumPerfXML
             }
             else
             {
-                action.Execute(log, name, performAction, runAODA, runAODAPageName, testStep, this.SeleniumDriver, this.CSVLogger);
+                this.TestStepNumber++;
+
+                string namePrepender = this.TestCaseRepeatNumber > 0 ? $"{this.TestCaseRepeatNumber}.{this.TestStepNumber} " : $"";
+                action.Execute(log, $"{namePrepender}{name} ", performAction, runAODA, runAODAPageName, testStep, this.SeleniumDriver, this.CSVLogger);
             }
         }
     }
