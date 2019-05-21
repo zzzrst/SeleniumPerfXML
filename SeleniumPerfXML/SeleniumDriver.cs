@@ -36,6 +36,10 @@ namespace SeleniumPerfXML
 
         private string screenshotSaveLocation;
 
+        private Browser browserType;
+        private TimeSpan timeOutThreshold;
+        private TimeSpan actualTimeOut;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SeleniumDriver"/> class.
         /// </summary>
@@ -46,69 +50,12 @@ namespace SeleniumPerfXML
         /// <param name="screenshotSaveLocation"> Location to save screenshots when it fails.</param>
         public SeleniumDriver(Browser browserType, TimeSpan timeOutThreshold, string environment, string url, string screenshotSaveLocation)
         {
+            this.browserType = browserType;
+            this.timeOutThreshold = timeOutThreshold;
             this.environment = environment;
             this.url = url;
-
             this.screenshotSaveLocation = screenshotSaveLocation;
-
-            TimeSpan actualTimeOut = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["ActualTimeOut"]));
-
-            switch (browserType)
-            {
-                case Browser.Chrome:
-
-                    ChromeOptions chromeOptions = new ChromeOptions
-                    {
-                        UnhandledPromptBehavior = UnhandledPromptBehavior.Accept,
-                    };
-
-                    chromeOptions.AddArgument("no-sandbox");
-                    chromeOptions.AddArgument("--log-level=3");
-                    chromeOptions.AddArgument("--silent");
-                    chromeOptions.BinaryLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\chromium\\chrome.exe";
-
-                    ChromeDriverService service = ChromeDriverService.CreateDefaultService(this.seleniumDriverLocation);
-                    service.SuppressInitialDiagnosticInformation = true;
-
-                    this.webDriver = new ChromeDriver(this.seleniumDriverLocation, chromeOptions, actualTimeOut);
-
-                    break;
-                case Browser.Edge:
-
-                    this.webDriver = new EdgeDriver(this.seleniumDriverLocation, null, actualTimeOut);
-
-                    break;
-                case Browser.Firefox:
-
-                    this.webDriver = new FirefoxDriver(this.seleniumDriverLocation, null, actualTimeOut);
-
-                    break;
-                case Browser.IE:
-
-                    InternetExplorerOptions ieOptions = new InternetExplorerOptions
-                    {
-                        IntroduceInstabilityByIgnoringProtectedModeSettings = true,
-                        IgnoreZoomLevel = true,
-                        EnsureCleanSession = true,
-                        EnableNativeEvents = bool.Parse(ConfigurationManager.AppSettings["IEEnableNativeEvents"].ToString()),
-                        UnhandledPromptBehavior = UnhandledPromptBehavior.Accept,
-                        RequireWindowFocus = true,
-                    };
-                    InternetExplorerDriverService ieService = InternetExplorerDriverService.CreateDefaultService(this.seleniumDriverLocation);
-                    ieService.SuppressInitialDiagnosticInformation = true;
-                    this.webDriver = new InternetExplorerDriver(ieService, ieOptions, actualTimeOut);
-
-                    break;
-                case Browser.Safari:
-
-                    Logger.Info("We currently do not deal with Safari yet!");
-
-                    break;
-            }
-
-            this.wdWait = new WebDriverWait(this.webDriver, timeOutThreshold);
-
-            this.axeDriver = new AxeDriver();
+            this.actualTimeOut = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["ActualTimeOut"]));
         }
 
         /// <summary>
@@ -277,6 +224,7 @@ namespace SeleniumPerfXML
                     url = this.url;
                 }
 
+                this.InstantiateSeleniumDriver();
                 this.webDriver.Url = url;
                 return true;
             }
@@ -365,8 +313,14 @@ namespace SeleniumPerfXML
         /// </summary>
         public void TakeScreenShot()
         {
-            Screenshot screenshot = this.webDriver.TakeScreenshot();
-            screenshot.SaveAsFile(this.screenshotSaveLocation + "\\" + $"{DateTime.Now:yyyy_MM_dd-hh_mm_ss_tt}.png");
+            try
+            {
+                Screenshot screenshot = this.webDriver.TakeScreenshot();
+                screenshot.SaveAsFile(this.screenshotSaveLocation + "\\" + $"{DateTime.Now:yyyy_MM_dd-hh_mm_ss_tt}.png");
+            }
+            catch
+            {
+            }
         }
 
         /// <summary>
@@ -468,6 +422,81 @@ namespace SeleniumPerfXML
             }
 
             return element;
+        }
+
+        private void InstantiateSeleniumDriver()
+        {
+            try
+            {
+                try
+                {
+                    this.webDriver.Quit();
+                }
+                catch
+                {
+                }
+
+                switch (this.browserType)
+                {
+                    case Browser.Chrome:
+
+                        ChromeOptions chromeOptions = new ChromeOptions
+                        {
+                            UnhandledPromptBehavior = UnhandledPromptBehavior.Accept,
+                        };
+
+                        chromeOptions.AddArgument("no-sandbox");
+                        chromeOptions.AddArgument("--log-level=3");
+                        chromeOptions.AddArgument("--silent");
+                        chromeOptions.BinaryLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\chromium\\chrome.exe";
+
+                        ChromeDriverService service = ChromeDriverService.CreateDefaultService(this.seleniumDriverLocation);
+                        service.SuppressInitialDiagnosticInformation = true;
+
+                        this.webDriver = new ChromeDriver(this.seleniumDriverLocation, chromeOptions, this.actualTimeOut);
+
+                        break;
+                    case Browser.Edge:
+
+                        this.webDriver = new EdgeDriver(this.seleniumDriverLocation, null, this.actualTimeOut);
+
+                        break;
+                    case Browser.Firefox:
+
+                        this.webDriver = new FirefoxDriver(this.seleniumDriverLocation, null, this.actualTimeOut);
+
+                        break;
+                    case Browser.IE:
+
+                        InternetExplorerOptions ieOptions = new InternetExplorerOptions
+                        {
+                            IntroduceInstabilityByIgnoringProtectedModeSettings = true,
+                            IgnoreZoomLevel = true,
+                            EnsureCleanSession = true,
+                            EnableNativeEvents = bool.Parse(ConfigurationManager.AppSettings["IEEnableNativeEvents"].ToString()),
+                            UnhandledPromptBehavior = UnhandledPromptBehavior.Accept,
+                            RequireWindowFocus = true,
+                        };
+                        InternetExplorerDriverService ieService = InternetExplorerDriverService.CreateDefaultService(this.seleniumDriverLocation);
+                        ieService.SuppressInitialDiagnosticInformation = true;
+                        this.webDriver = new InternetExplorerDriver(ieService, ieOptions, this.actualTimeOut);
+
+                        break;
+                    case Browser.Safari:
+
+                        Logger.Info("We currently do not deal with Safari yet!");
+
+                        break;
+                }
+
+                this.wdWait = new WebDriverWait(this.webDriver, this.timeOutThreshold);
+
+                this.axeDriver = new AxeDriver();
+            }
+            catch (Exception e)
+            {
+                Logger.Error($"While trying to instantiate Selenium drivers, we were met with the following: {e.ToString()}");
+            }
         }
 
         /// <summary>
