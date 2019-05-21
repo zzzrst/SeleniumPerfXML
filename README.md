@@ -44,7 +44,7 @@ Refer to the following documentation to get started:
 *  [Test Cases](/Documentation/TestCases.md) goes into depth of how to create test cases.
 *  [Test Steps](/Documentation/TestSteps.md) goes into depth of the different type of test steps.
 *  [CSV Logging](/Documentation/CSVLogging.md) goes into depth the logic behind the csv logging.
-*  [Accessibility](/Documentation/AODA.md) goes into depth how to use the framework to test accessibility.
+*  [Accessibility](/Documentation/Accessibility.md) goes into depth how to use the framework to test accessibility.
 *  [DataFile](/Documentation/DataFile.md) goes into depth how to use a seperate data file with XML
 *  [Logging](/Documentation/Logging.md) goes into depth how internal logging for the framework is setup.
 
