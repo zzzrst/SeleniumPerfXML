@@ -18,11 +18,6 @@ namespace SeleniumPerfXML.TestActions
         [TimeAndLogAspect]
         public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver, CSVLogger csvLogger)
         {
-            if (!performAction)
-            {
-                return;
-            }
-
             seleniumDriver.NavigateToURL();
         }
     }

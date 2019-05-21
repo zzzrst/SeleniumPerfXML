@@ -38,7 +38,17 @@ namespace SeleniumPerfXML.TestActions
             this.runAODAName = args.Arguments[4].ToString();
             this.seleniumDriver = (SeleniumDriver)args.Arguments[6];
             this.csvLogger = (CSVLogger)args.Arguments[7];
-            base.OnEntry(args);
+
+            if (this.performAction)
+            {
+                base.OnEntry(args);
+            }
+            else
+            {
+                // this will exit the function. Therefore, we log N/A for the action.
+                args.FlowBehavior = FlowBehavior.Return;
+                this.csvLogger.AddResults($"\"{this.result}\",\"N/A\"");
+            }
         }
 
         /// <inheritdoc/>
@@ -63,14 +73,7 @@ namespace SeleniumPerfXML.TestActions
 
             if (this.log)
             {
-                if (this.performAction)
-                {
-                    this.csvLogger.AddResults($"\"{this.result}\",\"{totalTime.ToString()}\"");
-                }
-                else
-                {
-                    this.csvLogger.AddResults($"\"{this.result}\",\"N/A\"");
-                }
+                this.csvLogger.AddResults($"\"{this.result}\",\"{totalTime.ToString()}\"");
             }
 
             this.seleniumDriver.CheckErrorContainer();

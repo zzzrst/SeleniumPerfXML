@@ -216,7 +216,7 @@ namespace SeleniumPerfXML
                     return element == null;
 
                 case ElementState.Visible:
-                    return element != null;
+                    return element != null && element.Displayed;
 
                 case ElementState.Clickable:
                     return element != null && element.Displayed && element.Enabled;
