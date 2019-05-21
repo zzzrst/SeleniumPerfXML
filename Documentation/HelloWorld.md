@@ -48,7 +48,7 @@ Example:
 ```
 
 
-## Explaination: 
+## Explanation: 
 In this `HelloWorld.xml`, we have parameters, special elements, test case flow, test cases, and test steps inside the root element test set. 
 
 Parameters are used for the overall settings for this test set. The required parameters are browser, environment, warning threshold, time-out threshold and CSV save location. For more information about parameters, refer to [here](/Documentation/Parameters.md). 
