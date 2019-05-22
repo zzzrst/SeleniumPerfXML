@@ -4,6 +4,9 @@
 
 namespace Selenium.Axe
 {
+    using System.IO;
+    using System.Reflection;
+
     /// <summary>
     /// Defines the <see cref="EmbeddedResourceAxeProvider" />.
     /// </summary>
@@ -13,6 +16,6 @@ namespace Selenium.Axe
         /// The GetScript.
         /// </summary>
         /// <returns>The <see cref="string"/>.</returns>
-        public string GetScript() => Resources.axe_min;
+        public string GetScript() => File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Resources\\axe.min.js");
     }
 }

@@ -601,6 +601,17 @@
         <member name="M:SeleniumPerfXML.TestActions.SignIn.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
+        <member name="T:SeleniumPerfXML.TestActions.SwitchIntoIFrame">
+            <summary>
+            This class executes the action of switching context into IFrame.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestActions.SwitchIntoIFrame.Description">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.TestActions.SwitchIntoIFrame.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
+            <inheritdoc/>
+        </member>
         <member name="T:SeleniumPerfXML.TestActions.SwitchToTab">
             <summary>
             This class executes the action of switching to tab x.

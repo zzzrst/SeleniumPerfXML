@@ -130,6 +130,8 @@ namespace SeleniumPerfXML
         /// </summary>
         private bool InIFrame { get; set; } = false;
 
+        private string IFrameXPath { get; set; } = string.Empty;
+
         /// <summary>
         /// Checks for an element state.
         /// </summary>
@@ -295,6 +297,7 @@ namespace SeleniumPerfXML
             {
                 this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.FrameToBeAvailableAndSwitchToIt(By.XPath(xPath)));
                 this.InIFrame = true;
+                this.IFrameXPath = xPath;
             }
         }
 
@@ -509,6 +512,10 @@ namespace SeleniumPerfXML
                 var windows = this.webDriver.WindowHandles;
                 int windowCount = windows.Count;
                 this.webDriver.SwitchTo().Window(windows[windowCount - 1]);
+            }
+            else
+            {
+                this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.FrameToBeAvailableAndSwitchToIt(By.XPath(this.IFrameXPath)));
             }
         }
     }

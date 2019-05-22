@@ -7,6 +7,7 @@ namespace Selenium.Axe
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using OpenQA.Selenium;
 
     /// <summary>
@@ -27,12 +28,32 @@ namespace Selenium.Axe
             }
 
             string script = scriptProvider.GetScript();
-            IList<IWebElement> parents = new List<IWebElement>();
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
 
-            InjectIntoFrames(driver, script, parents);
+            // try to insert script 5 times.
+            int tries = 0;
+            bool succeed = false;
+            while (!succeed && tries < 5)
+            {
+                try
+                {
+                    IList<IWebElement> parents = new List<IWebElement>();
+                    InjectIntoFrames(driver, script, parents);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    tries++;
+                }
+
+                succeed = true;
+            }
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             driver.SwitchTo().DefaultContent();
-            js.ExecuteScript(script);
+            if (succeed)
+            {
+                Console.WriteLine("Running AODA script");
+                js.ExecuteScript(script);
+            }
         }
 
         /// <summary>
