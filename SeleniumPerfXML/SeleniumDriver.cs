@@ -132,6 +132,8 @@ namespace SeleniumPerfXML
 
         private string IFrameXPath { get; set; } = string.Empty;
 
+        private int currentWindow { get; set; } = -1;
+
         /// <summary>
         /// Checks for an element state.
         /// </summary>
@@ -511,7 +513,13 @@ namespace SeleniumPerfXML
             {
                 var windows = this.webDriver.WindowHandles;
                 int windowCount = windows.Count;
-                this.webDriver.SwitchTo().Window(windows[windowCount - 1]);
+
+                // save the current window / tab we are on. Only focus the browser when a new page / tab actually is there.
+                if (windowCount != this.currentWindow)
+                {
+                    this.currentWindow = windowCount;
+                    this.webDriver.SwitchTo().Window(windows[windowCount - 1]);
+                }
             }
             else
             {
