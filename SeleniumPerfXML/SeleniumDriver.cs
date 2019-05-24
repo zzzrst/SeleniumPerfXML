@@ -202,7 +202,15 @@ namespace SeleniumPerfXML
         /// </summary>
         public void CloseBrowser()
         {
-            this.webDriver.Close();
+            if (this.webDriver.WindowHandles.Count > 1)
+            {
+                this.webDriver.Quit();
+                this.webDriver.Dispose();
+            }
+            else
+            {
+                this.webDriver.Close();
+            }
         }
 
         /// <summary>
@@ -436,6 +444,7 @@ namespace SeleniumPerfXML
                 try
                 {
                     this.webDriver.Quit();
+                    this.webDriver.Dispose();
                 }
                 catch
                 {
