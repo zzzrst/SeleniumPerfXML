@@ -47,5 +47,5 @@ Refer to the following documentation to get started:
 *  [Accessibility](/Documentation/Accessibility.md) goes into depth how to use the framework to test accessibility.
 *  [DataFile](/Documentation/DataFile.md) goes into depth how to use a seperate data file with XML
 *  [Logging](/Documentation/Logging.md) goes into depth how internal logging for the framework is setup.
-
+*  [Sample Test Data XML File](/SeleniumPerfXML/SampleTestData.xml) is the sample xml file with many different combinations to show case the possibilities.
 
