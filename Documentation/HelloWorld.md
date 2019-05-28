@@ -1,4 +1,4 @@
-# Hello World.
+# Hello World!
 Here, we will walkthrough a simple example of navigating to www.google.ca using Chrome.
 
 ## XML:
