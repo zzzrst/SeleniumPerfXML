@@ -72,7 +72,7 @@ namespace SeleniumPerfXML
         /// <summary>
         /// Gets or sets a value indicating whether to respect RunAODAFlag in the XML.
         /// </summary>
-        [Option("respectRunAodaFlag", Required = false, HelpText = "Overrides the respect run AODA flag set in XML")]
+        [Option("respectRunAODAFlag", Required = false, HelpText = "Overrides the respect run AODA flag set in XML")]
         public string RespectRunAodaFlag { get; set; }
 
         /// <summary>

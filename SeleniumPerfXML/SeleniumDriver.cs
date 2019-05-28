@@ -132,7 +132,7 @@ namespace SeleniumPerfXML
 
         private string IFrameXPath { get; set; } = string.Empty;
 
-        private int currentWindow { get; set; } = -1;
+        private int CurrentWindow { get; set; } = -1;
 
         /// <summary>
         /// Checks for an element state.
@@ -202,15 +202,7 @@ namespace SeleniumPerfXML
         /// </summary>
         public void CloseBrowser()
         {
-            if (this.webDriver.WindowHandles.Count > 1)
-            {
-                this.webDriver.Quit();
-                this.webDriver.Dispose();
-            }
-            else
-            {
-                this.webDriver.Close();
-            }
+            this.webDriver.Close();
         }
 
         /// <summary>
@@ -443,6 +435,7 @@ namespace SeleniumPerfXML
             {
                 try
                 {
+                    this.webDriver.Close();
                     this.webDriver.Quit();
                     this.webDriver.Dispose();
                 }
@@ -524,9 +517,9 @@ namespace SeleniumPerfXML
                 int windowCount = windows.Count;
 
                 // save the current window / tab we are on. Only focus the browser when a new page / tab actually is there.
-                if (windowCount != this.currentWindow)
+                if (windowCount != this.CurrentWindow)
                 {
-                    this.currentWindow = windowCount;
+                    this.CurrentWindow = windowCount;
                     this.webDriver.SwitchTo().Window(windows[windowCount - 1]);
                 }
             }
