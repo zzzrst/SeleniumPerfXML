@@ -9,7 +9,7 @@ Parameters refer to the settings pertaining to the whole test set.
 4. [Example 3 - Tokenizing Values](/Documentation/Parameters.md#example-3---tokenizing-values)
 5. [Example 4 - Setting Flags for respectRepeatFor & respectRunAODAFlag](/Documentation/Parameters.md#example-4---setting-flags-for-respectrepeatfor--respectrunaodaflag)
 6. [Overriding Parameters from the Command Line](/Documentation/Parameters.md#overriding-parameters-from-the-command-line)
-9. [Example 5 - Use case for running AODA test on demand.](Documentation/Parameters.md#example-5---use-case-for-running-aoda-test-on-demand)
+9. [Example 5 - Use case for running AODA test on demand.](/Documentation/Parameters.md#example-5---use-case-for-running-aoda-test-on-demand)
 
 ### Parameter Description
 Name | Mandatory \ Optional | Description
