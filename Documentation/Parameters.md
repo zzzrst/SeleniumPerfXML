@@ -3,13 +3,13 @@
 Parameters refer to the settings pertaining to the whole test set.
 
 ## Outline
-1. Parameter Description
-2. Example 1 - The Bare Minumum:
-3. Example 2 - Introducing Sanity to Files Saved
-4. Example 3 - Tokenizing Values
-5. Example 4 - Setting Flags for respectRepeatFor & respectRunAODAFlag
-6. Overriding Parameters from the Command Line
-9. Example 5 - Use case for running AODA test on demand.
+1. [Parameter Description](/Documentation/Parameters.md#parameter-description)
+2. [Example 1 - The Bare Minumum:](/Documentation/Parameters.md#example-1---the-bare-minumum)
+3. [Example 2 - Introducing Sanity to Files Saved](/Documentation/Parameters.md#example-2---introducing-sanity-to-files-saved)
+4. [Example 3 - Tokenizing Values](/Documentation/Parameters.md#example-3---tokenizing-values)
+5. [Example 4 - Setting Flags for respectRepeatFor & respectRunAODAFlag](/Documentation/Parameters.md#example-4---setting-flags-for-respectrepeatfor--respectrunaodaflag)
+6. [Overriding Parameters from the Command Line](/Documentation/Parameters.md#overriding-parameters-from-the-command-line)
+9. [Example 5 - Use case for running AODA test on demand.](Documentation/Parameters.md#example-5---use-case-for-running-aoda-test-on-demand)
 
 ### Parameter Description
 Name | Mandatory \ Optional | Description
@@ -131,8 +131,8 @@ XML:
 ```
 
 Command Line:
-```PowerShell
-dotnet "{fileLocation}\SeleniumPerfXML.dll" --XMLFile "{XML File Location}" --respectRepeatFor false --respectRunAODAFlag true
+```console
+foo@bar:~$ dotnet "{fileLocation}\SeleniumPerfXML.dll" --XMLFile "{XML File Location}" --respectRepeatFor false --respectRunAODAFlag true
 ```
 
 Explanation:

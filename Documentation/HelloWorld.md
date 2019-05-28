@@ -29,7 +29,7 @@ Here, we will walkthrough a simple example of navigating to www.google.ca using 
 	</TestCases>
 	
 	<TestSteps>
-		<OpenBrowser id='Opening Browser' name='Hello World - Opening Browser'/>					 
+		<OpenBrowser id='Opening Browser' name='Hello World - Opening Browser'/>
 	</TestSteps>
 
 </TestSet>
@@ -38,13 +38,13 @@ Here, we will walkthrough a simple example of navigating to www.google.ca using 
 
 ## Running: 
 To run, you would call on the following:
-```PowerShell
-> dotnet {Selenium Perf XML Location}\SeleniumPerfXML.ddl --XMLFile "{XML File Location}"
+```console
+foo@bar:~$ dotnet {Selenium Perf XML Location}\SeleniumPerfXML.ddl --XMLFile "{XML File Location}"
 ```
 
 Example:
-```PowerShell
-> dotnet .\SeleniumPerfXML.ddl --XMLFile ".\HelloWorld.xml"
+```console
+foo@bar:~$ dotnet .\SeleniumPerfXML.ddl --XMLFile ".\HelloWorld.xml"
 ```
 
 
