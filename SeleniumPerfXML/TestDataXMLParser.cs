@@ -198,6 +198,10 @@ namespace SeleniumPerfXML
                     this.URL = ConfigurationManager.AppSettings[this.Environment].ToString();
                 }
             }
+            else if (this.Environment != string.Empty && this.URL == string.Empty)
+            {
+                this.URL = ConfigurationManager.AppSettings[this.Environment].ToString();
+            }
 
             if (this.Browser == string.Empty)
             {
