@@ -27,7 +27,7 @@ namespace SeleniumPerfXML
         /// </summary>
         private readonly string seleniumDriverLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        private AxeDriver axeDriver;
+        private AxeDriver axeDriver = null;
         private IWebDriver webDriver;
         private WebDriverWait wdWait;
 
@@ -498,7 +498,10 @@ namespace SeleniumPerfXML
 
                 this.wdWait = new WebDriverWait(this.webDriver, this.timeOutThreshold);
 
-                this.axeDriver = new AxeDriver();
+                if (this.axeDriver == null)
+                {
+                    this.axeDriver = new AxeDriver();
+                }
             }
             catch (Exception e)
             {
