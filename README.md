@@ -15,7 +15,7 @@ Dependencies:
  Name | Version 
 :---- | :-------
 .NetCore.App | 2.1
-Axe-Core JS | 3.2.2
+Axe-Core JS | 3.3.0
 
 ## SeleniumPerfXML
 SeleniumPerfXML is an automation framework that reads an XML file for instructions that will be performed on the browser.
