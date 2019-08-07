@@ -18,7 +18,9 @@ namespace SeleniumPerfXML.TestActions
         [TimeAndLogAspect]
         public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver, CSVLogger csvLogger)
         {
-            seleniumDriver.NavigateToURL();
+            // seleniumDriver.NavigateToURL();
+            string url = testActionInformation.Attributes["repeatFor"] == null ? string.Empty : testActionInformation.Attributes["url"].Value;
+            seleniumDriver.NavigateToURL(url);
         }
     }
 }

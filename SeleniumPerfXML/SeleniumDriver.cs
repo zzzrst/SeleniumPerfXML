@@ -279,7 +279,6 @@ namespace SeleniumPerfXML
             SelectElement ddl = new SelectElement(ddlElement);
             this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(ddlElement));
             ddl.SelectByText(value);
-            ddlElement.Click();
         }
 
         /// <summary>
