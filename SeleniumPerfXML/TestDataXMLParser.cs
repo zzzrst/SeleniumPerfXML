@@ -7,6 +7,7 @@ namespace SeleniumPerfXML
     using System;
     using System.Configuration;
     using System.IO;
+    using System.IO.Compression;
     using System.Xml;
     using SeleniumPerfXML.TestActions;
 
@@ -153,7 +154,17 @@ namespace SeleniumPerfXML
 
             if (this.RespectRunAODAFlag)
             {
-                this.SeleniumDriver.GenerateAODAResults(this.LogSaveFileLocation);
+                string tempFolder = $"{this.LogSaveFileLocation}\\temp\\";
+
+                // Generate AODA Results
+                this.SeleniumDriver.GenerateAODAResults(tempFolder);
+
+                // Zip all the contents up & Timestamp it
+                string zipFileName = $"AODA_Results_{DateTime.Now:MM_dd_yyyy_hh_mm_ss_tt}.zip";
+                ZipFile.CreateFromDirectory(tempFolder, $"{this.LogSaveFileLocation}\\{zipFileName}");
+
+                // Remove all remaining contents.
+                Directory.Delete(tempFolder, true);
             }
 
             DateTime end = DateTime.UtcNow;

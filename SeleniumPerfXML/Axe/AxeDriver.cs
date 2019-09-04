@@ -24,7 +24,7 @@ namespace SeleniumPerfXML.Axe
         /// <summary>
         /// Result Type -> { Rule ID -> {Page URL -> HTML, Target, Data, Related Nodes} }.
         /// </summary>
-        private Dictionary<string, Dictionary<string, Dictionary<string, List<RuleNodeInformation>>>> results;
+        private Dictionary<string, Dictionary<string, Dictionary<string, HashSet<RuleNodeInformation>>>> results;
 
         /// <summary>
         /// Page URL -> Provided Page Title, Browser Page Title.
@@ -46,7 +46,7 @@ namespace SeleniumPerfXML.Axe
         /// </summary>
         public AxeDriver()
         {
-            this.results = new Dictionary<string, Dictionary<string, Dictionary<string, List<RuleNodeInformation>>>>();
+            this.results = new Dictionary<string, Dictionary<string, Dictionary<string, HashSet<RuleNodeInformation>>>>();
             this.pageInfo = new Dictionary<string, PageInformation>();
             this.ruleInfo = new Dictionary<string, RuleInformation>();
             this.pageSummary = new List<string>()
@@ -108,13 +108,13 @@ namespace SeleniumPerfXML.Axe
             };
 
             // we are looping through each resultType
-            foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, List<RuleNodeInformation>>>> resultType in this.results)
+            foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, HashSet<RuleNodeInformation>>>> resultType in this.results)
             {
                 // we are now looping through each rule
-                foreach (KeyValuePair<string, Dictionary<string, List<RuleNodeInformation>>> ruleID in resultType.Value)
+                foreach (KeyValuePair<string, Dictionary<string, HashSet<RuleNodeInformation>>> ruleID in resultType.Value)
                 {
                     // we are now looping through each page
-                    foreach (KeyValuePair<string, List<RuleNodeInformation>> pageURL in ruleID.Value)
+                    foreach (KeyValuePair<string, HashSet<RuleNodeInformation>> pageURL in ruleID.Value)
                     {
                         string currentURL = pageURL.Key;
                         string currentProvidedPageTitle = this.pageInfo[pageURL.Key].ProvidedPageTitle;
@@ -159,11 +159,12 @@ namespace SeleniumPerfXML.Axe
                                 $"\"{pageURL.Value.Count.ToString()}\""));
 
                         // write it to file
-                        string fileName = $"{string.Join("_", this.ruleInfo[ruleID.Key].RuleTag)}_{ruleID.Key}_{resultType.Key}.json";
+                        string fileName = $"{ruleID.Key}_{string.Join("_", this.ruleInfo[ruleID.Key].RuleTag)}.json";
 
-                        Directory.CreateDirectory($"{folderLocation}\\Json");
+                        string directoryPath = $"{folderLocation}\\Json\\{resultType.Key}";
+                        Directory.CreateDirectory(directoryPath);
 
-                        using (StreamWriter file = File.CreateText($"{folderLocation}\\Json\\{fileName}"))
+                        using (StreamWriter file = File.CreateText($"{directoryPath}\\{fileName}"))
                         using (JsonTextWriter writer = new JsonTextWriter(file) { Formatting = Formatting.Indented })
                         {
                             ruleSummary.WriteTo(writer);
@@ -236,27 +237,27 @@ namespace SeleniumPerfXML.Axe
                             else
                             {
                                 // adding new rule-node information
-                                this.results[resultType][resultItem.Id][url] = new List<RuleNodeInformation>() { temp };
+                                this.results[resultType][resultItem.Id][url] = new HashSet<RuleNodeInformation>() { temp };
                             }
                         }
                         else
                         {
                             // result Type exists, but ruleID doesn't
-                            this.results[resultType][resultItem.Id] = new Dictionary<string, List<RuleNodeInformation>>()
+                            this.results[resultType][resultItem.Id] = new Dictionary<string, HashSet<RuleNodeInformation>>()
                             {
-                                { url, new List<RuleNodeInformation>() { temp } },
+                                { url, new HashSet<RuleNodeInformation>() { temp } },
                             };
                         }
                     }
                     else
                     {
                         // we have to input new record for result type -> ruleId -> page Url -> {Rule Node Information}
-                        this.results[resultType] = new Dictionary<string, Dictionary<string, List<RuleNodeInformation>>>()
+                        this.results[resultType] = new Dictionary<string, Dictionary<string, HashSet<RuleNodeInformation>>>()
                         {
                             {
-                                resultItem.Id, new Dictionary<string, List<RuleNodeInformation>>()
+                                resultItem.Id, new Dictionary<string, HashSet<RuleNodeInformation>>()
                                 {
-                                    { url, new List<RuleNodeInformation>() { temp } },
+                                    { url, new HashSet<RuleNodeInformation>() { temp } },
                                 }
                             },
                         };
