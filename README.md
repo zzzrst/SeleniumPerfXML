@@ -1,21 +1,19 @@
 # Welcome!
 
 ### This repository contains the source code for:
-- Selenium and [axe-core](https://github.com/dequelabs/axe-core) integration (Selenium.Axe)
 - Automated Tests written in XML to be executed by Selenium (SeleniumPerfXML)
 
 # Overview
 Please take a few minutes to review the overview below before diving into the code.
 
 ## Selenium.Axe
-Selenium.Axe is the integration of axe-core and Selenium. Axe-core provides the javascript which checks the webpage for accessbility issues against different standards. Selenium is used to interact with different browsers. In a nutshell, Selenium will insert and execute the javascript into each webpage and all of its iframes, collect the results of the test done on each page, and present them in a json format.
+Selenium.Axe is the integration of axe-core and Selenium. The github source for the nugget package can be found [here](https://github.com/TroyWalshProf/SeleniumAxeDotnet).
 
 Dependencies:
 
  Name | Version 
 :---- | :-------
 .NetCore.App | 2.1
-Axe-Core JS | 3.3.0
 
 ## SeleniumPerfXML
 SeleniumPerfXML is an automation framework that reads an XML file for instructions that will be performed on the browser.
