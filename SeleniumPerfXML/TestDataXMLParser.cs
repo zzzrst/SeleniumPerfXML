@@ -168,6 +168,7 @@ namespace SeleniumPerfXML
             }
 
             DateTime end = DateTime.UtcNow;
+            this.SeleniumDriver.Quit();
             this.CSVLogger.AddResults($"Total, {Math.Abs((start - end).TotalSeconds)}");
             this.CSVLogger.WriteOutResults();
         }

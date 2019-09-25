@@ -206,6 +206,22 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
+        /// Quits the webdriver. Call this when you want the driver to be closed.
+        /// </summary>
+        public void Quit()
+        {
+            try
+            {
+                this.webDriver.Close();
+                this.webDriver.Quit();
+                this.webDriver.Dispose();
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
         /// Generates the AODA results.
         /// </summary>
         /// <param name="folderLocation"> The folder to generate AODA results in. </param>
@@ -432,15 +448,7 @@ namespace SeleniumPerfXML
         {
             try
             {
-                try
-                {
-                    this.webDriver.Close();
-                    this.webDriver.Quit();
-                    this.webDriver.Dispose();
-                }
-                catch
-                {
-                }
+                this.Quit();
 
                 switch (this.browserType)
                 {
@@ -505,6 +513,7 @@ namespace SeleniumPerfXML
             catch (Exception e)
             {
                 Logger.Error($"While trying to instantiate Selenium drivers, we were met with the following: {e.ToString()}");
+                this.Quit();
             }
         }
 

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\GithubProjects\SeleniumPerfXML\SeleniumPerfXML.xml</DocumentationFile>
+    <DocumentationFile>C:\GitHubProjects\SeleniumPerfXML\SeleniumPerfXML\SeleniumPerfXML\SeleniumPerfXML.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

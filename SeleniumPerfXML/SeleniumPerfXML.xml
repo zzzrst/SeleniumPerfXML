@@ -333,6 +333,11 @@
             Closes the current window. It will quite the browser if it is the last window opened.
             </summary>
         </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.Quit">
+            <summary>
+            Quits the webdriver. Call this when you want the driver to be closed.
+            </summary>
+        </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.GenerateAODAResults(System.String)">
             <summary>
             Generates the AODA results.
