@@ -4,6 +4,7 @@
 
 namespace SeleniumPerfXML
 {
+    using System;
     using CommandLine;
 
     /// <summary>
@@ -84,6 +85,7 @@ namespace SeleniumPerfXML
                 Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");
             }
 
+            Environment.Exit(resultCode);
             return resultCode;
         }
     }

@@ -146,7 +146,7 @@ namespace SeleniumPerfXML
                 }
                 else if (innerFlow.Name == "If")
                 {
-                    resultCode +=  this.RunIfTestCase(innerFlow);
+                    resultCode += this.RunIfTestCase(innerFlow);
                 }
                 else
                 {
