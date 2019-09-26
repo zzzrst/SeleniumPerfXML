@@ -450,6 +450,8 @@ namespace SeleniumPerfXML
             {
                 this.Quit();
 
+                this.webDriver = null;
+
                 switch (this.browserType)
                 {
                     case Browser.Chrome:

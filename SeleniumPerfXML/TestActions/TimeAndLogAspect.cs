@@ -47,6 +47,7 @@ namespace SeleniumPerfXML.TestActions
             {
                 // this will exit the function. Therefore, we log N/A for the action.
                 args.FlowBehavior = FlowBehavior.Return;
+                args.ReturnValue = 0;
                 if (this.log)
                 {
                     this.csvLogger.AddResults($"\"{this.result}\",\"N/A\"");
@@ -66,6 +67,7 @@ namespace SeleniumPerfXML.TestActions
             this.seleniumDriver.TakeScreenShot();
 
             args.FlowBehavior = FlowBehavior.Return;
+            args.ReturnValue = 1;
         }
 
         /// <inheritdoc/>
@@ -85,6 +87,7 @@ namespace SeleniumPerfXML.TestActions
                 this.seleniumDriver.RunAODA(this.runAODAName);
             }
 
+            args.ReturnValue = 0;
             base.OnExit(args);
         }
 

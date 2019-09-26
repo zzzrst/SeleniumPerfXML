@@ -125,8 +125,10 @@ namespace SeleniumPerfXML
         /// <summary>
         /// This function parses the test case flow and starts executing.
         /// </summary>
-        public void RunTestCaseFlow()
+        /// <returns> 0 if pass. >=1 if error.</returns>
+        public int RunTestCaseFlow()
         {
+            int resultCode = 0;
             this.ParseParameters();
             this.ParseSpecialElements();
             this.InstantiateSeleniumDriver();
@@ -140,11 +142,11 @@ namespace SeleniumPerfXML
             {
                 if (innerFlow.Name == "RunTestCase")
                 {
-                    this.FindAndRunTestCase(this.ReplaceIfToken(innerFlow.InnerText));
+                    resultCode += this.FindAndRunTestCase(this.ReplaceIfToken(innerFlow.InnerText));
                 }
                 else if (innerFlow.Name == "If")
                 {
-                    this.RunIfTestCase(innerFlow);
+                    resultCode +=  this.RunIfTestCase(innerFlow);
                 }
                 else
                 {
@@ -171,6 +173,7 @@ namespace SeleniumPerfXML
             this.SeleniumDriver.Quit();
             this.CSVLogger.AddResults($"Total, {Math.Abs((start - end).TotalSeconds)}");
             this.CSVLogger.WriteOutResults();
+            return resultCode;
         }
 
         /// <summary>
@@ -355,8 +358,11 @@ namespace SeleniumPerfXML
         /// </summary>
         /// <param name="testCaseID">ID to find the testcase to run.</param>
         /// <param name="performAction"> Perfoms the action. </param>
-        private void FindAndRunTestCase(string testCaseID, bool performAction = true)
+        /// <returns> 0 if pass. >=1 if fail.</returns>
+        private int FindAndRunTestCase(string testCaseID, bool performAction = true)
         {
+            int resultCode = 0;
+
             // get the list of testcases
             XmlNode testCases = this.XMLDocObj.GetElementsByTagName("TestCases")[0];
 
@@ -376,14 +382,15 @@ namespace SeleniumPerfXML
                     {
                         this.TestStepNumber = 0;
                         this.TestCaseRepeatNumber = this.TestCaseRepeatNumber > 0 ? i + 1 : -1;
-                        this.RunTestCase(testcase, performAction);
+                        resultCode += this.RunTestCase(testcase, performAction);
                     }
 
-                    return;
+                    return resultCode;
                 }
             }
 
             Logger.Warn($"Sorry, we didn't find a test case that matched the provided ID: {testCaseID}");
+            return resultCode;
         }
 
         /// <summary>
@@ -391,29 +398,34 @@ namespace SeleniumPerfXML
         /// </summary>
         /// <param name="testCase"> Optional XmlNode to represent testCases. </param>
         /// <param name="performAction"> Performs the action. </param>
-        private void RunTestCase(XmlNode testCase, bool performAction = true)
+        /// <returns>0 if pass. >=1 if not pass.</returns>
+        private int RunTestCase(XmlNode testCase, bool performAction = true)
         {
+            int resultCode = 0;
+
             // Run Each Test Step Here
             foreach (XmlNode testStep in testCase)
             {
                 // the testStepFlow can be either RunTestStep or If
                 if (testStep.Name == "RunTestStep")
                 {
-                    this.FindAndRunTestStep(this.ReplaceIfToken(testStep.InnerText), performAction);
+                    resultCode += this.FindAndRunTestStep(this.ReplaceIfToken(testStep.InnerText), performAction);
                 }
                 else if (testStep.Name == "If")
                 {
-                    this.RunIfTestCase(testStep, performAction);
+                    resultCode += this.RunIfTestCase(testStep, performAction);
                 }
                 else if (testStep.Name == "RunTestCase")
                 {
-                    this.FindAndRunTestCase(this.ReplaceIfToken(testStep.InnerText), performAction);
+                    resultCode += this.FindAndRunTestCase(this.ReplaceIfToken(testStep.InnerText), performAction);
                 }
                 else
                 {
                     Logger.Warn($"We currently do not deal with this: {testStep.Name}");
                 }
             }
+
+            return resultCode;
         }
 
         /// <summary>
@@ -421,8 +433,10 @@ namespace SeleniumPerfXML
         /// </summary>
         /// <param name="ifXMLNode"> XML Node that has the if block. </param>
         /// <param name="performAction"> Perfoms the action. </param>
-        private void RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
+        /// <returns>0 if pass. >=1 if fail.</returns>
+        private int RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
         {
+            int resultCode = 0;
             bool ifCondition = false;
 
             // we check condition if we have to perfom this action.
@@ -442,7 +456,7 @@ namespace SeleniumPerfXML
                 if (ifSection.Name == "Then")
                 {
                     // we run this test case only if performAction is true, and the condition for the element has passed.
-                    this.RunTestCase(ifSection, performAction && ifCondition);
+                    resultCode += this.RunTestCase(ifSection, performAction && ifCondition);
                 }
                 else if (ifSection.Name == "ElseIf")
                 {
@@ -460,7 +474,7 @@ namespace SeleniumPerfXML
                         secondIfCondition = this.SeleniumDriver.CheckForElementState(elementXPath, state);
                     }
 
-                    this.RunTestCase(ifSection, performAction && !ifCondition && secondIfCondition);
+                    resultCode += this.RunTestCase(ifSection, performAction && !ifCondition && secondIfCondition);
 
                     // update ifCondition to reflect if elseIf was run
                     ifCondition = !ifCondition && secondIfCondition;
@@ -468,17 +482,19 @@ namespace SeleniumPerfXML
                 else if (ifSection.Name == "Else")
                 {
                     // at this point, we only run this action if performAction is true and the previous ifCondition was false.
-                    this.RunTestCase(ifSection, performAction && !ifCondition);
+                    resultCode += this.RunTestCase(ifSection, performAction && !ifCondition);
                 }
                 else if (ifSection.Name == "RunTestCase")
                 {
-                    this.FindAndRunTestCase(this.ReplaceIfToken(ifSection.InnerText), performAction);
+                    resultCode += this.FindAndRunTestCase(this.ReplaceIfToken(ifSection.InnerText), performAction);
                 }
                 else
                 {
                     Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
                 }
             }
+
+            return resultCode;
         }
 
         /// <summary>
@@ -486,8 +502,11 @@ namespace SeleniumPerfXML
         /// </summary>
         /// <param name="testStepID"> The ID of the test step to run. </param>
         /// <param name="performAction"> Perfoms the action. </param>
-        private void FindAndRunTestStep(string testStepID, bool performAction = true)
+        /// <returns>0 if pass. >=1 if fail.</returns>
+        private int FindAndRunTestStep(string testStepID, bool performAction = true)
         {
+            int resultCode = 0;
+
             // get the list of testSteps
             XmlNode testSteps = this.XMLDocObj.GetElementsByTagName("TestSteps")[0];
 
@@ -496,16 +515,18 @@ namespace SeleniumPerfXML
             {
                 if (testStep.Name != "#comment" && this.ReplaceIfToken(testStep.Attributes["id"].Value) == testStepID)
                 {
-                    this.RunTestStep(testStep, performAction);
-                    return;
+                    resultCode = this.RunTestStep(testStep, performAction);
+                    return resultCode;
                 }
             }
 
             Logger.Warn($"Sorry, we didn't find a test step that matched the provided ID: {testStepID}");
+            return resultCode;
         }
 
-        private void RunTestStep(XmlNode testStep, bool performAction = true)
+        private int RunTestStep(XmlNode testStep, bool performAction = true)
         {
+            int resultCode = 0;
             string name = this.ReplaceIfToken(testStep.Attributes["name"].Value);
 
             // initial value is respectRunAODAFlag
@@ -560,8 +581,10 @@ namespace SeleniumPerfXML
                     testStep.Attributes[index].InnerText = this.ReplaceIfToken(testStep.Attributes[index].InnerText);
                 }
 
-                action.Execute(log, $"{namePrepender}{name} ", performAction, runAODA, runAODAPageName, testStep, this.SeleniumDriver, this.CSVLogger);
+                resultCode = action.Execute(log, $"{namePrepender}{name} ", performAction, runAODA, runAODAPageName, testStep, this.SeleniumDriver, this.CSVLogger);
             }
+
+            return resultCode;
         }
 
         /// <summary>

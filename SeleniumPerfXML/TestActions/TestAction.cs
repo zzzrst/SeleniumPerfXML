@@ -28,7 +28,8 @@ namespace SeleniumPerfXML.TestActions
         /// <param name="testActionInformation"> Provides the XML information for this test action. </param>
         /// <param name="seleniumDriver"> Passes on the driver instance used to interact with the browser. </param>
         /// <param name="csvLogger"> Passes on the csv logger used to log results. </param>
-        public abstract void Execute(
+        /// <returns>0 if pass. 1 if fail.</returns>
+        public abstract int Execute(
             bool log,
             string name,
             bool performAction,

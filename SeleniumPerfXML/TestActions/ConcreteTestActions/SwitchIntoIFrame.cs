@@ -17,10 +17,12 @@ namespace SeleniumPerfXML.TestActions
 
         /// <inheritdoc/>
         [TimeAndLogAspect]
-        public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver, CSVLogger csvLogger)
+        public override int Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver, CSVLogger csvLogger)
         {
             string xPath = testActionInformation.Attributes["xPath"].Value;
             seleniumDriver.SwitchToIFrame(xPath);
+
+            return 0;
         }
     }
 }

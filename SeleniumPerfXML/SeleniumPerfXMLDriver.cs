@@ -79,8 +79,9 @@ namespace SeleniumPerfXML
                     XMLFile = xmlFile,
                 };
 
-                driver.RunTestCaseFlow();
-                Logger.Info("SeleniumPerfXML has finished...");
+                resultCode = driver.RunTestCaseFlow();
+                string resultString = resultCode == 0 ? "successfull" : "not successful";
+                Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");
             }
 
             return resultCode;

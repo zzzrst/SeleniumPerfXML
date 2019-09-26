@@ -16,7 +16,7 @@ namespace SeleniumPerfXML.TestActions
 
         /// <inheritdoc/>
         [TimeAndLogAspect]
-        public override void Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver, CSVLogger csvLogger)
+        public override int Execute(bool log, string name, bool performAction, bool runAODA, string runAODAPageName, XmlNode testActionInformation, SeleniumDriver seleniumDriver, CSVLogger csvLogger)
         {
             string usernameXPath = "//input[@id='username']";
             string username = testActionInformation.Attributes["username"].Value;
@@ -31,6 +31,8 @@ namespace SeleniumPerfXML.TestActions
             seleniumDriver.PopulateElement(passwordXPath, password);
             seleniumDriver.ClickElement(signInButtonXPath);
             seleniumDriver.WaitForLoadingSpinner();
+
+            return 0;
         }
     }
 }

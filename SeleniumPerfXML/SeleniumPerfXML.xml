@@ -686,6 +686,7 @@
             <param name="testActionInformation"> Provides the XML information for this test action. </param>
             <param name="seleniumDriver"> Passes on the driver instance used to interact with the browser. </param>
             <param name="csvLogger"> Passes on the csv logger used to log results. </param>
+            <returns>0 if pass. 1 if fail.</returns>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.TimeAndLogAspect">
             <summary>
@@ -787,6 +788,7 @@
             <summary>
             This function parses the test case flow and starts executing.
             </summary>
+            <returns> 0 if pass. >=1 if error.</returns>
         </member>
         <member name="M:SeleniumPerfXML.TestDataXMLParser.ParseParameters">
             <summary>
@@ -809,6 +811,7 @@
             </summary>
             <param name="testCaseID">ID to find the testcase to run.</param>
             <param name="performAction"> Perfoms the action. </param>
+            <returns> 0 if pass. >=1 if fail.</returns>
         </member>
         <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCase(System.Xml.XmlNode,System.Boolean)">
             <summary>
@@ -816,6 +819,7 @@
             </summary>
             <param name="testCase"> Optional XmlNode to represent testCases. </param>
             <param name="performAction"> Performs the action. </param>
+            <returns>0 if pass. >=1 if not pass.</returns>
         </member>
         <member name="M:SeleniumPerfXML.TestDataXMLParser.RunIfTestCase(System.Xml.XmlNode,System.Boolean)">
             <summary>
@@ -823,6 +827,7 @@
             </summary>
             <param name="ifXMLNode"> XML Node that has the if block. </param>
             <param name="performAction"> Perfoms the action. </param>
+            <returns>0 if pass. >=1 if fail.</returns>
         </member>
         <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestStep(System.String,System.Boolean)">
             <summary>
@@ -830,6 +835,7 @@
             </summary>
             <param name="testStepID"> The ID of the test step to run. </param>
             <param name="performAction"> Perfoms the action. </param>
+            <returns>0 if pass. >=1 if fail.</returns>
         </member>
         <member name="M:SeleniumPerfXML.TestDataXMLParser.ReplaceIfToken(System.String)">
             <summary>
