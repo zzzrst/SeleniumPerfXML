@@ -338,6 +338,11 @@
             Quits the webdriver. Call this when you want the driver to be closed.
             </summary>
         </member>
+        <member name="M:SeleniumPerfXML.SeleniumDriver.Maximize">
+            <summary>
+            Maximizes the browser.
+            </summary>
+        </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.GenerateAODAResults(System.String)">
             <summary>
             Generates the AODA results.
@@ -571,6 +576,17 @@
             <inheritdoc/>
         </member>
         <member name="M:SeleniumPerfXML.TestActions.DDLSelectByXPath.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.TestActions.MaximizeBrowser">
+            <summary>
+            This class executes the action of closing the current tab.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestActions.MaximizeBrowser.Description">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.TestActions.MaximizeBrowser.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.OpenBrowser">
