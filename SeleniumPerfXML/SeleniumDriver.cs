@@ -222,6 +222,14 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
+        /// Maximizes the browser.
+        /// </summary>
+        public void Maximize()
+        {
+            this.webDriver.Manage().Window.Maximize();
+        }
+
+        /// <summary>
         /// Generates the AODA results.
         /// </summary>
         /// <param name="folderLocation"> The folder to generate AODA results in. </param>
@@ -358,7 +366,7 @@ namespace SeleniumPerfXML
                     break;
 
                 case ElementState.Visible:
-                    this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.XPath(xPath)));
+                    this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(xPath)));
                     break;
 
                 case ElementState.Clickable:
