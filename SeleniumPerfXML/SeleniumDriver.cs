@@ -242,8 +242,9 @@ namespace SeleniumPerfXML
         /// Tells the browser to navigate to the provided url.
         /// </summary>
         /// <param name="url">URL for the browser to navigate to.</param>
+        /// <param name="instantiateNewDriver">Instantiates a new selenium driver.</param>
         /// <returns> <code>true</code> if the navigation was successful. </returns>
-        public bool NavigateToURL(string url = "")
+        public bool NavigateToURL(string url = "", bool instantiateNewDriver = true)
         {
             try
             {
@@ -252,7 +253,11 @@ namespace SeleniumPerfXML
                     url = this.url;
                 }
 
-                this.InstantiateSeleniumDriver();
+                if (instantiateNewDriver)
+                {
+                    this.InstantiateSeleniumDriver();
+                }
+
                 this.webDriver.Url = url;
                 return true;
             }

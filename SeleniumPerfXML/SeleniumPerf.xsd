@@ -72,6 +72,8 @@
 			<xs:element name="CloseBrowser" type="closeBrowserType"/>
 			<xs:element name="CloseTab" type="closeTabType" />
 			<xs:element name="DDLSelectByXPath" type="dDLSelectByXPathType" />
+      <xs:element name="MaximizeBrowser" type="maximizeBrowserType" />
+      <xs:element name="NavigateToURL" type="navigateToURLType"/>
 			<xs:element name="OpenBrowser" type="openBrowserType" />
 			<xs:element name="PopulateElementByXPath" type="populateElementByXPathType" />
 			<xs:element name="SignIn" type="signInType"/>
@@ -262,11 +264,29 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
-	<!-- OpenBrowserType-->
-	<xs:complexType name="openBrowserType">
+
+  <!-- MaximizeBrowser-->
+  <xs:complexType name="maximizeBrowserType">
+    <xs:complexContent>
+      <xs:extension base="baseTestStepType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- OpenBrowserType-->
+  <xs:complexType name="openBrowserType">
+    <xs:complexContent>
+      <xs:extension base="baseTestStepType">
+        <xs:attribute name="url" type="nonEmptyString" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- NavigateToURLType-->
+	<xs:complexType name="navigateToURLType">
 		<xs:complexContent>
 			<xs:extension base="baseTestStepType">
+        <xs:attribute name="url" type="nonEmptyString" use="required"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
