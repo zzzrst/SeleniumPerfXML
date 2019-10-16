@@ -6,6 +6,8 @@
 # Overview
 Please take a few minutes to review the overview below before diving into the code.
 
+We also are sponsered by: ![Browserstack-logo.svg](Browserstack-logo.svg)
+
 ## Selenium.Axe
 Selenium.Axe is the integration of axe-core and Selenium. The github source for the nugget package can be found [here](https://github.com/TroyWalshProf/SeleniumAxeDotnet).
 

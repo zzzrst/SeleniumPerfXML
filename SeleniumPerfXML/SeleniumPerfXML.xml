@@ -349,11 +349,12 @@
             </summary>
             <param name="folderLocation"> The folder to generate AODA results in. </param>
         </member>
-        <member name="M:SeleniumPerfXML.SeleniumDriver.NavigateToURL(System.String)">
+        <member name="M:SeleniumPerfXML.SeleniumDriver.NavigateToURL(System.String,System.Boolean)">
             <summary>
             Tells the browser to navigate to the provided url.
             </summary>
             <param name="url">URL for the browser to navigate to.</param>
+            <param name="instantiateNewDriver">Instantiates a new selenium driver.</param>
             <returns> <code>true</code> if the navigation was successful. </returns>
         </member>
         <member name="M:SeleniumPerfXML.SeleniumDriver.PopulateElement(System.String,System.String)">
@@ -587,6 +588,17 @@
             <inheritdoc/>
         </member>
         <member name="M:SeleniumPerfXML.TestActions.MaximizeBrowser.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.TestActions.NavigateToURL">
+            <summary>
+            This class executes the action of opening the browser to the specified site.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestActions.NavigateToURL.Description">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.TestActions.NavigateToURL.Execute(System.Boolean,System.String,System.Boolean,System.Boolean,System.String,System.Xml.XmlNode,SeleniumPerfXML.SeleniumDriver,SeleniumPerfXML.CSVLogger)">
             <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.TestActions.OpenBrowser">
