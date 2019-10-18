@@ -294,7 +294,14 @@ namespace SeleniumPerfXML
         /// <param name="providedPageTitle"> Title of the web page the user provides. </param>
         public void RunAODA(string providedPageTitle)
         {
-            this.axeDriver.CaptureResult(this.webDriver, providedPageTitle);
+            try
+            {
+                this.axeDriver.CaptureResult(this.webDriver, providedPageTitle);
+            }
+            catch (Exception e)
+            {
+                Logger.Error($"Axe Driver failed to capture results. Stack trace: {e}");
+            }
         }
 
         /// <summary>
