@@ -277,6 +277,8 @@ namespace SeleniumPerfXML
         {
             IWebElement element = this.GetElementByXPath(xPath);
             this.wdWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
+            element.Click();
+            element.Clear();
             element.SendKeys(value);
         }
 
