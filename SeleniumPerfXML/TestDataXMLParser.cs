@@ -157,7 +157,14 @@ namespace SeleniumPerfXML
             if (this.RespectRunAODAFlag)
             {
                 string tempFolder = $"{this.LogSaveFileLocation}\\temp\\";
+                
+                // Delete temp folder if exist and recreate
+                if (Directory.Exists(tempFolder))
+                {
+                    Directory.Delete(tempFolder, true);
+                }
 
+                Directory.CreateDirectory(tempFolder);
                 // Generate AODA Results
                 this.SeleniumDriver.GenerateAODAResults(tempFolder);
 
