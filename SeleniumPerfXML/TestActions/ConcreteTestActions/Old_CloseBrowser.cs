@@ -9,7 +9,7 @@ namespace SeleniumPerfXML.TestActions
     /// <summary>
     /// This class executes the action of closing the browser.
     /// </summary>
-    public class CloseBrowser : TestAction
+    public class Old_CloseBrowser : TestAction
     {
         /// <inheritdoc/>
         public override string Description { get; protected set; } = "CloseBrowser";
