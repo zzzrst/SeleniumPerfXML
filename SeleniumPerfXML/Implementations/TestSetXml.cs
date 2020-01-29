@@ -28,7 +28,7 @@
         /// <summary>
         /// List of testcases to run.
         /// </summary>
-        public List<TestCase> TestCases { get; set; }
+        public List<TestCaseXml> TestCases { get; set; }
 
         /// <inheritdoc/>
         public bool ExistNextTestCase()
