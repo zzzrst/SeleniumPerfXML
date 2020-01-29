@@ -42,6 +42,11 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         public SeleniumDriver Driver { get; set; }
 
+        /// <summary>
+        /// Gets or sets the ammount of times this should be ran.
+        /// </summary>
+        public int ShouldExecuteAmountOfTimes { get; set; } = 1;
+
         /// <inheritdoc/>
         public virtual void Execute()
         {
@@ -59,6 +64,10 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public virtual void SetUp()
         {
+            if (this.TestStepStatus == null)
+            {
+            }
+
             this.TestStepStatus.StartTime = DateTime.UtcNow;
         }
 

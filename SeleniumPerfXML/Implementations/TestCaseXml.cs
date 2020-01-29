@@ -46,6 +46,11 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         public List<TestStepXml> TestSteps { get; set; }
 
+        /// <summary>
+        /// Gets or sets the ammount of times this should be ran.
+        /// </summary>
+        public int ShouldExecuteAmountOfTimes { get; set; } = 1;
+
         /// <inheritdoc/>
         public bool ExistNextTestStep()
         {
