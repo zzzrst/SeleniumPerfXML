@@ -22,26 +22,5 @@ namespace SeleniumPerfXML.Implementations
             string url = this.TestStepInfo.Attributes["url"] == null ? string.Empty : this.TestStepInfo.Attributes["url"].Value;
             this.Driver.NavigateToURL(url);
         }
-
-        /// <inheritdoc/>
-        public override void HandleException(Exception e)
-        {
-        }
-
-        /// <inheritdoc/>
-        public override void SetUp()
-        {
-        }
-
-        /// <inheritdoc/>
-        public override bool ShouldExecute()
-        {
-            return base.ShouldExecute();
-        }
-
-        /// <inheritdoc/>
-        public override void TearDown()
-        {
-        }
     }
 }

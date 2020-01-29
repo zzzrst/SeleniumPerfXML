@@ -21,27 +21,5 @@ namespace SeleniumPerfXML.Implementations
         {
             this.Driver.CloseBrowser();
         }
-
-        /// <inheritdoc/>
-        public override void HandleException(Exception e)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public override void SetUp()
-        {
-        }
-
-        /// <inheritdoc/>
-        public override bool ShouldExecute()
-        {
-            return base.ShouldExecute();
-        }
-
-        /// <inheritdoc/>
-        public override void TearDown()
-        {
-        }
     }
 }
