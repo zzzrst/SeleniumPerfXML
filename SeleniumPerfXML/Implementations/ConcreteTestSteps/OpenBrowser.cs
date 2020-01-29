@@ -11,28 +11,10 @@ namespace SeleniumPerfXML.Implementations
     /// <summary>
     /// This class executes the action of opening the browser to the specified site.
     /// </summary>
-    public class CloseBrowser : TestStepXml
+    public class OpenBrowser : TestStepXml
     {
         /// <inheritdoc/>
         public override string Name { get; set; } = "OpenBrowser";
-
-        /// <inheritdoc/>
-        public override bool ShouldExecuteVariable { get; set; }
-
-        /// <inheritdoc/>
-        public override int TestStepNumber { get; set; }
-
-        /// <inheritdoc/>
-        public override ITestStepStatus TestStepStatus { get; set; }
-
-        /// <inheritdoc/>
-        public override IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
-
-        /// <inheritdoc/>
-        public override XmlNode TestStepInfo { get; set; }
-
-        /// <inheritdoc/>
-        public override SeleniumDriver Driver { get; set; }
 
         /// <inheritdoc/>
         public override void Execute()
@@ -44,25 +26,22 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void HandleException(Exception e)
         {
-            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
         public override void SetUp()
         {
-            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
         public override bool ShouldExecute()
         {
-            return this.ShouldExecuteVariable;
+            return base.ShouldExecute();
         }
 
         /// <inheritdoc/>
         public override void TearDown()
         {
-            throw new NotImplementedException();
         }
     }
 }

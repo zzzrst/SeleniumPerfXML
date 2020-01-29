@@ -11,34 +11,15 @@ namespace SeleniumPerfXML.Implementations
     /// <summary>
     /// This class executes the action of closing the browser.
     /// </summary>
-    public class OpenBrowser : TestStepXml
+    public class CloseBrowser : TestStepXml
     {
         /// <inheritdoc/>
-        public override string Name { get; set; } = "OpenBrowser";
-
-        /// <inheritdoc/>
-        public override bool ShouldExecuteVariable { get; set; }
-
-        /// <inheritdoc/>
-        public override int TestStepNumber { get; set; }
-
-        /// <inheritdoc/>
-        public override ITestStepStatus TestStepStatus { get; set; }
-
-        /// <inheritdoc/>
-        public override IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
-
-        /// <inheritdoc/>
-        public override XmlNode TestStepInfo { get; set; }
-
-        /// <inheritdoc/>
-        public override SeleniumDriver Driver { get; set; }
+        public override string Name { get; set; } = "CloseBrowser";
 
         /// <inheritdoc/>
         public override void Execute()
         {
-            string url = this.TestStepInfo.Attributes["url"] == null ? string.Empty : this.TestStepInfo.Attributes["url"].Value;
-            this.Driver.NavigateToURL(url);
+            this.Driver.CloseBrowser();
         }
 
         /// <inheritdoc/>
@@ -50,19 +31,17 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void SetUp()
         {
-            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
         public override bool ShouldExecute()
         {
-            return ShouldExecuteVariable;
+            return base.ShouldExecute();
         }
 
         /// <inheritdoc/>
         public override void TearDown()
         {
-            throw new NotImplementedException();
         }
     }
 }
