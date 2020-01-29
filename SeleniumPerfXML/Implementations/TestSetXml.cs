@@ -65,7 +65,13 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public void SetUp()
         {
-            throw new NotImplementedException();
+            if (this.TestSetStatus == null)
+            {
+                this.TestSetStatus = new TestSetStatus()
+                {
+                    StartTime = DateTime.UtcNow,
+                };
+            }
         }
 
         /// <inheritdoc/>

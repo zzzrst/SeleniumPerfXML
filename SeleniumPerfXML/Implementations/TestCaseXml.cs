@@ -33,7 +33,7 @@ namespace SeleniumPerfXML.Implementations
         }
 
         /// <inheritdoc/>
-        public ITestCaseStatus TestCaseStatus { get; }
+        public ITestCaseStatus TestCaseStatus { get; set; }
 
         /// <inheritdoc/>
         public int CurrTestStepNumber { get; set; }
@@ -75,7 +75,13 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public void SetUp()
         {
-            this.TestCaseStatus.StartTime = DateTime.UtcNow;
+            if (this.TestCaseStatus == null)
+            {
+                this.TestCaseStatus = new TestCaseStatus()
+                {
+                    StartTime = DateTime.UtcNow,
+                };
+            }
         }
 
         /// <inheritdoc/>
