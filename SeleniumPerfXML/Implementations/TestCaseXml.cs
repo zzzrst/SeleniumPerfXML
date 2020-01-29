@@ -10,6 +10,11 @@
     /// </summary>
     public class TestCaseXml : ITestCase
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether you should execute this step or skip it.
+        /// </summary>
+        public bool ShouldExecuteVariable { get; set; } = true;
+
         /// <inheritdoc/>
         public string Name { get; set; }
 
@@ -53,25 +58,27 @@
         /// <inheritdoc/>
         public void HandleException(Exception e)
         {
-            throw new NotImplementedException();
+            this.TestCaseStatus.ErrorStack = e.StackTrace;
+            this.TestCaseStatus.FriendlyErrorMessage = e.Message;
+            this.TestCaseStatus.RunSuccessful = false;
         }
 
         /// <inheritdoc/>
         public void SetUp()
         {
-            throw new NotImplementedException();
+            this.TestCaseStatus.StartTime = DateTime.UtcNow;
         }
 
         /// <inheritdoc/>
         public bool ShouldExecute()
         {
-            throw new NotImplementedException();
+            return this.ShouldExecuteVariable;
         }
 
         /// <inheritdoc/>
         public void TearDown()
         {
-            throw new NotImplementedException();
+            this.TestCaseStatus.EndTime = DateTime.UtcNow;
         }
 
         /// <inheritdoc/>
