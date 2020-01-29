@@ -9,7 +9,7 @@ namespace SeleniumPerfXML.TestActions
     /// <summary>
     /// This class executes the action of opening the browser to the specified site.
     /// </summary>
-    public class OpenBrowser : TestAction
+    public class Old_OpenBrowser : TestAction
     {
         /// <inheritdoc/>
         public override string Description { get; protected set; } = "OpenBrowser";
