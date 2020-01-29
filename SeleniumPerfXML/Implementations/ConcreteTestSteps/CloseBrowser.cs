@@ -4,10 +4,6 @@
 
 namespace SeleniumPerfXML.Implementations
 {
-    using System;
-    using System.Xml;
-    using AutomationTestSetFramework;
-
     /// <summary>
     /// This class executes the action of closing the browser.
     /// </summary>
