@@ -66,9 +66,11 @@ namespace SeleniumPerfXML.Implementations
         {
             if (this.TestStepStatus == null)
             {
+                this.TestStepStatus = new TestStepStatus()
+                {
+                    StartTime = DateTime.UtcNow,
+                };
             }
-
-            this.TestStepStatus.StartTime = DateTime.UtcNow;
         }
 
         /// <inheritdoc/>
