@@ -1,4 +1,4 @@
-﻿// <copyright file="OpenBrowser.cs" company="PlaceholderCompany">
+﻿// <copyright file="CloseBrowser.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
