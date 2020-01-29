@@ -10,6 +10,11 @@
     /// </summary>
     public class TestSetXml : ITestSet
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether you should execute this step or skip it.
+        /// </summary>
+        public bool ShouldExecuteVariable { get; set; } = true;
+
         /// <inheritdoc/>
         public string Name { get; set; }
 
@@ -62,7 +67,7 @@
         /// <inheritdoc/>
         public bool ShouldExecute()
         {
-            throw new NotImplementedException();
+            return this.ShouldExecuteVariable;
         }
 
         /// <inheritdoc/>
