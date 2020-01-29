@@ -1,4 +1,4 @@
-﻿namespace SeleniumPerfXML.TestSteps
+﻿namespace SeleniumPerfXML.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -14,7 +14,11 @@
         public string Name { get; set; }
 
         /// <inheritdoc/>
-        public int TotalTestCases { get; set; }
+        public int TotalTestCases
+        {
+            get => this.TestCases.Count;
+            set => this.TotalTestCases = this.TestCases.Count;
+        }
 
         /// <inheritdoc/>
         public ITestSetStatus TestSetStatus { get; set; }
@@ -26,20 +30,21 @@
         public IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
 
         /// <summary>
-        /// List of testcases to run.
+        /// Gets or sets list of testcases to run.
         /// </summary>
         public List<TestCaseXml> TestCases { get; set; }
 
         /// <inheritdoc/>
         public bool ExistNextTestCase()
         {
-            throw new NotImplementedException();
+            return this.CurrTestCaseNumber + 1 < this.TotalTestCases;
         }
 
         /// <inheritdoc/>
         public ITestCase GetNextTestCase()
         {
-            throw new NotImplementedException();
+            this.CurrTestCaseNumber += 1;
+            return this.TestCases[this.CurrTestCaseNumber];
         }
 
         /// <inheritdoc/>
