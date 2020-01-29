@@ -55,7 +55,7 @@
         /// <inheritdoc/>
         public virtual void SetUp()
         {
-            // Override.
+            this.TestStepStatus.StartTime = DateTime.UtcNow;
         }
 
         /// <inheritdoc/>
@@ -67,7 +67,7 @@
         /// <inheritdoc/>
         public virtual void TearDown()
         {
-            // Override.
+            this.TestStepStatus.EndTime = DateTime.UtcNow;
         }
     }
 }
