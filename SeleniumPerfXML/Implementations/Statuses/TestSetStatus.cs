@@ -1,11 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutomationTestSetFramework;
-
-namespace SeleniumPerfXML.Implementations
+﻿namespace SeleniumPerfXML.Implementations
 {
-    class TestSetStatus : ITestSetStatus
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using AutomationTestSetFramework;
+
+    /// <summary>
+    /// An Implementation of the testSetStatus class.
+    /// </summary>
+    public class TestSetStatus : ITestSetStatus
     {
+        /// <inheritdoc/>
+        public bool RunSuccessful { get; set; }
+
+        /// <inheritdoc/>
+        public string ErrorStack { get; set; }
+
+        /// <inheritdoc/>
+        public string FriendlyErrorMessage { get; set; }
+
+        /// <inheritdoc/>
+        public DateTime StartTime { get; set; }
+
+        /// <inheritdoc/>
+        public DateTime EndTime { get; set; }
+
+        /// <inheritdoc/>
+        public string Description { get; set; }
+
+        /// <inheritdoc/>
+        public string Expected { get; set; }
+
+        /// <inheritdoc/>
+        public string Actual { get; set; }
     }
 }
