@@ -1,4 +1,4 @@
-﻿// <copyright file="CloseTab.cs" company="PlaceholderCompany">
+﻿// <copyright file="MaximizeBrowser.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

@@ -1,4 +1,8 @@
-﻿namespace SeleniumPerfXML.Implementations
+﻿// <copyright file="TestCaseXml.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace SeleniumPerfXML.Implementations
 {
     using System;
     using System.Collections.Generic;
