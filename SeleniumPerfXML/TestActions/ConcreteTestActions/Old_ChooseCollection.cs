@@ -9,7 +9,7 @@ namespace SeleniumPerfXML.TestActions
     /// <summary>
     /// This class executes the action of getting to an organization.
     /// </summary>
-    public class ChooseCollection : TestAction
+    public class Old_ChooseCollection : TestAction
     {
         /// <inheritdoc/>
         public override string Description { get; protected set; } = "ChooseCollection";

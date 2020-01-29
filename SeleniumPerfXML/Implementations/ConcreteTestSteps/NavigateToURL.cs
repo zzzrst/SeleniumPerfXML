@@ -1,0 +1,25 @@
+﻿// <copyright file="NavigateToURL.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace SeleniumPerfXML.Implementations
+{
+    using System.Xml;
+
+    /// <summary>
+    /// This class executes the action of opening the browser to the specified site.
+    /// </summary>
+    public class NavigateToURL : TestStepXml
+    {
+        /// <inheritdoc/>
+        public override string Name { get; set; } = "NavigateToURL";
+
+        /// <inheritdoc/>
+        public override void Execute()
+        {
+            // seleniumDriver.NavigateToURL();
+            string url = this.TestStepInfo.Attributes["url"].Value;
+            this.Driver.NavigateToURL(url, false);
+        }
+    }
+}
