@@ -9,48 +9,65 @@
     /// <summary>
     /// An Implementation of the ITestStep class.
     /// </summary>
-    public abstract class TestStepXml : ITestStep
+    public class TestStepXml : ITestStep
     {
         /// <inheritdoc/>
-        public abstract string Name { get; set; }
+        public virtual string Name { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether you should execute this step or skip it.
         /// </summary>
-        public abstract bool ShouldExecute { get; set; }
+        public bool ShouldExecuteVariable { get; set; } = true;
 
         /// <inheritdoc/>
-        public abstract int TestStepNumber { get; set; }
+        public int TestStepNumber { get; set; }
 
         /// <inheritdoc/>
-        public abstract ITestStepStatus TestStepStatus { get; set; }
+        public ITestStepStatus TestStepStatus { get; set; }
 
         /// <inheritdoc/>
-        public abstract IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
+        public IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
 
         /// <summary>
         /// Gets or sets the information for the test step.
         /// </summary>
-        public abstract XmlNode TestStepInfo { get; set; }
+        public XmlNode TestStepInfo { get; set; }
 
         /// <summary>
         /// Gets or sets the seleniumDriver to use.
         /// </summary>
-        public abstract SeleniumDriver Driver { get; set; }
+        public SeleniumDriver Driver { get; set; }
 
         /// <inheritdoc/>
-        public abstract void Execute();
+        public virtual void Execute()
+        {
+            // Override.
+        }
 
         /// <inheritdoc/>
-        public abstract void HandleException(Exception e);
+        public virtual void HandleException(Exception e)
+        {
+            this.TestStepStatus.ErrorStack = e.StackTrace;
+            this.TestStepStatus.FriendlyErrorMessage = e.Message;
+            this.TestStepStatus.RunSuccessful = false;
+        }
 
         /// <inheritdoc/>
-        public abstract void SetUp();
+        public virtual void SetUp()
+        {
+            // Override.
+        }
 
         /// <inheritdoc/>
-        public abstract bool ShouldExecute();
+        public virtual bool ShouldExecute()
+        {
+            return this.ShouldExecuteVariable;
+        }
 
         /// <inheritdoc/>
-        public abstract void TearDown();
+        public virtual void TearDown()
+        {
+            // Override.
+        }
     }
 }
