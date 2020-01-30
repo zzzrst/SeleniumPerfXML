@@ -47,19 +47,36 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         public int ShouldExecuteAmountOfTimes { get; set; } = 1;
 
+        /// <summary>
+        /// Gets or sets the number of times this has been executed.
+        /// </summary>
+        public int ExecuteCount { get; set; } = 0;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to run AODA.
+        /// </summary>
+        public bool RunAODA { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the AODA page name.
+        /// </summary>
+        public string RunAODAPageName { get; set; } = string.Empty;
+
         /// <inheritdoc/>
         public virtual void Execute()
         {
-            this.ShouldExecuteAmountOfTimes -= 1;
+            this.ExecuteCount += 1;
         }
 
         /// <inheritdoc/>
         public virtual void HandleException(Exception e)
         {
-            this.ShouldExecuteAmountOfTimes -= 1;
+            this.ExecuteCount += 1;
             this.TestStepStatus.ErrorStack = e.StackTrace;
             this.TestStepStatus.FriendlyErrorMessage = e.Message;
             this.TestStepStatus.RunSuccessful = false;
+
+            this.Driver.TakeScreenShot();
         }
 
         /// <inheritdoc/>
@@ -70,6 +87,7 @@ namespace SeleniumPerfXML.Implementations
                 this.TestStepStatus = new TestStepStatus()
                 {
                     StartTime = DateTime.UtcNow,
+                    TestStepNumber = this.TestStepNumber,
                 };
             }
         }
@@ -77,7 +95,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public virtual bool ShouldExecute()
         {
-            return this.ShouldExecuteVariable && this.ShouldExecuteAmountOfTimes > 0;
+            return this.ShouldExecuteVariable && this.ShouldExecuteAmountOfTimes > this.ExecuteCount;
         }
 
         /// <inheritdoc/>
