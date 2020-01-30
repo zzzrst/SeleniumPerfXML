@@ -1,4 +1,4 @@
-﻿// <copyright file="Old_ChooseCollection.cs" company="PlaceholderCompany">
+﻿// <copyright file="ChooseCollection.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace SeleniumPerfXML.TestActions
     /// <summary>
     /// This class executes the action of getting to an organization.
     /// </summary>
-    public class Old_ChooseCollection : TestAction
+    public class ChooseCollection : TestAction
     {
         /// <inheritdoc/>
         public override string Description { get; protected set; } = "ChooseCollection";

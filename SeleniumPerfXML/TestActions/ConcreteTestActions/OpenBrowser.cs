@@ -1,4 +1,4 @@
-﻿// <copyright file="Old_OpenBrowser.cs" company="PlaceholderCompany">
+﻿// <copyright file="OpenBrowser.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace SeleniumPerfXML.TestActions
     /// <summary>
     /// This class executes the action of opening the browser to the specified site.
     /// </summary>
-    public class Old_OpenBrowser : TestAction
+    public class OpenBrowser : TestAction
     {
         /// <inheritdoc/>
         public override string Description { get; protected set; } = "OpenBrowser";

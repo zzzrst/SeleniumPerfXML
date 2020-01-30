@@ -1,4 +1,4 @@
-﻿// <copyright file="Old_ClickElementByXPath.cs" company="PlaceholderCompany">
+﻿// <copyright file="ClickElementByXPath.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace SeleniumPerfXML.TestActions
     /// <summary>
     /// This class executes the action of clicking an element by xpath.
     /// </summary>
-    public class Old_ClickElementByXPath : TestAction
+    public class ClickElementByXPath : TestAction
     {
         /// <inheritdoc/>
         public override string Description { get; protected set; } = "ClickElementByXPath";
