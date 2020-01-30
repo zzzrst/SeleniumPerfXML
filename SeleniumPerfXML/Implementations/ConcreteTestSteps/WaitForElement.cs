@@ -17,6 +17,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
+            base.Execute();
             string xPath = this.TestStepInfo.Attributes["xPath"].Value;
             bool invisible = bool.Parse(this.TestStepInfo.Attributes["invisible"].Value);
 

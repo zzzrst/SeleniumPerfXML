@@ -19,6 +19,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
+            base.Execute();
             int seconds = int.Parse(this.TestStepInfo.Attributes["seconds"].Value);
             Thread.Sleep(seconds);
         }

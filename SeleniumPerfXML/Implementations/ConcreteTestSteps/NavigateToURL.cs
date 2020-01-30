@@ -17,7 +17,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
-            // seleniumDriver.NavigateToURL();
+            base.Execute();
             string url = this.TestStepInfo.Attributes["url"].Value;
             this.Driver.NavigateToURL(url, false);
         }

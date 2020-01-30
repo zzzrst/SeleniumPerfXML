@@ -50,12 +50,13 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public virtual void Execute()
         {
-            // Override.
+            this.ShouldExecuteAmountOfTimes -= 1;
         }
 
         /// <inheritdoc/>
         public virtual void HandleException(Exception e)
         {
+            this.ShouldExecuteAmountOfTimes -= 1;
             this.TestStepStatus.ErrorStack = e.StackTrace;
             this.TestStepStatus.FriendlyErrorMessage = e.Message;
             this.TestStepStatus.RunSuccessful = false;
@@ -76,7 +77,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public virtual bool ShouldExecute()
         {
-            return this.ShouldExecuteVariable;
+            return this.ShouldExecuteVariable && this.ShouldExecuteAmountOfTimes > 0;
         }
 
         /// <inheritdoc/>

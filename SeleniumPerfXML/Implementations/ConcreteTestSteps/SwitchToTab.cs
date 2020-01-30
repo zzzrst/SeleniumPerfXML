@@ -18,6 +18,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
+            base.Execute();
             int tabIndex = Convert.ToInt32(this.TestStepInfo.Attributes["tabIndex"].Value);
             this.Driver.SwitchToTab(tabIndex);
         }

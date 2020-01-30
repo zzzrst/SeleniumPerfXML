@@ -18,6 +18,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
+            base.Execute();
             this.Driver.Maximize();
         }
     }
