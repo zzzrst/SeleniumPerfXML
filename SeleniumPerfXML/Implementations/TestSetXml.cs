@@ -59,7 +59,10 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public void HandleException(Exception e)
         {
-            throw new NotImplementedException();
+            this.CurrTestCaseNumber += 1;
+            this.TestSetStatus.ErrorStack = e.StackTrace;
+            this.TestSetStatus.FriendlyErrorMessage = e.Message;
+            this.TestSetStatus.RunSuccessful = false;
         }
 
         /// <inheritdoc/>
@@ -83,7 +86,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public void TearDown()
         {
-            throw new NotImplementedException();
+            this.TestSetStatus.EndTime = DateTime.UtcNow;
         }
 
         /// <inheritdoc/>
