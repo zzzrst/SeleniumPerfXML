@@ -62,7 +62,6 @@ namespace SeleniumPerfXML.Axe
         /// <param name="providedPageTitle"> Title of the page. </param>
         public void CaptureResult(IWebDriver driver, string providedPageTitle)
         {
-
             driver.Manage().Window.FullScreen();
             AxeResult results = driver.Analyze();
 
