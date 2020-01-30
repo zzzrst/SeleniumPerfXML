@@ -17,6 +17,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
+            base.Execute();
             string usernameXPath = "//input[@id='username']";
             string username = this.TestStepInfo.Attributes["username"].Value;
 

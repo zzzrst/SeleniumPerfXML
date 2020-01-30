@@ -17,6 +17,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
+            base.Execute();
             string xPath = this.TestStepInfo.Attributes["xPath"].Value;
             string text = this.TestStepInfo.Attributes["text"].Value;
             this.Driver.PopulateElement(xPath, text);

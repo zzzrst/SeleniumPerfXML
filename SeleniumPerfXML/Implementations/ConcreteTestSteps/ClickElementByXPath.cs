@@ -15,6 +15,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
+            base.Execute();
             string xPath = this.TestStepInfo.Attributes["xPath"].Value;
             bool useJS = false;
             if (this.TestStepInfo.Attributes["useJS"] != null)

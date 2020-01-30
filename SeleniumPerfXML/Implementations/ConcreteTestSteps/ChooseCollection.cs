@@ -15,6 +15,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public override void Execute()
         {
+            base.Execute();
             string collectionSearchField = this.TestStepInfo.Attributes["collectionSearchField"].Value;
             string collectionName = this.TestStepInfo.Attributes["collectionName"].Value;
 
