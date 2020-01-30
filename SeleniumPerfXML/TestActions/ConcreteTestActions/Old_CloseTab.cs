@@ -1,4 +1,4 @@
-﻿// <copyright file="CloseTab.cs" company="PlaceholderCompany">
+﻿// <copyright file="Old_CloseTab.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -10,7 +10,7 @@ namespace SeleniumPerfXML.TestActions
     /// <summary>
     /// This class executes the action of closing the current tab.
     /// </summary>
-    public class CloseTab : TestAction
+    public class Old_CloseTab : TestAction
     {
         /// <inheritdoc/>
         public override string Description { get; protected set; } = "CloseTab";
