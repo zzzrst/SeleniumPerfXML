@@ -60,13 +60,22 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public ITestStep GetNextTestStep()
         {
+            ITestStep teststep = this.TestSteps[this.CurrTestStepNumber];
             this.CurrTestStepNumber += 1;
-            return this.TestSteps[this.CurrTestStepNumber];
+
+            if (this.CurrTestStepNumber == this.TestSteps.Count && this.ShouldExecuteAmountOfTimes > 1)
+            {
+                this.CurrTestStepNumber = 0;
+                this.ShouldExecuteAmountOfTimes -= 1;
+            }
+
+            return teststep;
         }
 
         /// <inheritdoc/>
         public void HandleException(Exception e)
         {
+            this.ShouldExecuteAmountOfTimes -= 1;
             this.TestCaseStatus.ErrorStack = e.StackTrace;
             this.TestCaseStatus.FriendlyErrorMessage = e.Message;
             this.TestCaseStatus.RunSuccessful = false;
@@ -87,7 +96,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ShouldExecute()
         {
-            return this.ShouldExecuteVariable;
+            return this.ShouldExecuteVariable && this.ShouldExecuteAmountOfTimes > 0;
         }
 
         /// <inheritdoc/>
