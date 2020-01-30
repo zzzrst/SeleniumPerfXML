@@ -89,6 +89,7 @@ namespace SeleniumPerfXML.Implementations
                 this.TestCaseStatus = new TestCaseStatus()
                 {
                     StartTime = DateTime.UtcNow,
+                    TestCaseNumber = this.TestCaseNumber,
                 };
             }
         }
