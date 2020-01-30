@@ -20,7 +20,7 @@ namespace SeleniumPerfXML.Implementations
         public bool ShouldExecuteVariable { get; set; } = true;
 
         /// <inheritdoc/>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <inheritdoc/>
         public int TotalTestCases
@@ -33,7 +33,7 @@ namespace SeleniumPerfXML.Implementations
         public ITestSetStatus TestSetStatus { get; set; }
 
         /// <inheritdoc/>
-        public int CurrTestCaseNumber { get; set; }
+        public int CurrTestCaseNumber { get; set; } = 0;
 
         /// <inheritdoc/>
         public IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
