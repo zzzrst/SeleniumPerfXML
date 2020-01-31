@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SeleniumPerfXML.TestActions
+namespace SeleniumPerfXML.Implementations
 {
     using System;
     using System.Collections.Generic;
