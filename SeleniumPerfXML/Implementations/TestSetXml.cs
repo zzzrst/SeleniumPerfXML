@@ -49,6 +49,16 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         public XmlNode TestSetInfo { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reporter.
+        /// </summary>
+        public IReporter Reporter { get; set; }
+
+        /// <summary>
+        /// Gets or sets the test step logger.
+        /// </summary>
+        public ITestSetLogger Logger { get; set; }
+
         /// <inheritdoc/>
         public bool ExistNextTestCase()
         {

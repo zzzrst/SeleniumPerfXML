@@ -52,6 +52,16 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         public string RunAODAPageName { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the reporter.
+        /// </summary>
+        public IReporter Reporter { get; set; }
+
+        /// <summary>
+        /// Gets or sets the test step logger.
+        /// </summary>
+        public ITestStepLogger Logger { get; set; }
+
         /// <inheritdoc/>
         public virtual void Execute()
         {
