@@ -11,12 +11,6 @@ We also are sponsered by: ![Browserstack-logo.svg](Browserstack-logo.svg)
 ## Selenium.Axe
 Selenium.Axe is the integration of axe-core and Selenium. The github source for the nugget package can be found [here](https://github.com/TroyWalshProf/SeleniumAxeDotnet).
 
-Dependencies:
-
- Name | Version 
-:---- | :-------
-.NetCore.App | 2.1
-
 ## SeleniumPerfXML
 SeleniumPerfXML is an automation framework that reads an XML file for instructions that will be performed on the browser.
 
