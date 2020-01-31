@@ -7,6 +7,7 @@ namespace SeleniumPerfXML.Implementations
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Xml;
     using AutomationTestSetFramework;
 
     /// <summary>
@@ -42,6 +43,11 @@ namespace SeleniumPerfXML.Implementations
         /// Gets or sets list of testcases to run.
         /// </summary>
         public List<TestCaseXml> TestCases { get; set; }
+
+        /// <summary>
+        /// Gets or sets the information for the test set.
+        /// </summary>
+        public XmlNode TestSetInfo { get; set; }
 
         /// <inheritdoc/>
         public bool ExistNextTestCase()
