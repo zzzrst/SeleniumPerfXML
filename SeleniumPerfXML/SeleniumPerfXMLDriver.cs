@@ -5,7 +5,9 @@
 namespace SeleniumPerfXML
 {
     using System;
+    using AutomationTestSetFramework;
     using CommandLine;
+    using SeleniumPerfXML.Implementations;
 
     /// <summary>
     /// Driver class.
@@ -64,7 +66,9 @@ namespace SeleniumPerfXML
 
             if (!errorParsing)
             {
-                TestDataXMLParser driver = new TestDataXMLParser(xmlFile)
+                TestSetXml testStep;
+
+                TestSetBuilder builder = new TestSetBuilder(xmlFile)
                 {
                     Browser = browser,
                     Environment = environment,
@@ -79,8 +83,9 @@ namespace SeleniumPerfXML
                     ScreenshotSaveLocation = screenshotSaveLocation,
                     XMLFile = xmlFile,
                 };
+                testStep = builder.BuildTestSet();
+                AutomationTestSetDriver.RunTestSet(testStep);
 
-                resultCode = driver.RunTestCaseFlow();
                 string resultString = resultCode == 0 ? "successfull" : "not successful";
                 Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");
             }
