@@ -7,6 +7,7 @@ namespace SeleniumPerfXML.Implementations
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Xml;
     using AutomationTestSetFramework;
 
     /// <summary>
@@ -50,6 +51,11 @@ namespace SeleniumPerfXML.Implementations
         /// Gets or sets the ammount of times this should be ran.
         /// </summary>
         public int ShouldExecuteAmountOfTimes { get; set; } = 1;
+
+        /// <summary>
+        /// Gets or sets the information for the test case.
+        /// </summary>
+        public XmlNode TestCaseInfo { get; set; }
 
         /// <inheritdoc/>
         public bool ExistNextTestStep()
