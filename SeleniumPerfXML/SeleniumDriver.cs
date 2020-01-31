@@ -20,9 +20,8 @@ namespace SeleniumPerfXML
     /// <summary>
     /// Driver class for Selenium WebDriver.
     /// </summary>
-    public sealed class SeleniumDriver
+    public class SeleniumDriver
     {
-
         /// <summary>
         /// Location of the Selenium drivers on the current machine.
         /// </summary>
@@ -41,8 +40,21 @@ namespace SeleniumPerfXML
         private TimeSpan timeOutThreshold;
         private TimeSpan actualTimeOut;
 
-        private SeleniumDriver()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SeleniumDriver"/> class.
+        /// </summary>
+        /// <param name="browserType">The browser to use for this driver. </param>
+        /// <param name="timeOutThreshold"> The timeout threshold in seconds.</param>
+        /// <param name="environment"> The environment set. </param>
+        /// <param name="url"> The url set. </param>
+        /// <param name="screenshotSaveLocation"> Location to save screenshots when it fails.</param>
+        public SeleniumDriver(Browser browserType, TimeSpan timeOutThreshold, string environment, string url, string screenshotSaveLocation)
         {
+            this.browserType = browserType;
+            this.timeOutThreshold = timeOutThreshold;
+            this.environment = environment;
+            this.url = url;
+            this.screenshotSaveLocation = screenshotSaveLocation;
             this.actualTimeOut = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["ActualTimeOut"]));
         }
 
@@ -104,11 +116,6 @@ namespace SeleniumPerfXML
         public string CurrentURL => this.webDriver.Url;
 
         /// <summary>
-        /// Gets singleton instance of the SeleniumDriver.
-        /// </summary>
-        public static SeleniumDriver SeleniumDriverInstance { get { return Nested.Instance; } }
-
-        /// <summary>
         /// Gets or sets the loadiong spinner that appears on the website.
         /// </summary>
         public string LoadingSpinner { get; set; } = string.Empty;
@@ -126,35 +133,6 @@ namespace SeleniumPerfXML
         private string IFrameXPath { get; set; } = string.Empty;
 
         private int CurrentWindow { get; set; } = -1;
-
-        /// <summary>
-        /// Sets the variables for the selenium driver.
-        /// </summary>
-        /// <param name="browserType">The browser to use for this driver. </param>
-        /// <param name="timeOutThreshold"> The timeout threshold in seconds.</param>
-        /// <param name="environment"> The environment set. </param>
-        /// <param name="url"> The url set. </param>
-        /// <param name="screenshotSaveLocation"> Location to save screenshots when it fails.</param>
-        public static void SetDriver(Browser browserType, TimeSpan timeOutThreshold, string environment, string url, string screenshotSaveLocation)
-        {
-            driver.browserType = browserType;
-            driver.timeOutThreshold = timeOutThreshold;
-            driver.environment = environment;
-            driver.url = url;
-            driver.screenshotSaveLocation = screenshotSaveLocation;
-        }
-
-        /// <summary>
-        /// Singleton method initializer.
-        /// </summary>
-        private class Nested
-        {
-            internal static readonly SeleniumDriver Instance = new SeleniumDriver();
-
-            static Nested()
-            {
-            }
-        }
 
         /// <summary>
         /// Checks for an element state.
