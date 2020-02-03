@@ -35,6 +35,7 @@ namespace SeleniumPerfXML
             string dataFile = string.Empty;
             string csvSaveFileLocation = string.Empty;
             string logSaveFileLocation = string.Empty;
+            string reportSaveFileLocation = string.Empty;
             string screenshotSaveLocation = string.Empty;
             string xmlFile = string.Empty;
 
@@ -51,6 +52,7 @@ namespace SeleniumPerfXML
                    dataFile = o.DataFile ?? string.Empty;
                    csvSaveFileLocation = o.CSVSaveFileLocation ?? string.Empty;
                    logSaveFileLocation = o.LogSaveLocation ?? string.Empty;
+                   reportSaveFileLocation = o.ReportSaveLocation ?? string.Empty;
                    screenshotSaveLocation = o.ScreenShotSaveLocation ?? string.Empty;
                    xmlFile = o.XMLFile;
                })
@@ -81,12 +83,15 @@ namespace SeleniumPerfXML
                     CsvSaveFileLocation = csvSaveFileLocation,
                     LogSaveFileLocation = logSaveFileLocation,
                     ScreenshotSaveLocation = screenshotSaveLocation,
+                    ReportSaveFileLocation = reportSaveFileLocation,
                     XMLFile = xmlFile,
                 };
+
                 testStep = builder.BuildTestSet();
                 AutomationTestSetDriver.RunTestSet(testStep);
+                testStep.Reporter.Report();
 
-                string resultString = resultCode == 0 ? "successfull" : "not successful";
+                string resultString = testStep.TestSetStatus.RunSuccessful ? "successfull" : "not successful";
                 Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");
             }
 

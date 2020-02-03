@@ -35,6 +35,11 @@ namespace SeleniumPerfXML
         public static bool RespectRepeatFor { get; set; } = false;
 
         /// <summary>
+        /// Gets or sets the log save file location.
+        /// </summary>
+        public static string LogSaveFileLocation { get; set; } = string.Empty;
+
+        /// <summary>
         /// Replaces a string if it is a token and shown.
         /// </summary>
         /// <param name="possibleToken">A string that may be a token.</param>

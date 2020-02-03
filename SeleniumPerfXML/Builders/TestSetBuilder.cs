@@ -89,6 +89,11 @@ namespace SeleniumPerfXML
         public string LogSaveFileLocation { get; set; } = string.Empty;
 
         /// <summary>
+        /// Gets or sets the report save file location.
+        /// </summary>
+        public string ReportSaveFileLocation { get; set; } = string.Empty;
+
+        /// <summary>
         /// Gets or sets the screenshot save location.
         /// </summary>
         public string ScreenshotSaveLocation { get; set; } = string.Empty;
@@ -133,10 +138,9 @@ namespace SeleniumPerfXML
             this.InstantiateSeleniumDriver();
             this.InitilizeXMLInfo();
 
-            Reporter reporter = new Reporter() { };
-            TestSetLogger logger = new TestSetLogger()
+            Reporter reporter = new Reporter()
             {
-                SaveFileLocation = this.LogSaveFileLocation,
+                SaveFileLocation = this.ReportSaveFileLocation,
             };
 
             XmlNode testCaseFlow = this.XMLDocObj.GetElementsByTagName("TestCaseFlow")[0];
@@ -145,7 +149,6 @@ namespace SeleniumPerfXML
             {
                 TestCaseFlow = testCaseFlow,
                 Reporter = reporter,
-                TestLogger = logger,
                 Driver = this.SeleniumDriver,
             };
 
@@ -158,6 +161,7 @@ namespace SeleniumPerfXML
             XMLInformation.XMLDocObj = this.XMLDocObj;
             XMLInformation.RespectRepeatFor = this.RespectRepeatFor;
             XMLInformation.RespectRunAODAFlag = this.RespectRunAODAFlag;
+            XMLInformation.LogSaveFileLocation = this.LogSaveFileLocation;
         }
 
         /// <summary>
