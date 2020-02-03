@@ -65,6 +65,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public virtual void Execute()
         {
+            this.ShouldExecuteVariable = false;
         }
 
         /// <inheritdoc/>
