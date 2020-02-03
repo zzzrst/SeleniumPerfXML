@@ -9,6 +9,7 @@ namespace SeleniumPerfXML.Implementations
     using System.Text;
     using System.Xml;
     using AutomationTestSetFramework;
+    using SeleniumPerfXML.TestActions;
 
     /// <summary>
     /// Implementation of the testCase class.
@@ -29,8 +30,8 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public int TotalTestSteps
         {
-            get => this.TestSteps.Count;
-            set => this.TotalTestSteps = this.TestSteps.Count;
+            get => this.TestCaseInfo.ChildNodes.Count;
+            set => this.TotalTestSteps = this.TestCaseInfo.ChildNodes.Count;
         }
 
         /// <inheritdoc/>
@@ -46,6 +47,11 @@ namespace SeleniumPerfXML.Implementations
         /// Gets or sets the ammount of times this should be ran.
         /// </summary>
         public int ShouldExecuteAmountOfTimes { get; set; } = 1;
+
+        /// <summary>
+        /// Gets or sets the ammount of times the test case has ran.
+        /// </summary>
+        public int ExecuteCount { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the information for the test case.
@@ -75,22 +81,26 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ExistNextTestStep()
         {
-            return this.CurrTestStepNumber + 1 < this.TotalTestSteps;
+            return this.CurrTestStepNumber + 1 < this.TotalTestSteps || this.ShouldExecuteAmountOfTimes > this.ExecuteCount;
         }
 
         /// <inheritdoc/>
         public ITestStep GetNextTestStep()
         {
-            ITestStep teststep = this.TestSteps[this.CurrTestStepNumber];
+            ITestStep testStep = null;
             this.CurrTestStepNumber += 1;
+            XmlNode currNode = this.TestCaseInfo.ChildNodes[this.CurrTestStepNumber];
 
-            if (this.CurrTestStepNumber == this.TestSteps.Count && this.ShouldExecuteAmountOfTimes > 1)
+            // reached end of loop, check if should loop again.
+            if (this.CurrTestStepNumber == this.TotalTestSteps && this.ShouldExecuteAmountOfTimes >= this.ExecuteCount)
             {
                 this.CurrTestStepNumber = 0;
-                this.ShouldExecuteAmountOfTimes -= 1;
+                this.ExecuteCount += 1;
             }
 
-            return teststep;
+            testStep = this.FindTestStep(XMLInformation.ReplaceIfToken(currNode.InnerText), this.ShouldExecuteVariable);
+
+            return testStep;
         }
 
         /// <inheritdoc/>
@@ -118,7 +128,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ShouldExecute()
         {
-            return this.ShouldExecuteVariable && this.ShouldExecuteAmountOfTimes > 0;
+            return this.ShouldExecuteAmountOfTimes >= this.ExecuteCount;
         }
 
         /// <inheritdoc/>
@@ -131,6 +141,99 @@ namespace SeleniumPerfXML.Implementations
         public void UpdateTestCaseStatus(ITestStepStatus testStepStatus)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// This function will go through the list of steps and run the appropriate test step if found.
+        /// </summary>
+        /// <param name="testStepID"> The ID of the test step to run. </param>
+        /// <param name="performAction"> Perfoms the action. </param>
+        /// <returns>0 if pass. >=1 if fail.</returns>
+        private ITestStep FindTestStep(string testStepID, bool performAction = true)
+        {
+            ITestStep testStep = null;
+
+            // get the list of testSteps
+            XmlNode testSteps = XMLInformation.XMLDocObj.GetElementsByTagName("TestSteps")[0];
+
+            // Find the appropriate test steps
+            foreach (XmlNode innerNode in testSteps.ChildNodes)
+            {
+                if (innerNode.Name != "#comment" && XMLInformation.ReplaceIfToken(innerNode.Attributes["id"].Value) == testStepID)
+                {
+                    testStep = this.BuildTestStep(innerNode, performAction);
+                    return testStep;
+                }
+            }
+
+            //Logger.Warn($"Sorry, we didn't find a test step that matched the provided ID: {testStepID}");
+            return testStep;
+        }
+
+        private ITestStep BuildTestStep(XmlNode testStepNode, bool performAction = true)
+        {
+            TestStepXml testStep = null;
+            string name = XMLInformation.ReplaceIfToken(testStepNode.Attributes["name"].Value);
+
+            // initial value is respectRunAODAFlag
+            // if we respect the flag, and it is not found, then default value is false.
+            bool runAODA = XMLInformation.RespectRunAODAFlag;
+            if (runAODA)
+            {
+                if (testStepNode.Attributes["runAODA"] != null)
+                {
+                    runAODA = bool.Parse(testStepNode.Attributes["runAODA"].Value);
+                }
+                else
+                {
+                    runAODA = false;
+                }
+            }
+
+            // populate runAODAPageName. Deault is Not provided.
+            string runAODAPageName = "Not provided.";
+            if (runAODA)
+            {
+                if (testStepNode.Attributes["runAODAPageName"] != null)
+                {
+                    runAODAPageName = XMLInformation.ReplaceIfToken(testStepNode.Attributes["runAODAPageName"].Value);
+                }
+            }
+
+            // log is true by default.
+            bool log = true;
+            if (testStepNode.Attributes["log"] != null)
+            {
+                log = bool.Parse(testStepNode.Attributes["log"].Value);
+            }
+
+            //Logger.Debug($"Test step '{name}': runAODA->{runAODA} runAODAPageName->{runAODAPageName} log->{log}");
+
+            testStep = ReflectiveGetter.GetEnumerableOfType<TestStepXml>()
+                .Find(x => x.Name.Equals(testStepNode.Name));
+
+            if (testStep == null)
+            {
+                //Logger.Error($"Was not able to find the provided test action '{testStepNode}'.");
+            }
+            else
+            {
+                string namePrepender = this.ExecuteCount > 0 ? $"{this.ExecuteCount }.{this.CurrTestStepNumber} " : $"";
+
+                for (int index = 0; index < testStepNode.Attributes.Count; index++)
+                {
+                    testStepNode.Attributes[index].InnerText = XMLInformation.ReplaceIfToken(testStepNode.Attributes[index].InnerText);
+                }
+
+                testStep.TestStepInfo = testStepNode;
+                testStep.ShouldExecuteVariable = performAction;
+                testStep.RunAODA = runAODA;
+                testStep.RunAODAPageName = runAODAPageName;
+                testStep.Driver = this.Driver;
+                testStep.Reporter = this.Reporter;
+            }
+
+            return testStep;
         }
     }
 }
