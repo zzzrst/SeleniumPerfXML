@@ -17,22 +17,22 @@ namespace SeleniumPerfXML
         /// <summary>
         /// Gets or sets the xml file containing the XML Data.
         /// </summary>
-        public static XmlDocument XMLDataFile { get; set; }
+        public static XmlDocument XMLDataFile = null;
 
         /// <summary>
         /// Gets or sets the xml file containing the test set/case/steps.
         /// </summary>
-        public static XmlDocument XMLDocObj { get; set; }
+        public static XmlDocument XMLDocObj = null;
 
         /// <summary>
         /// Gets or sets a value indicating whether to respectRunAODAFlag or not.
         /// </summary>
-        public static bool RespectRunAODAFlag { get; set; } = false;
+        public static bool RespectRunAODAFlag = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether to respectRepeatFor or not.
         /// </summary>
-        public static bool RespectRepeatFor { get; set; } = false;
+        public static bool RespectRepeatFor = false;
 
         /// <summary>
         /// Replaces a string if it is a token and shown.
