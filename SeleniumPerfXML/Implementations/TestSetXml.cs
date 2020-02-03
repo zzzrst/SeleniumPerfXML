@@ -53,17 +53,12 @@ namespace SeleniumPerfXML.Implementations
         /// <summary>
         /// Gets or sets the test step logger.
         /// </summary>
-        public ITestSetLogger Logger { get; set; }
+        public ITestSetLogger TestLogger { get; set; }
 
         /// <summary>
         /// Gets or sets the seleniumDriver to use.
         /// </summary>
         public SeleniumDriver Driver { get; set; }
-
-        /// <summary>
-        /// Gets or sets list of testcases to run.
-        /// </summary>
-        private TestCaseXml CurrTestCase { get; set; }
 
         /// <inheritdoc/>
         public bool ExistNextTestCase()
@@ -86,9 +81,10 @@ namespace SeleniumPerfXML.Implementations
             }
             else
             {
-                ///Logger.Warn($"We currently do not deal with this: {testStep.Name}");
+                Logger.Warn($"We currently do not deal with this: {currentNode.Name}");
             }
-            //testCase = this.InnerFlow(currentNode, true);
+
+            testCase = this.InnerFlow(currentNode, true);
             this.CurrTestCaseNumber += 1;
             return testCase;
         }
@@ -129,7 +125,10 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public void UpdateTestSetStatus(ITestCaseStatus testCaseStatus)
         {
-            throw new NotImplementedException();
+            if (testCaseStatus.RunSuccessful == false)
+            {
+                this.TestSetStatus.RunSuccessful = false;
+            }
         }
 
         /// <summary>
@@ -170,7 +169,7 @@ namespace SeleniumPerfXML.Implementations
                 }
             }
 
-            //Logger.Warn($"Sorry, we didn't find a test case that matched the provided ID: {testCaseID}");
+            Logger.Warn($"Sorry, we didn't find a test case that matched the provided ID: {testCaseID}");
             return testCase;
         }
 
@@ -236,7 +235,7 @@ namespace SeleniumPerfXML.Implementations
                 }
                 else
                 {
-                    //Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
+                    Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
                 }
             }
 
@@ -266,7 +265,7 @@ namespace SeleniumPerfXML.Implementations
                 }
                 else
                 {
-                    ///Logger.Warn($"We currently do not deal with this: {testStep.Name}");
+                    Logger.Warn($"We currently do not deal with this: {testCase.Name}");
                 }
             }
 

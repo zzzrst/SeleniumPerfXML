@@ -60,7 +60,7 @@ namespace SeleniumPerfXML.Implementations
         /// <summary>
         /// Gets or sets the test step logger.
         /// </summary>
-        public ITestStepLogger Logger { get; set; }
+        public ITestStepLogger TestLogger { get; set; }
 
         /// <inheritdoc/>
         public virtual void Execute()

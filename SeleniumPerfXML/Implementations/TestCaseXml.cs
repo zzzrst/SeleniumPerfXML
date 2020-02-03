@@ -66,17 +66,12 @@ namespace SeleniumPerfXML.Implementations
         /// <summary>
         /// Gets or sets the test step logger.
         /// </summary>
-        public ITestCaseLogger Logger { get; set; }
+        public ITestCaseLogger TestLogger { get; set; }
 
         /// <summary>
         /// Gets or sets the seleniumDriver to use.
         /// </summary>
         public SeleniumDriver Driver { get; set; }
-
-        /// <summary>
-        /// Gets or sets the teststeps to run.
-        /// </summary>
-        private TestStepXml CurrTestStep { get; set; }
 
         /// <inheritdoc/>
         public bool ExistNextTestStep()
@@ -151,7 +146,10 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public void UpdateTestCaseStatus(ITestStepStatus testStepStatus)
         {
-            throw new NotImplementedException();
+            if (testStepStatus.RunSuccessful == false)
+            {
+                this.TestCaseStatus.RunSuccessful = false;
+            }
         }
 
         /// <summary>
