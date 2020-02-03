@@ -9,6 +9,7 @@ namespace SeleniumPerfXML.Implementations
     using System.Text;
     using System.Xml;
     using AutomationTestSetFramework;
+    using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
     using SeleniumPerfXML.TestActions;
 
     /// <summary>
@@ -22,7 +23,7 @@ namespace SeleniumPerfXML.Implementations
         public bool ShouldExecuteVariable { get; set; } = true;
 
         /// <inheritdoc/>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <inheritdoc/>
         public int TestCaseNumber { get; set; }
@@ -62,11 +63,6 @@ namespace SeleniumPerfXML.Implementations
         /// Gets or sets the reporter.
         /// </summary>
         public IReporter Reporter { get; set; }
-
-        /// <summary>
-        /// Gets or sets the test step logger.
-        /// </summary>
-        public ITestCaseLogger TestLogger { get; set; }
 
         /// <summary>
         /// Gets or sets the seleniumDriver to use.
@@ -141,6 +137,9 @@ namespace SeleniumPerfXML.Implementations
         public void TearDown()
         {
             this.TestCaseStatus.EndTime = DateTime.UtcNow;
+
+            ITestCaseLogger log = new TestCaseLogger();
+            log.Log(this);
         }
 
         /// <inheritdoc/>
@@ -149,7 +148,10 @@ namespace SeleniumPerfXML.Implementations
             if (testStepStatus.RunSuccessful == false)
             {
                 this.TestCaseStatus.RunSuccessful = false;
+                this.TestCaseStatus.FriendlyErrorMessage = "Something went wrong with a test step";
             }
+
+            this.Reporter.AddTestStepStatusToTestCase(testStepStatus, this.TestCaseStatus);
         }
 
         /// <summary>
@@ -335,6 +337,7 @@ namespace SeleniumPerfXML.Implementations
                 testStep.RunAODAPageName = runAODAPageName;
                 testStep.Driver = this.Driver;
                 testStep.Reporter = this.Reporter;
+                testStep.TestStepNumber = this.CurrTestStepNumber;
             }
 
             return testStep;

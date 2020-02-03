@@ -51,11 +51,6 @@ namespace SeleniumPerfXML.Implementations
         public IReporter Reporter { get; set; }
 
         /// <summary>
-        /// Gets or sets the test step logger.
-        /// </summary>
-        public ITestSetLogger TestLogger { get; set; }
-
-        /// <summary>
         /// Gets or sets the seleniumDriver to use.
         /// </summary>
         public SeleniumDriver Driver { get; set; }
@@ -84,7 +79,6 @@ namespace SeleniumPerfXML.Implementations
                 Logger.Warn($"We currently do not deal with this: {currentNode.Name}");
             }
 
-            testCase = this.InnerFlow(currentNode, true);
             this.CurrTestCaseNumber += 1;
             return testCase;
         }
@@ -120,6 +114,11 @@ namespace SeleniumPerfXML.Implementations
         public void TearDown()
         {
             this.TestSetStatus.EndTime = DateTime.UtcNow;
+
+            this.Reporter.AddTestSetStatus(this.TestSetStatus);
+
+            ITestSetLogger log = new TestSetLogger();
+            log.Log(this);
         }
 
         /// <inheritdoc/>
@@ -129,6 +128,8 @@ namespace SeleniumPerfXML.Implementations
             {
                 this.TestSetStatus.RunSuccessful = false;
             }
+
+            this.Reporter.AddTestCaseStatus(testCaseStatus);
         }
 
         /// <summary>
@@ -164,6 +165,7 @@ namespace SeleniumPerfXML.Implementations
                         ShouldExecuteVariable = performAction,
                         Reporter = this.Reporter,
                         Driver = this.Driver,
+                        TestCaseNumber = this.CurrTestCaseNumber,
                     };
                     return testCase;
                 }
@@ -265,7 +267,7 @@ namespace SeleniumPerfXML.Implementations
                 }
                 else
                 {
-                    Logger.Warn($"We currently do not deal with this: {testCase.Name}");
+                    Logger.Warn($"We currently do not deal with this: {node.Name}");
                 }
             }
 

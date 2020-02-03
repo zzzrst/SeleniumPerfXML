@@ -9,6 +9,7 @@ namespace SeleniumPerfXML.Implementations
     using System.Text;
     using System.Xml;
     using AutomationTestSetFramework;
+    using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
 
     /// <summary>
     /// An Implementation of the ITestStep class.
@@ -105,6 +106,9 @@ namespace SeleniumPerfXML.Implementations
             {
                 this.Driver.RunAODA(this.RunAODAPageName);
             }
+
+            ITestStepLogger log = new TestStepLogger();
+            log.Log(this);
         }
     }
 }
