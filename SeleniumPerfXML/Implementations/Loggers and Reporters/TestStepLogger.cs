@@ -6,6 +6,9 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Text;
     using AutomationTestSetFramework;
 
@@ -14,22 +17,44 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
     /// </summary>
     public class TestStepLogger : ITestStepLogger
     {
+        /// <summary>
+        /// Gets or sets the location to save the log to.
+        /// </summary>
+        public string SaveFileLocation { get; set; } = XMLInformation.LogSaveFileLocation;
+
         /// <inheritdoc/>
         public void Log(ITestStep testStep)
         {
+            this.SaveFileLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Log.txt";
             ITestStepStatus testStepStatus = testStep.TestStepStatus;
-            string str;
-            str = testStep.Name;
-            str = testStep.TestStepNumber.ToString();
-            str = testStep.OnExceptionFlowBehavior.ToString();
-            str = testStepStatus.RunSuccessful.ToString();
-            str = testStepStatus.ErrorStack;
-            str = testStepStatus.FriendlyErrorMessage;
-            str = testStepStatus.StartTime.ToString();
-            str = testStepStatus.EndTime.ToString();
-            str = testStepStatus.Description;
-            str = testStepStatus.Expected;
-            str = testStepStatus.Actual;
+            List<string> str = new List<string>();
+            str.Add(this.Tab(2) + "Name:" + testStep.Name);
+            str.Add(this.Tab(2) + "TestStepNumber:" + testStep.TestStepNumber.ToString());
+            str.Add(this.Tab(2) + "OnExceptionFlowBehavior:" + testStep.OnExceptionFlowBehavior.ToString());
+            str.Add(this.Tab(2) + "ShouldExecute:" + testStep.ShouldExecute().ToString());
+            str.Add(this.Tab(2) + "RunSuccessful:" + testStepStatus.RunSuccessful.ToString());
+            str.Add(this.Tab(2) + "ErrorStack:" + testStepStatus.ErrorStack);
+            str.Add(this.Tab(2) + "FriendlyErrorMessage:" + testStepStatus.FriendlyErrorMessage);
+            str.Add(this.Tab(2) + "StartTime:" + testStepStatus.StartTime.ToString());
+            str.Add(this.Tab(2) + "EndTime:" + testStepStatus.EndTime.ToString());
+            str.Add(this.Tab(2) + "Description:" + testStepStatus.Description);
+            str.Add(this.Tab(2) + "Expected:" + testStepStatus.Expected);
+            str.Add(this.Tab(2) + "Actual:" + testStepStatus.Actual);
+            str.Add(this.Tab(2) + "----------------------------");
+
+            using (System.IO.StreamWriter file =
+            new System.IO.StreamWriter(@$"{this.SaveFileLocation}", true))
+            {
+                foreach (string line in str)
+                {
+                    file.WriteLine(line);
+                }
+            }
+        }
+
+        private string Tab(int indents = 1)
+        {
+            return string.Concat(Enumerable.Repeat("    ", indents));
         }
     }
 }

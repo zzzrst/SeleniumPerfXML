@@ -6,6 +6,9 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Text;
     using AutomationTestSetFramework;
 
@@ -17,26 +20,34 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         /// <summary>
         /// Gets or sets the location to save the log to.
         /// </summary>
-        public string SaveFileLocation { get; set; }
+        public string SaveFileLocation { get; set; } = XMLInformation.LogSaveFileLocation;
 
         /// <inheritdoc/>
         public void Log(ITestSet testSet)
         {
+            this.SaveFileLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Log.txt";
             ITestSetStatus testSetStatus = testSet.TestSetStatus;
-            string str;
-            str = testSet.Name;
-            str = testSet.CurrTestCaseNumber.ToString();
-            str = testSet.TotalTestCases.ToString();
-            str = testSet.CurrTestCaseNumber.ToString();
-            str = testSet.OnExceptionFlowBehavior.ToString();
-            str = testSetStatus.RunSuccessful.ToString();
-            str = testSetStatus.ErrorStack;
-            str = testSetStatus.FriendlyErrorMessage;
-            str = testSetStatus.StartTime.ToString();
-            str = testSetStatus.EndTime.ToString();
-            str = testSetStatus.Description;
-            str = testSetStatus.Expected;
-            str = testSetStatus.Actual;
+            List<string> str = new List<string>();
+            str.Add("Name:" + testSet.Name);
+            str.Add("OnExceptionFlowBehavior:" + testSet.OnExceptionFlowBehavior.ToString());
+            str.Add("TotalTestCases:" + testSet.TotalTestCases.ToString());
+            str.Add("RunSuccessful:" + testSetStatus.RunSuccessful.ToString());
+            str.Add("ErrorStack:" + testSetStatus.ErrorStack);
+            str.Add("FriendlyErrorMessage:" + testSetStatus.FriendlyErrorMessage);
+            str.Add("StartTime:" + testSetStatus.StartTime.ToString());
+            str.Add("EndTime:" + testSetStatus.EndTime.ToString());
+            str.Add("Description:" + testSetStatus.Description);
+            str.Add("Expected:" + testSetStatus.Expected);
+            str.Add("Actual:" + testSetStatus.Actual);
+
+            using (System.IO.StreamWriter file =
+                new System.IO.StreamWriter(@$"{this.SaveFileLocation}", true))
+            {
+                foreach (string line in str)
+                {
+                    file.WriteLine(line);
+                }
+            }
         }
     }
 }
