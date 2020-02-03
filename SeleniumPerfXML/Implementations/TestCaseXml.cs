@@ -81,32 +81,43 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ExistNextTestStep()
         {
-            return this.CurrTestStepNumber + 1 < this.TotalTestSteps || this.ShouldExecuteAmountOfTimes > this.ExecuteCount;
+            return this.CurrTestStepNumber < this.TotalTestSteps || this.ShouldExecuteAmountOfTimes > this.ExecuteCount;
         }
 
         /// <inheritdoc/>
         public ITestStep GetNextTestStep()
         {
             ITestStep testStep = null;
-            this.CurrTestStepNumber += 1;
             XmlNode currNode = this.TestCaseInfo.ChildNodes[this.CurrTestStepNumber];
-
             // reached end of loop, check if should loop again.
-            if (this.CurrTestStepNumber == this.TotalTestSteps && this.ShouldExecuteAmountOfTimes >= this.ExecuteCount)
+            if (this.CurrTestStepNumber == this.TotalTestSteps && this.ShouldExecuteAmountOfTimes > this.ExecuteCount)
             {
                 this.CurrTestStepNumber = 0;
                 this.ExecuteCount += 1;
             }
 
-            testStep = this.FindTestStep(XMLInformation.ReplaceIfToken(currNode.InnerText), this.ShouldExecuteVariable);
+            //testStep = this.InnerFlow(currNode, this.ShouldExecuteVariable);
+            if (currNode.Name == "If")
+            {
+                testStep = this.RunIfTestCase(currNode);
+            }
+            else if (currNode.Name == "RunTestStep")
+            {
+                testStep = this.FindTestStep(XMLInformation.ReplaceIfToken(currNode.InnerText));
+            }
+            else
+            {
+                ///Logger.Warn($"We currently do not deal with this: {testStep.Name}");
+            }
 
+            this.CurrTestStepNumber += 1;
             return testStep;
         }
 
         /// <inheritdoc/>
         public void HandleException(Exception e)
         {
-            this.ShouldExecuteAmountOfTimes -= 1;
+            this.ExecuteCount -= 1;
             this.TestCaseStatus.ErrorStack = e.StackTrace;
             this.TestCaseStatus.FriendlyErrorMessage = e.Message;
             this.TestCaseStatus.RunSuccessful = false;
@@ -128,7 +139,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ShouldExecute()
         {
-            return this.ShouldExecuteAmountOfTimes >= this.ExecuteCount;
+            return this.ExecuteCount < this.ShouldExecuteAmountOfTimes && this.CurrTestStepNumber < this.TotalTestSteps;
         }
 
         /// <inheritdoc/>
@@ -144,14 +155,109 @@ namespace SeleniumPerfXML.Implementations
         }
 
         /// <summary>
+        /// This function parses the if test case flow and starts executing.
+        /// </summary>
+        /// <param name="ifXMLNode"> XML Node that has the if block. </param>
+        /// <param name="performAction"> Perfoms the action. </param>
+        /// <returns>0 if pass. >=1 if fail.</returns>
+        private TestStepXml RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
+        {
+            TestStepXml testStep = null;
+            bool ifCondition = false;
+
+            // we check condition if we have to perfom this action.
+            if (performAction)
+            {
+                string elementXPath = XMLInformation.ReplaceIfToken(ifXMLNode.Attributes["elementXPath"].Value);
+                string condition = ifXMLNode.Attributes["condition"].Value;
+
+                SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
+
+                ifCondition = this.Driver.CheckForElementState(elementXPath, state);
+            }
+
+            // inside the testCaseFlow, you can only have either RunTestCase element or an If element.
+            foreach (XmlNode ifSection in ifXMLNode.ChildNodes)
+            {
+                if (ifSection.Name == "Then")
+                {
+                    // we run this test case only if performAction is true, and the condition for the element has passed.
+                    testStep = this.InnerFlow(ifSection, performAction && ifCondition);
+                }
+                else if (ifSection.Name == "ElseIf")
+                {
+                    // we check the condition if performAction is true and the previous if condition was false.
+                    // we can only run the test case if performAction is true, previous if condition was false, and the current if condition is true.
+                    bool secondIfCondition = false;
+
+                    if (performAction && !ifCondition)
+                    {
+                        string elementXPath = XMLInformation.ReplaceIfToken(ifXMLNode.Attributes["elementXPath"].Value);
+                        string condition = ifXMLNode.Attributes["condition"].Value;
+
+                        SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
+
+                        secondIfCondition = this.Driver.CheckForElementState(elementXPath, state);
+                    }
+
+                    testStep = this.InnerFlow(ifSection, performAction && !ifCondition && secondIfCondition);
+
+                    // update ifCondition to reflect if elseIf was run
+                    ifCondition = !ifCondition && secondIfCondition;
+                }
+                else if (ifSection.Name == "Else")
+                {
+                    // at this point, we only run this action if performAction is true and the previous ifCondition was false.
+                    testStep = this.InnerFlow(ifSection, performAction && !ifCondition);
+                }
+                else
+                {
+                    //Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
+                }
+            }
+
+            return testStep;
+        }
+
+        /// <summary>
+        /// Runs the test case based on the provided XMLNode.
+        /// </summary>
+        /// <param name="innerNode"> Optional XmlNode to represent testCases. </param>
+        /// <param name="performAction"> Performs the action. </param>
+        /// <returns>0 if pass. >=1 if not pass.</returns>
+        private TestStepXml InnerFlow(XmlNode innerNode, bool performAction = true)
+        {
+            TestStepXml testStep = null;
+
+            // Run Each Test Step Here
+            foreach (XmlNode node in innerNode)
+            {
+                if (node.Name == "If")
+                {
+                    testStep = this.RunIfTestCase(node, performAction);
+                }
+                else if (node.Name == "RunTestStep")
+                {
+                    testStep = this.FindTestStep(XMLInformation.ReplaceIfToken(node.InnerText), performAction);
+                }
+                else
+                {
+                    ///Logger.Warn($"We currently do not deal with this: {testStep.Name}");
+                }
+            }
+
+            return testStep;
+        }
+
+        /// <summary>
         /// This function will go through the list of steps and run the appropriate test step if found.
         /// </summary>
         /// <param name="testStepID"> The ID of the test step to run. </param>
         /// <param name="performAction"> Perfoms the action. </param>
         /// <returns>0 if pass. >=1 if fail.</returns>
-        private ITestStep FindTestStep(string testStepID, bool performAction = true)
+        private TestStepXml FindTestStep(string testStepID, bool performAction = true)
         {
-            ITestStep testStep = null;
+            TestStepXml testStep = null;
 
             // get the list of testSteps
             XmlNode testSteps = XMLInformation.XMLDocObj.GetElementsByTagName("TestSteps")[0];
@@ -170,7 +276,7 @@ namespace SeleniumPerfXML.Implementations
             return testStep;
         }
 
-        private ITestStep BuildTestStep(XmlNode testStepNode, bool performAction = true)
+        private TestStepXml BuildTestStep(XmlNode testStepNode, bool performAction = true)
         {
             TestStepXml testStep = null;
             string name = XMLInformation.ReplaceIfToken(testStepNode.Attributes["name"].Value);

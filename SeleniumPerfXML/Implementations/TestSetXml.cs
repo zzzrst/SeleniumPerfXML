@@ -68,17 +68,28 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ExistNextTestCase()
         {
-            return this.CurrTestCaseNumber + 1 < this.TotalTestCases;
+            return this.CurrTestCaseNumber < this.TotalTestCases;
         }
 
         /// <inheritdoc/>
         public ITestCase GetNextTestCase()
         {
             TestCaseXml testCase = null;
-            this.CurrTestCaseNumber += 1;
             XmlNode currentNode = this.TestCaseFlow.ChildNodes[this.CurrTestCaseNumber];
-            testCase = this.InnerFlow(currentNode, true);
-
+            if (currentNode.Name == "If")
+            {
+                testCase = this.RunIfTestCase(currentNode);
+            }
+            else if (currentNode.Name == "RunTestCase")
+            {
+                testCase = this.FindTestCase(XMLInformation.ReplaceIfToken(currentNode.InnerText));
+            }
+            else
+            {
+                ///Logger.Warn($"We currently do not deal with this: {testStep.Name}");
+            }
+            //testCase = this.InnerFlow(currentNode, true);
+            this.CurrTestCaseNumber += 1;
             return testCase;
         }
 
@@ -135,26 +146,26 @@ namespace SeleniumPerfXML.Implementations
             XmlNode testCases = XMLInformation.XMLDocObj.GetElementsByTagName("TestCases")[0];
 
             // Find the appropriate testcase;
-            foreach (XmlNode testcase in testCases.ChildNodes)
+            foreach (XmlNode node in testCases.ChildNodes)
             {
-                if (testcase.Name == "TestCase" && XMLInformation.ReplaceIfToken(testcase.Attributes["id"].Value) == testCaseID)
+                if (node.Name == "TestCase" && XMLInformation.ReplaceIfToken(node.Attributes["id"].Value) == testCaseID)
                 {
                     int repeat = 1;
-                    if (XMLInformation.RespectRepeatFor && testcase.Attributes["repeatFor"] != null)
+                    if (XMLInformation.RespectRepeatFor && node.Attributes["repeatFor"] != null)
                     {
-                        repeat = int.Parse(testcase.Attributes["repeatFor"].Value);
+                        repeat = int.Parse(node.Attributes["repeatFor"].Value);
 
                         // repeat = repeat > 1 ? 1 : -1;
-                        testCase = new TestCaseXml()
-                        {
-                            TestCaseInfo = testcase,
-                            ShouldExecuteAmountOfTimes = repeat,
-                            ShouldExecuteVariable = performAction,
-                            Reporter = this.Reporter,
-                            Driver = this.Driver,
-                        };
                     }
 
+                    testCase = new TestCaseXml()
+                    {
+                        TestCaseInfo = node,
+                        ShouldExecuteAmountOfTimes = repeat,
+                        ShouldExecuteVariable = performAction,
+                        Reporter = this.Reporter,
+                        Driver = this.Driver,
+                    };
                     return testCase;
                 }
             }
