@@ -145,7 +145,7 @@ namespace SeleniumPerfXML
             {
                 TestCaseFlow = testCaseFlow,
                 Reporter = reporter,
-                Logger = logger,
+                TestLogger = logger,
                 Driver = this.SeleniumDriver,
             };
 
