@@ -18,7 +18,7 @@ namespace SeleniumPerfXML.Implementations
         public int TestCaseNumber { get; set; } = -1;
 
         /// <inheritdoc/>
-        public bool RunSuccessful { get; set; } = false;
+        public bool RunSuccessful { get; set; } = true;
 
         /// <inheritdoc/>
         public string ErrorStack { get; set; } = string.Empty;

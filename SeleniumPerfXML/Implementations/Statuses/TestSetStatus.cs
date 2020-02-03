@@ -15,7 +15,7 @@ namespace SeleniumPerfXML.Implementations
     public class TestSetStatus : ITestSetStatus
     {
         /// <inheritdoc/>
-        public bool RunSuccessful { get; set; } = false;
+        public bool RunSuccessful { get; set; } = true;
 
         /// <inheritdoc/>
         public string ErrorStack { get; set; } = string.Empty;
