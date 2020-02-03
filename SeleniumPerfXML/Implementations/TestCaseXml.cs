@@ -43,11 +43,6 @@ namespace SeleniumPerfXML.Implementations
         public IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
 
         /// <summary>
-        /// Gets or sets the teststeps to run.
-        /// </summary>
-        public List<TestStepXml> TestSteps { get; set; }
-
-        /// <summary>
         /// Gets or sets the ammount of times this should be ran.
         /// </summary>
         public int ShouldExecuteAmountOfTimes { get; set; } = 1;
@@ -66,6 +61,16 @@ namespace SeleniumPerfXML.Implementations
         /// Gets or sets the test step logger.
         /// </summary>
         public ITestCaseLogger Logger { get; set; }
+
+        /// <summary>
+        /// Gets or sets the seleniumDriver to use.
+        /// </summary>
+        public SeleniumDriver Driver { get; set; }
+
+        /// <summary>
+        /// Gets or sets the teststeps to run.
+        /// </summary>
+        private TestStepXml CurrTestStep { get; set; }
 
         /// <inheritdoc/>
         public bool ExistNextTestStep()

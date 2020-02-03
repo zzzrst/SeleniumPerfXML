@@ -1,4 +1,8 @@
-﻿namespace SeleniumPerfXML
+﻿// <copyright file="XMLInformation.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace SeleniumPerfXML
 {
     using System;
     using System.Collections.Generic;
@@ -11,24 +15,24 @@
     public static class XMLInformation
     {
         /// <summary>
-        /// Gets the xml file containing the test set/case/steps.
+        /// Gets or sets the xml file containing the XML Data.
         /// </summary>
-        public static XmlDocument XMLDataFile { get; }
+        public static XmlDocument XMLDataFile { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets the xml file containing the test set/case/steps.
         /// </summary>
-        public static XmlDocument XMLDocObj { get; }
+        public static XmlDocument XMLDocObj { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether to respectRunAODAFlag or not.
+        /// Gets or sets a value indicating whether to respectRunAODAFlag or not.
         /// </summary>
-        public static bool RespectRunAODAFlag { get; } = false;
+        public static bool RespectRunAODAFlag { get; set; } = false;
 
         /// <summary>
-        /// Gets a value indicating whether to respectRepeatFor or not.
+        /// Gets or sets a value indicating whether to respectRepeatFor or not.
         /// </summary>
-        public static bool RespectRepeatFor { get; } = false;
+        public static bool RespectRepeatFor { get; set; } = false;
 
         /// <summary>
         /// Replaces a string if it is a token and shown.

@@ -10,7 +10,9 @@ namespace SeleniumPerfXML
     using System.IO;
     using System.Text;
     using System.Xml;
+    using SeleniumPerfXML.Builders;
     using SeleniumPerfXML.Implementations;
+    using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
 
     /// <summary>
     /// The TestSetBuilder Class to initilize all the nessesary variables.
@@ -125,7 +127,36 @@ namespace SeleniumPerfXML
         /// <returns>Tbe Test Set.</returns>
         public TestSetXml BuildTestSet()
         {
-            return null;
+            TestSetXml testSet;
+            this.ParseParameters();
+            this.ParseSpecialElements();
+            this.InstantiateSeleniumDriver();
+            this.InitilizeXMLInfo();
+
+            Reporter reporter = new Reporter() { };
+            TestSetLogger logger = new TestSetLogger()
+            {
+                SaveFileLocation = this.LogSaveFileLocation,
+            };
+
+            XmlNode testCaseFlow = this.XMLDocObj.GetElementsByTagName("TestCaseFlow")[0];
+
+            testSet = new TestSetXml()
+            {
+                TestCaseFlow = testCaseFlow,
+                Reporter = reporter,
+                Logger = logger,
+                Driver = this.SeleniumDriver,
+            };
+
+            return testSet;
+        }
+
+        private void InitilizeXMLInfo()
+        {
+            XMLInformation.XMLDataFile = this.XMLDataFile;
+            XMLInformation.RespectRepeatFor = this.RespectRepeatFor;
+            XMLInformation.RespectRunAODAFlag = this.RespectRunAODAFlag;
         }
 
         /// <summary>
@@ -279,6 +310,7 @@ namespace SeleniumPerfXML
         /// </summary>
         private void InstantiateSeleniumDriver()
         {
+            SeleniumDriverBuilder builder;
             SeleniumDriver.Browser browser = SeleniumDriver.Browser.Chrome;
 
             if (this.Browser.ToLower().Contains("chrome"))
@@ -298,11 +330,17 @@ namespace SeleniumPerfXML
                 browser = SeleniumDriver.Browser.Edge;
             }
 
-            this.SeleniumDriver = new SeleniumDriver(browser, TimeSpan.FromSeconds(this.TimeOutThreshold), this.Environment, this.URL, this.ScreenshotSaveLocation)
+            builder = new SeleniumDriverBuilder()
             {
+                Browser = browser,
+                TimeOutThreshold = TimeSpan.FromSeconds(this.TimeOutThreshold),
+                Environment = this.Environment,
+                URL = this.URL,
+                ScreenshotSaveLocation = this.ScreenshotSaveLocation,
                 ErrorContainer = this.ErrorContainer,
                 LoadingSpinner = this.LoadingSpinner,
             };
+            this.SeleniumDriver = builder.BuildSeleniumDriver();
         }
     }
 }

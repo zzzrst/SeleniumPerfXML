@@ -9,6 +9,7 @@ namespace SeleniumPerfXML.Implementations
     using System.Text;
     using System.Xml;
     using AutomationTestSetFramework;
+    using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
 
     /// <summary>
     /// Implementation of the ITestSet Class.
@@ -26,8 +27,8 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public int TotalTestCases
         {
-            get => this.TestCases.Count;
-            set => this.TotalTestCases = this.TestCases.Count;
+            get => this.TestCaseFlow.ChildNodes.Count;
+            set => this.TotalTestCases = this.TestCaseFlow.ChildNodes.Count;
         }
 
         /// <inheritdoc/>
@@ -40,14 +41,9 @@ namespace SeleniumPerfXML.Implementations
         public IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
 
         /// <summary>
-        /// Gets or sets list of testcases to run.
-        /// </summary>
-        public List<TestCaseXml> TestCases { get; set; }
-
-        /// <summary>
         /// Gets or sets the information for the test set.
         /// </summary>
-        public XmlNode TestSetInfo { get; set; }
+        public XmlNode TestCaseFlow { get; set; }
 
         /// <summary>
         /// Gets or sets the reporter.
@@ -59,6 +55,16 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         public ITestSetLogger Logger { get; set; }
 
+        /// <summary>
+        /// Gets or sets the seleniumDriver to use.
+        /// </summary>
+        public SeleniumDriver Driver { get; set; }
+
+        /// <summary>
+        /// Gets or sets list of testcases to run.
+        /// </summary>
+        private TestCaseXml CurrTestCase { get; set; }
+
         /// <inheritdoc/>
         public bool ExistNextTestCase()
         {
@@ -68,8 +74,12 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public ITestCase GetNextTestCase()
         {
+            TestCaseXml testCase = null;
             this.CurrTestCaseNumber += 1;
-            return this.TestCases[this.CurrTestCaseNumber];
+            XmlNode currentNode = this.TestCaseFlow.ChildNodes[this.CurrTestCaseNumber];
+            testCase = this.InnerFlow(currentNode, true);
+
+            return testCase;
         }
 
         /// <inheritdoc/>
@@ -109,6 +119,147 @@ namespace SeleniumPerfXML.Implementations
         public void UpdateTestSetStatus(ITestCaseStatus testCaseStatus)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Runs the test case based on the provided ID.
+        /// </summary>
+        /// <param name="testCaseID">ID to find the testcase to run.</param>
+        /// <param name="performAction"> Perfoms the action. </param>
+        /// <returns> 0 if pass. >=1 if fail.</returns>
+        private TestCaseXml FindTestCase(string testCaseID, bool performAction = true)
+        {
+            TestCaseXml testCase = null;
+
+            // get the list of testcases
+            XmlNode testCases = XMLInformation.XMLDocObj.GetElementsByTagName("TestCases")[0];
+
+            // Find the appropriate testcase;
+            foreach (XmlNode testcase in testCases.ChildNodes)
+            {
+                if (testcase.Name == "TestCase" && XMLInformation.ReplaceIfToken(testcase.Attributes["id"].Value) == testCaseID)
+                {
+                    int repeat = 1;
+                    if (XMLInformation.RespectRepeatFor && testcase.Attributes["repeatFor"] != null)
+                    {
+                        repeat = int.Parse(testcase.Attributes["repeatFor"].Value);
+
+                        // repeat = repeat > 1 ? 1 : -1;
+                        testCase = new TestCaseXml()
+                        {
+                            TestCaseInfo = testcase,
+                            ShouldExecuteAmountOfTimes = repeat,
+                            ShouldExecuteVariable = performAction,
+                            Reporter = this.Reporter,
+                            Driver = this.Driver,
+                        };
+                    }
+
+                    return testCase;
+                }
+            }
+
+            //Logger.Warn($"Sorry, we didn't find a test case that matched the provided ID: {testCaseID}");
+            return testCase;
+        }
+
+        /// <summary>
+        /// This function parses the if test case flow and starts executing.
+        /// </summary>
+        /// <param name="ifXMLNode"> XML Node that has the if block. </param>
+        /// <param name="performAction"> Perfoms the action. </param>
+        /// <returns>0 if pass. >=1 if fail.</returns>
+        private TestCaseXml RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
+        {
+            TestCaseXml testCase = null;
+            bool ifCondition = false;
+
+            // we check condition if we have to perfom this action.
+            if (performAction)
+            {
+                string elementXPath = XMLInformation.ReplaceIfToken(ifXMLNode.Attributes["elementXPath"].Value);
+                string condition = ifXMLNode.Attributes["condition"].Value;
+
+                SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
+
+                ifCondition = this.Driver.CheckForElementState(elementXPath, state);
+            }
+
+            // inside the testCaseFlow, you can only have either RunTestCase element or an If element.
+            foreach (XmlNode ifSection in ifXMLNode.ChildNodes)
+            {
+                if (ifSection.Name == "Then")
+                {
+                    // we run this test case only if performAction is true, and the condition for the element has passed.
+                    testCase = this.InnerFlow(ifSection, performAction && ifCondition);
+                }
+                else if (ifSection.Name == "ElseIf")
+                {
+                    // we check the condition if performAction is true and the previous if condition was false.
+                    // we can only run the test case if performAction is true, previous if condition was false, and the current if condition is true.
+                    bool secondIfCondition = false;
+
+                    if (performAction && !ifCondition)
+                    {
+                        string elementXPath = XMLInformation.ReplaceIfToken(ifXMLNode.Attributes["elementXPath"].Value);
+                        string condition = ifXMLNode.Attributes["condition"].Value;
+
+                        SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
+
+                        secondIfCondition = this.Driver.CheckForElementState(elementXPath, state);
+                    }
+
+                    testCase = this.InnerFlow(ifSection, performAction && !ifCondition && secondIfCondition);
+
+                    // update ifCondition to reflect if elseIf was run
+                    ifCondition = !ifCondition && secondIfCondition;
+                }
+                else if (ifSection.Name == "Else")
+                {
+                    // at this point, we only run this action if performAction is true and the previous ifCondition was false.
+                    testCase = this.InnerFlow(ifSection, performAction && !ifCondition);
+                }
+                else if (ifSection.Name == "RunTestCase")
+                {
+                    testCase = this.FindTestCase(XMLInformation.ReplaceIfToken(ifSection.InnerText), performAction);
+                }
+                else
+                {
+                    //Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
+                }
+            }
+
+            return testCase;
+        }
+
+        /// <summary>
+        /// Runs the test case based on the provided XMLNode.
+        /// </summary>
+        /// <param name="innerNode"> Optional XmlNode to represent testCases. </param>
+        /// <param name="performAction"> Performs the action. </param>
+        /// <returns>0 if pass. >=1 if not pass.</returns>
+        private TestCaseXml InnerFlow(XmlNode innerNode, bool performAction = true)
+        {
+            TestCaseXml testCase = null;
+
+            // Run Each Test Step Here
+            foreach (XmlNode node in innerNode)
+            {
+                if (node.Name == "If")
+                {
+                    testCase = this.RunIfTestCase(node, performAction);
+                }
+                else if (node.Name == "RunTestCase")
+                {
+                    testCase = this.FindTestCase(XMLInformation.ReplaceIfToken(node.InnerText), performAction);
+                }
+                else
+                {
+                    ///Logger.Warn($"We currently do not deal with this: {testStep.Name}");
+                }
+            }
+
+            return testCase;
         }
     }
 }
