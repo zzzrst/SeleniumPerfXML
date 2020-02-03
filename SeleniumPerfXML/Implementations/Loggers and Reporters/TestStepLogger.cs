@@ -17,7 +17,19 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         /// <inheritdoc/>
         public void Log(ITestStep testStep)
         {
-            throw new NotImplementedException();
+            ITestStepStatus testStepStatus = testStep.TestStepStatus;
+            string str;
+            str = testStep.Name;
+            str = testStep.TestStepNumber.ToString();
+            str = testStep.OnExceptionFlowBehavior.ToString();
+            str = testStepStatus.RunSuccessful.ToString();
+            str = testStepStatus.ErrorStack;
+            str = testStepStatus.FriendlyErrorMessage;
+            str = testStepStatus.StartTime.ToString();
+            str = testStepStatus.EndTime.ToString();
+            str = testStepStatus.Description;
+            str = testStepStatus.Expected;
+            str = testStepStatus.Actual;
         }
     }
 }
