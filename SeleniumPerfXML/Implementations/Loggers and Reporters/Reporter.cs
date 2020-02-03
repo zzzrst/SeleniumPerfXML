@@ -6,6 +6,9 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Text;
     using AutomationTestSetFramework;
 
@@ -37,18 +40,33 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         /// <inheritdoc/>
         public void AddTestCaseStatus(ITestCaseStatus testCaseStatus)
         {
+            if (this.TestCaseStatuses == null)
+            {
+                this.TestCaseStatuses = new List<ITestCaseStatus>();
+            }
+
             this.TestCaseStatuses.Add(testCaseStatus);
         }
 
         /// <inheritdoc/>
         public void AddTestSetStatus(ITestSetStatus testSetStatus)
         {
+            if (this.TestSetStatuses == null)
+            {
+                this.TestSetStatuses = new List<ITestSetStatus>();
+            }
+
             this.TestSetStatuses.Add(testSetStatus);
         }
 
         /// <inheritdoc/>
         public void AddTestStepStatusToTestCase(ITestStepStatus testStepStatus, ITestCaseStatus testCaseStatus)
         {
+            if (this.TestCaseToTestSteps == null)
+            {
+                this.TestCaseToTestSteps = new Dictionary<ITestCaseStatus, List<ITestStepStatus>>();
+            }
+
             if (!this.TestCaseToTestSteps.ContainsKey(testCaseStatus))
             {
                 this.TestCaseToTestSteps.Add(testCaseStatus, new List<ITestStepStatus>());
@@ -60,45 +78,85 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         /// <inheritdoc/>
         public void Report()
         {
-            string str;
+            this.SaveFileLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Report.txt";
+            List<string> str = new List<string>();
             foreach (ITestSetStatus testSetStatus in this.TestSetStatuses)
             {
-                str = testSetStatus.RunSuccessful.ToString();
-                str = testSetStatus.ErrorStack;
-                str = testSetStatus.FriendlyErrorMessage;
-                str = testSetStatus.StartTime.ToString();
-                str = testSetStatus.EndTime.ToString();
-                str = testSetStatus.Description;
-                str = testSetStatus.Expected;
-                str = testSetStatus.Actual;
+                str.Add("RunSuccessful:" + testSetStatus.RunSuccessful.ToString());
+                str.Add("StartTime:" + testSetStatus.StartTime.ToString());
+                str.Add("EndTime:" + testSetStatus.EndTime.ToString());
+                if (testSetStatus.Description != string.Empty)
+                {
+                    str.Add("Description:" + testSetStatus.Description);
+                }
+
+                if (!testSetStatus.RunSuccessful)
+                {
+                    str.Add("ErrorStack:" + testSetStatus.ErrorStack);
+                    str.Add("FriendlyErrorMessage:" + testSetStatus.FriendlyErrorMessage);
+                    str.Add("Expected:" + testSetStatus.Expected);
+                    str.Add("Actual:" + testSetStatus.Actual);
+                }
             }
 
             foreach (ITestCaseStatus testCaseStatus in this.TestCaseStatuses)
             {
-                str = testCaseStatus.RunSuccessful.ToString();
-                str = testCaseStatus.ErrorStack;
-                str = testCaseStatus.FriendlyErrorMessage;
-                str = testCaseStatus.StartTime.ToString();
-                str = testCaseStatus.EndTime.ToString();
-                str = testCaseStatus.Description;
-                str = testCaseStatus.Expected;
-                str = testCaseStatus.Actual;
+                str.Add(this.Tab(1) + "TestCaseNumber:" + testCaseStatus.TestCaseNumber.ToString());
+                str.Add(this.Tab(1) + "RunSuccessful:" + testCaseStatus.RunSuccessful.ToString());
+                str.Add(this.Tab(1) + "StartTime:" + testCaseStatus.StartTime.ToString());
+                str.Add(this.Tab(1) + "EndTime:" + testCaseStatus.EndTime.ToString());
+                if (testCaseStatus.Description != string.Empty)
+                {
+                    str.Add(this.Tab(1) + "Description:" + testCaseStatus.Description);
+                }
+
+                if (!testCaseStatus.RunSuccessful)
+                {
+                    str.Add(this.Tab(1) + "ErrorStack:" + testCaseStatus.ErrorStack);
+                    str.Add(this.Tab(1) + "FriendlyErrorMessage:" + testCaseStatus.FriendlyErrorMessage);
+                    str.Add(this.Tab(1) + "Expected:" + testCaseStatus.Expected);
+                    str.Add(this.Tab(1) + "Actual:" + testCaseStatus.Actual);
+                }
 
                 if (this.TestCaseToTestSteps.ContainsKey(testCaseStatus))
                 {
+                    // log the test steps.
                     foreach (ITestStepStatus testStepStatus in this.TestCaseToTestSteps[testCaseStatus])
                     {
-                        str = testStepStatus.RunSuccessful.ToString();
-                        str = testStepStatus.ErrorStack;
-                        str = testStepStatus.FriendlyErrorMessage;
-                        str = testStepStatus.StartTime.ToString();
-                        str = testStepStatus.EndTime.ToString();
-                        str = testStepStatus.Description;
-                        str = testStepStatus.Expected;
-                        str = testStepStatus.Actual;
+                        str.Add(this.Tab(2) + "TestStepNumber:" + testStepStatus.TestStepNumber.ToString());
+                        str.Add(this.Tab(2) + "RunSuccessful:" + testStepStatus.RunSuccessful.ToString());
+                        str.Add(this.Tab(2) + "StartTime:" + testStepStatus.StartTime.ToString());
+                        str.Add(this.Tab(2) + "EndTime:" + testStepStatus.EndTime.ToString());
+                        if (testStepStatus.Description != string.Empty)
+                        {
+                            str.Add(this.Tab(2) + "Description:" + testStepStatus.Description);
+                        }
+
+                        if (!testStepStatus.RunSuccessful)
+                        {
+                            str.Add(this.Tab(2) + "ErrorStack:" + testStepStatus.ErrorStack);
+                            str.Add(this.Tab(2) + "FriendlyErrorMessage:" + testStepStatus.FriendlyErrorMessage);
+                            str.Add(this.Tab(2) + "Expected:" + testStepStatus.Expected);
+                            str.Add(this.Tab(2) + "Actual:" + testStepStatus.Actual);
+                            str.Add(this.Tab(2) + "-----------------------");
+                        }
                     }
                 }
             }
+
+            using (StreamWriter file =
+            new StreamWriter($"{this.SaveFileLocation}", true))
+            {
+                foreach (string line in str)
+                {
+                    file.WriteLine(line);
+                }
+            }
+        }
+
+        private string Tab(int indents = 1)
+        {
+            return string.Concat(Enumerable.Repeat("    ", indents));
         }
     }
 }
