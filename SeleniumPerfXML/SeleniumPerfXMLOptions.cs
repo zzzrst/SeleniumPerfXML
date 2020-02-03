@@ -38,8 +38,8 @@ namespace SeleniumPerfXML
                         TimeOutThreshold = 120,
                         WarningThreshold = 60,
                         CSVSaveFileLocation = "C:\\SeleniumPerfXML",
-                        LogSaveLocation = "C:\\SeleniumPerfXML\\",
-                        ReportSaveLocation = "C:\\SeleniumPerfXML\\",
+                        LogSaveLocation = "C:\\SeleniumPerfXML",
+                        ReportSaveLocation = "C:\\SeleniumPerfXML",
                         ScreenShotSaveLocation = "C:\\SeleniumPerfXML\\ScreenShots",
                         XMLFile = "C:\\SeleniumPerfXML\\SampleXML.xml",
                     });

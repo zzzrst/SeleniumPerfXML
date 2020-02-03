@@ -20,7 +20,7 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         /// <summary>
         /// Gets or sets the location to save the report to.
         /// </summary>
-        public string SaveFileLocation { get; set; }
+        public string SaveFileLocation { get; set; } = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Report.txt";
 
         /// <summary>
         /// Gets or sets the list of test set statuses.
@@ -78,7 +78,6 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         /// <inheritdoc/>
         public void Report()
         {
-            this.SaveFileLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Report.txt";
             List<string> str = new List<string>();
             foreach (ITestSetStatus testSetStatus in this.TestSetStatuses)
             {

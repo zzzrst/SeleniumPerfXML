@@ -20,12 +20,11 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         /// <summary>
         /// Gets or sets the location to save the log to.
         /// </summary>
-        public string SaveFileLocation { get; set; } = XMLInformation.LogSaveFileLocation;
+        public string SaveFileLocation { get; set; } = XMLInformation.LogSaveFileLocation + "\\Log.txt";
 
         /// <inheritdoc/>
         public void Log(ITestStep testStep)
         {
-            this.SaveFileLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Log.txt";
             ITestStepStatus testStepStatus = testStep.TestStepStatus;
             List<string> str = new List<string>();
             str.Add(this.Tab(2) + "Name:" + testStep.Name);

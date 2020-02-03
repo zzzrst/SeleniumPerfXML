@@ -140,7 +140,7 @@ namespace SeleniumPerfXML
 
             Reporter reporter = new Reporter()
             {
-                SaveFileLocation = this.ReportSaveFileLocation,
+                SaveFileLocation = this.ReportSaveFileLocation + "\\Report.txt",
             };
 
             XmlNode testCaseFlow = this.XMLDocObj.GetElementsByTagName("TestCaseFlow")[0];
