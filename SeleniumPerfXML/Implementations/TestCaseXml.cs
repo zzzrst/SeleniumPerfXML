@@ -84,6 +84,7 @@ namespace SeleniumPerfXML.Implementations
         {
             ITestStep testStep = null;
             XmlNode currNode = this.TestCaseInfo.ChildNodes[this.CurrTestStepNumber];
+
             // reached end of loop, check if should loop again.
             if (this.CurrTestStepNumber == this.TotalTestSteps && this.ShouldExecuteAmountOfTimes > this.ExecuteCount)
             {
@@ -91,7 +92,6 @@ namespace SeleniumPerfXML.Implementations
                 this.ExecuteCount += 1;
             }
 
-            //testStep = this.InnerFlow(currNode, this.ShouldExecuteVariable);
             if (currNode.Name == "If")
             {
                 testStep = this.RunIfTestCase(currNode);
@@ -102,7 +102,7 @@ namespace SeleniumPerfXML.Implementations
             }
             else
             {
-                ///Logger.Warn($"We currently do not deal with this: {testStep.Name}");
+                Logger.Warn($"We currently do not deal with this: {testStep.Name}");
             }
 
             this.CurrTestStepNumber += 1;
@@ -210,7 +210,7 @@ namespace SeleniumPerfXML.Implementations
                 }
                 else
                 {
-                    //Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
+                    Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
                 }
             }
 
@@ -240,7 +240,7 @@ namespace SeleniumPerfXML.Implementations
                 }
                 else
                 {
-                    ///Logger.Warn($"We currently do not deal with this: {testStep.Name}");
+                    Logger.Warn($"We currently do not deal with this: {testStep.Name}");
                 }
             }
 
@@ -270,7 +270,7 @@ namespace SeleniumPerfXML.Implementations
                 }
             }
 
-            //Logger.Warn($"Sorry, we didn't find a test step that matched the provided ID: {testStepID}");
+            Logger.Warn($"Sorry, we didn't find a test step that matched the provided ID: {testStepID}");
             return testStep;
         }
 
@@ -311,18 +311,18 @@ namespace SeleniumPerfXML.Implementations
                 log = bool.Parse(testStepNode.Attributes["log"].Value);
             }
 
-            //Logger.Debug($"Test step '{name}': runAODA->{runAODA} runAODAPageName->{runAODAPageName} log->{log}");
+            Logger.Debug($"Test step '{name}': runAODA->{runAODA} runAODAPageName->{runAODAPageName} log->{log}");
 
             testStep = ReflectiveGetter.GetEnumerableOfType<TestStepXml>()
                 .Find(x => x.Name.Equals(testStepNode.Name));
 
             if (testStep == null)
             {
-                //Logger.Error($"Was not able to find the provided test action '{testStepNode}'.");
+                Logger.Error($"Was not able to find the provided test action '{testStepNode}'.");
             }
             else
             {
-                string namePrepender = this.ExecuteCount > 0 ? $"{this.ExecuteCount }.{this.CurrTestStepNumber} " : $"";
+                string namePrepender = this.ExecuteCount > 0 ? $"{this.ExecuteCount}.{this.CurrTestStepNumber} " : $"";
 
                 for (int index = 0; index < testStepNode.Attributes.Count; index++)
                 {
