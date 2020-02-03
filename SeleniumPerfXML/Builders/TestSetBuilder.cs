@@ -155,6 +155,7 @@ namespace SeleniumPerfXML
         private void InitilizeXMLInfo()
         {
             XMLInformation.XMLDataFile = this.XMLDataFile;
+            XMLInformation.XMLDocObj = this.XMLDocObj;
             XMLInformation.RespectRepeatFor = this.RespectRepeatFor;
             XMLInformation.RespectRunAODAFlag = this.RespectRunAODAFlag;
         }
