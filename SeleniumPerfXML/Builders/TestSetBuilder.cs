@@ -66,7 +66,7 @@ namespace SeleniumPerfXML
         /// <summary>
         /// Gets or sets the timeout threshold.
         /// </summary>
-        public int TimeOutThreshold { get; set; } = 0;
+        public int TimeOutThreshold { get; set; } = 120;
 
         /// <summary>
         /// Gets or sets the warning threshold. Note that the warning threshold should be less than the timeout threshold.
