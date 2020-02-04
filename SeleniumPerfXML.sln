@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeleniumPerfXML", "SeleniumPerfXML\SeleniumPerfXML.csproj", "{A492DA8B-D8C0-42F7-A00F-4E4D8940D95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumPerfXMLNUnit", "SeleniumPerfXMLNUnit\SeleniumPerfXMLNUnit.csproj", "{E1260F74-833F-4440-B592-937A5CDDFC00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeleniumPerfXMLNUnitTest", "SeleniumPerfXMLNUnitTest\SeleniumPerfXMLNUnitTest.csproj", "{01DABD79-F79F-43A2-83D8-3366E6A985DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{A492DA8B-D8C0-42F7-A00F-4E4D8940D95A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A492DA8B-D8C0-42F7-A00F-4E4D8940D95A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A492DA8B-D8C0-42F7-A00F-4E4D8940D95A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1260F74-833F-4440-B592-937A5CDDFC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1260F74-833F-4440-B592-937A5CDDFC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1260F74-833F-4440-B592-937A5CDDFC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1260F74-833F-4440-B592-937A5CDDFC00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01DABD79-F79F-43A2-83D8-3366E6A985DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01DABD79-F79F-43A2-83D8-3366E6A985DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01DABD79-F79F-43A2-83D8-3366E6A985DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01DABD79-F79F-43A2-83D8-3366E6A985DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
