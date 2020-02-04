@@ -269,6 +269,18 @@ namespace SeleniumPerfXML
                 }
             }
 
+            if (this.ReportSaveFileLocation == string.Empty)
+            {
+                if (this.XMLDocObj.GetElementsByTagName("ReportSaveFileLocation").Count > 0)
+                {
+                    this.ReportSaveFileLocation = XMLInformation.ReplaceIfToken(this.XMLDocObj.GetElementsByTagName("ReportSaveFileLocation")[0].InnerText);
+                }
+                else
+                {
+                    this.ReportSaveFileLocation = this.CsvSaveFileLocation;
+                }
+            }
+
             if (this.ScreenshotSaveLocation == string.Empty)
             {
                 if (this.XMLDocObj.GetElementsByTagName("ScreenshotSaveLocation").Count > 0)
@@ -283,6 +295,7 @@ namespace SeleniumPerfXML
 
             Directory.CreateDirectory(this.CsvSaveFileLocation);
             Directory.CreateDirectory(this.LogSaveFileLocation);
+            Directory.CreateDirectory(this.ReportSaveFileLocation);
             Directory.CreateDirectory(this.ScreenshotSaveLocation);
         }
 
