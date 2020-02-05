@@ -10,6 +10,7 @@ namespace SeleniumPerfXML.Implementations
     using System.Xml;
     using AutomationTestSetFramework;
     using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
+    using static AutomationTestSetFramework.IMethodBoundaryAspect;
 
     /// <summary>
     /// An Implementation of the ITestStep class.
@@ -31,7 +32,7 @@ namespace SeleniumPerfXML.Implementations
         public ITestStepStatus TestStepStatus { get; set; }
 
         /// <inheritdoc/>
-        public IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
+        public FlowBehavior OnExceptionFlowBehavior { get; set; } = FlowBehavior.Return;
 
         /// <summary>
         /// Gets or sets the information for the test step.
