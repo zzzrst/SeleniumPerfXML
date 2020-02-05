@@ -21,7 +21,7 @@ namespace SeleniumPerfXMLNUnitTest
         public void SetUp()
         {
             saveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files";
-            readFileLocation = "C:\\SeleniumPerfXML\\Testing";
+            readFileLocation = "C:\\SeleniumPerfXML\\Testing\\TestTestCaseFlow";
             logName = "\\Log.txt";
             reportName = "\\Report.txt";
 

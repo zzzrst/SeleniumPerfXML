@@ -21,7 +21,7 @@ namespace SeleniumPerfXMLNUnitTest
         public void SetUp()
         {
             saveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files";
-            readFileLocation = "C:\\SeleniumPerfXML\\Testing";
+            readFileLocation = "C:\\SeleniumPerfXML\\Testing\\TestTestCase";
             logName = "\\Log.txt";
             reportName = "\\Report.txt";
             // Removes all previous ran test results
@@ -34,31 +34,6 @@ namespace SeleniumPerfXMLNUnitTest
                     File.Delete(saveFileLocation + reportName);
                 Directory.Delete(saveFileLocation);
             }
-        }
-
-        [Test]
-        public void TestBareMinimum()
-        {
-            TestSetXml testStep;
-
-            TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}\\TestBareMinimum.xml")
-            {
-                URL = "testurl",
-                CsvSaveFileLocation = saveFileLocation,
-                LogSaveFileLocation = saveFileLocation,
-                ScreenshotSaveLocation = saveFileLocation,
-                ReportSaveFileLocation = saveFileLocation,
-                XMLFile = $"{readFileLocation}\\TestBareMinimum.xml",
-            };
-
-            testStep = builder.BuildTestSet();
-            AutomationTestSetDriver.RunTestSet(testStep);
-            testStep.Reporter.Report();
-
-            Reporter reporter = (Reporter)testStep.Reporter;
-
-            Assert.Pass();
-            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
         }
     }
 }
