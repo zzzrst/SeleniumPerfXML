@@ -22,13 +22,17 @@ namespace SeleniumPerfXMLNUnitTest
         {
             saveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files";
             readFileLocation = "C:\\SeleniumPerfXML\\Testing";
-            logName = "Log.txt";
-            reportName = "Report.txt";
+            logName = "\\Log.txt";
+            reportName = "\\Report.txt";
             // Removes all previous ran test results
             // If directory does not exist, don't even try   
             if (Directory.Exists(saveFileLocation))
             {
-                Directory.Delete(saveFileLocation, true);
+                if (File.Exists(saveFileLocation + logName))
+                    File.Delete(saveFileLocation + logName);
+                if (File.Exists(saveFileLocation + reportName))
+                    File.Delete(saveFileLocation + reportName);
+                Directory.Delete(saveFileLocation);
             }
         }
 
