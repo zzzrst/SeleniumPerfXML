@@ -28,7 +28,7 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
             ITestCaseStatus testCaseStatus = testCase.TestCaseStatus;
             List<string> str = new List<string>();
             str.Add(this.Tab(1) + "Name:" + testCase.Name);
-            str.Add(this.Tab(1) + "Name:" + testCase.TestCaseNumber);
+            str.Add(this.Tab(1) + "TestCaseNumber:" + testCase.TestCaseNumber);
             str.Add(this.Tab(1) + "TotalTestSteps:" + testCase.TotalTestSteps);
             str.Add(this.Tab(1) + "OnExceptionFlowBehavior:" + testCase.OnExceptionFlowBehavior.ToString());
             str.Add(this.Tab(1) + "TestCaseNumber:" + testCase.TestCaseNumber.ToString());
