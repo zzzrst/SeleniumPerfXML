@@ -18,6 +18,16 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
     public class Reporter : IReporter
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Reporter"/> class.
+        /// </summary>
+        public Reporter()
+        {
+            this.TestSetStatuses = new List<ITestSetStatus>();
+            this.TestCaseStatuses = new List<ITestCaseStatus>();
+            this.TestCaseToTestSteps = new Dictionary<ITestCaseStatus, List<ITestStepStatus>>();
+        }
+
+        /// <summary>
         /// Gets or sets the location to save the report to.
         /// </summary>
         public string SaveFileLocation { get; set; }
@@ -40,33 +50,18 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         /// <inheritdoc/>
         public void AddTestCaseStatus(ITestCaseStatus testCaseStatus)
         {
-            if (this.TestCaseStatuses == null)
-            {
-                this.TestCaseStatuses = new List<ITestCaseStatus>();
-            }
-
             this.TestCaseStatuses.Add(testCaseStatus);
         }
 
         /// <inheritdoc/>
         public void AddTestSetStatus(ITestSetStatus testSetStatus)
         {
-            if (this.TestSetStatuses == null)
-            {
-                this.TestSetStatuses = new List<ITestSetStatus>();
-            }
-
             this.TestSetStatuses.Add(testSetStatus);
         }
 
         /// <inheritdoc/>
         public void AddTestStepStatusToTestCase(ITestStepStatus testStepStatus, ITestCaseStatus testCaseStatus)
         {
-            if (this.TestCaseToTestSteps == null)
-            {
-                this.TestCaseToTestSteps = new Dictionary<ITestCaseStatus, List<ITestStepStatus>>();
-            }
-
             if (!this.TestCaseToTestSteps.ContainsKey(testCaseStatus))
             {
                 this.TestCaseToTestSteps.Add(testCaseStatus, new List<ITestStepStatus>());
