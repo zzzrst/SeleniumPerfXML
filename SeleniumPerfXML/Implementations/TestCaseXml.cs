@@ -331,6 +331,7 @@ namespace SeleniumPerfXML.Implementations
                     testStepNode.Attributes[index].InnerText = XMLInformation.ReplaceIfToken(testStepNode.Attributes[index].InnerText);
                 }
 
+                testStep.ShouldLog = log;
                 testStep.TestStepInfo = testStepNode;
                 testStep.ShouldExecuteVariable = performAction;
                 testStep.RunAODA = runAODA;

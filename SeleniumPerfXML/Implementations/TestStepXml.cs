@@ -64,6 +64,11 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         public ITestStepLogger TestLogger { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether test step should be logged.
+        /// </summary>
+        public bool ShouldLog { get; set; } = true;
+
         /// <inheritdoc/>
         public virtual void Execute()
         {
@@ -108,8 +113,11 @@ namespace SeleniumPerfXML.Implementations
                 this.Driver.RunAODA(this.RunAODAPageName);
             }
 
-            ITestStepLogger log = new TestStepLogger();
-            log.Log(this);
+            if (this.ShouldLog)
+            {
+                ITestStepLogger log = new TestStepLogger();
+                log.Log(this);
+            }
         }
     }
 }
