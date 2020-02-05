@@ -22,7 +22,7 @@ namespace SeleniumPerfXML.Implementations
         public bool ShouldExecuteVariable { get; set; } = true;
 
         /// <inheritdoc/>
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = "Test Set";
 
         /// <inheritdoc/>
         public int TotalTestCases

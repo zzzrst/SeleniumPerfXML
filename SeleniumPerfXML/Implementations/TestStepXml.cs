@@ -17,7 +17,7 @@ namespace SeleniumPerfXML.Implementations
     public class TestStepXml : ITestStep
     {
         /// <inheritdoc/>
-        public virtual string Name { get; set; }
+        public virtual string Name { get; set; } = "Test Step";
 
         /// <summary>
         /// Gets or sets a value indicating whether you should execute this step or skip it.
