@@ -10,7 +10,7 @@ using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
 
 namespace SeleniumPerfXMLNUnitTest
 {
-    public class TestClass
+    public class TestTestCaseFlow
     {
         public string saveFileLocation;
         public string readFileLocation;
