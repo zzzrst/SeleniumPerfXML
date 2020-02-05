@@ -61,5 +61,20 @@ namespace SeleniumPerfXMLNUnitTest
             Assert.Pass();
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
         }
+
+        [Test]
+        public void TestDuplicateIDs() { }
+        
+        [Test]
+        public void TestSimpleIf() { }
+
+        [Test]
+        public void TestIfChain() { }
+
+        [Test]
+        public void TestElseIf() { }
+
+        [Test]
+        public void TestElse() { }
     }
 }

@@ -35,5 +35,20 @@ namespace SeleniumPerfXMLNUnitTest
                 Directory.Delete(saveFileLocation);
             }
         }
+
+        [Test]
+        public void TestDuplicateIDs() { }
+
+        [Test]
+        public void TestSimpleIf() { }
+
+        [Test]
+        public void TestIfChain() { }
+
+        [Test]
+        public void TestElseIf() { }
+
+        [Test]
+        public void TestElse() { }
     }
 }
