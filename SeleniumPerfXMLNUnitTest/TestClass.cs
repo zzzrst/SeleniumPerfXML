@@ -24,14 +24,14 @@ namespace SeleniumPerfXMLNUnitTest
             var keys = ConfigurationManager.AppSettings.AllKeys; //["LoadingSpinner"].ToString();
             TestSetXml testStep;
 
-            TestSetBuilder builder = new TestSetBuilder("C:\\SeleniumPerfXML\\TestBareMinimum.xml")
+            TestSetBuilder builder = new TestSetBuilder("C:\\SeleniumPerfXML\\Testing\\TestBareMinimum.xml")
             {
                 URL = "testurl",
-                CsvSaveFileLocation = "C:\\SeleniumPerfXML\\Files",
-                LogSaveFileLocation = "C:\\SeleniumPerfXML\\Files",
-                ScreenshotSaveLocation = "C:\\SeleniumPerfXML\\Files",
-                ReportSaveFileLocation = "C:\\SeleniumPerfXML\\Files",
-                XMLFile = "C:\\SeleniumPerfXML\\TestBareMinimum.xml",
+                CsvSaveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files",
+                LogSaveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files",
+                ScreenshotSaveLocation = "C:\\SeleniumPerfXML\\Testing\\Files",
+                ReportSaveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files",
+                XMLFile = "C:\\SeleniumPerfXML\\Testing\\TestBareMinimum.xml",
             };
 
             testStep = builder.BuildTestSet();
