@@ -12,10 +12,10 @@ namespace SeleniumPerfXMLNUnitTest
 {
     public class TestTestCase
     {
-        public string saveFileLocation;
-        public string readFileLocation;
-        public string logName;
-        public string reportName; 
+        private string saveFileLocation;
+        private string readFileLocation;
+        private string logName;
+        private string reportName; 
 
         [SetUp]
         public void SetUp()
@@ -43,12 +43,27 @@ namespace SeleniumPerfXMLNUnitTest
         public void TestSimpleIf() { }
 
         [Test]
-        public void TestIfChain() { }
-
-        [Test]
         public void TestElseIf() { }
 
         [Test]
         public void TestElse() { }
+
+        [Test]
+        public void TestCannotFindTestStep() { }
+
+        private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
+        {
+            TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}{testFileName}")
+            {
+                URL = url,
+                CsvSaveFileLocation = saveFileLocation,
+                LogSaveFileLocation = saveFileLocation,
+                ScreenshotSaveLocation = saveFileLocation,
+                ReportSaveFileLocation = saveFileLocation,
+                XMLFile = $"{readFileLocation}{testFileName}",
+            };
+
+            return builder.BuildTestSet();
+        }
     }
 }

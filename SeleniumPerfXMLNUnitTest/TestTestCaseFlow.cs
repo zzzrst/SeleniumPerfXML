@@ -12,10 +12,10 @@ namespace SeleniumPerfXMLNUnitTest
 {
     public class TestTestCaseFlow
     {
-        public string saveFileLocation;
-        public string readFileLocation;
-        public string logName;
-        public string reportName; 
+        private string saveFileLocation;
+        private string readFileLocation;
+        private string logName;
+        private string reportName; 
 
         [SetUp]
         public void SetUp()
@@ -40,33 +40,52 @@ namespace SeleniumPerfXMLNUnitTest
         [Test]
         public void TestBareMinimum()
         {
-            TestSetXml testStep;
+            TestSetXml testSet;
+            Reporter reporter;
 
-            TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}\\TestBareMinimum.xml")
-            {
-                URL = "testurl",
-                CsvSaveFileLocation = saveFileLocation,
-                LogSaveFileLocation = saveFileLocation,
-                ScreenshotSaveLocation = saveFileLocation,
-                ReportSaveFileLocation = saveFileLocation,
-                XMLFile = $"{readFileLocation}\\TestBareMinimum.xml",
-            };
+            testSet = buildTestSet("\\TestBareMinimum.xml");
 
-            testStep = builder.BuildTestSet();
-            AutomationTestSetDriver.RunTestSet(testStep);
-            testStep.Reporter.Report();
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
 
-            Reporter reporter = (Reporter)testStep.Reporter;
+            reporter = (Reporter)testSet.Reporter;
 
             Assert.Pass();
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
         }
 
         [Test]
-        public void TestDuplicateIDs() { }
+        public void TestDuplicateIDs() {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestSetDuplicateId.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+
+            Assert.Equals(1,reporter.TestSetStatuses.Count);
+            Assert.Equals(1, reporter.TestCaseStatuses.Count);
+            Assert.Equals(1, reporter.TestCaseToTestSteps.Count);
+        }
         
         [Test]
-        public void TestSimpleIf() { }
+        public void TestSimpleIf() {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestSetDuplicateId.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsFalse(reporter.TestSetStatuses[0].RunSuccessful);
+            Assert.IsFalse(reporter.TestCaseStatuses[0].RunSuccessful);
+            Assert.IsFalse(reporter.TestCaseToTestSteps[reporter.TestCaseStatuses[0]][0].RunSuccessful);
+        }
 
         [Test]
         public void TestIfChain() { }
@@ -76,5 +95,23 @@ namespace SeleniumPerfXMLNUnitTest
 
         [Test]
         public void TestElse() { }
+
+        [Test]
+        public void TestCannotFindTestCase() { }
+
+        private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
+        {
+            TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}{testFileName}")
+            {
+                URL = url,
+                CsvSaveFileLocation = saveFileLocation,
+                LogSaveFileLocation = saveFileLocation,
+                ScreenshotSaveLocation = saveFileLocation,
+                ReportSaveFileLocation = saveFileLocation,
+                XMLFile = $"{readFileLocation}{testFileName}",
+            };
+
+            return builder.BuildTestSet();
+        }
     }
 }

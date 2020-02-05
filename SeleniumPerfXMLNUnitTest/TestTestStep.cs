@@ -12,14 +12,16 @@ namespace SeleniumPerfXMLNUnitTest
 {
     public class TestTestStep
     {
-        public string saveFileLocation;
-        public string readFileLocation;
-        public string logName;
-        public string reportName; 
+        private string saveFileLocation;
+        private string readFileLocation;
+        private string webSiteLocation;
+        private string logName;
+        private string reportName; 
 
         [SetUp]
         public void SetUp()
         {
+            webSiteLocation = "C:\\SeleniumPerfXML\\Testing";
             saveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files";
             readFileLocation = "C:\\SeleniumPerfXML\\Testing\\TestTestStep";
             logName = "\\Log.txt";
@@ -39,23 +41,13 @@ namespace SeleniumPerfXMLNUnitTest
         [Test]
         public void TestFailTestStep()
         {
-            TestSetXml testStep;
+            TestSetXml testSet;
 
-            TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}\\TestFailTestStep.xml")
-            {
-                URL = "Test",
-                CsvSaveFileLocation = saveFileLocation,
-                LogSaveFileLocation = saveFileLocation,
-                ScreenshotSaveLocation = saveFileLocation,
-                ReportSaveFileLocation = saveFileLocation,
-                XMLFile = $"{readFileLocation}\\TestFailTestStep.xml",
-            };
+            testSet = buildTestSet("\\TestFailTestStep.xml");
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
 
-            testStep = builder.BuildTestSet();
-            AutomationTestSetDriver.RunTestSet(testStep);
-            testStep.Reporter.Report();
-
-            Reporter reporter = (Reporter)testStep.Reporter;
+            Reporter reporter = (Reporter)testSet.Reporter;
 
             Assert.IsFalse(reporter.TestSetStatuses[0].RunSuccessful);
             Assert.IsFalse(reporter.TestCaseStatuses[0].RunSuccessful);
@@ -71,29 +63,33 @@ namespace SeleniumPerfXMLNUnitTest
         [Test]
         public void TestAODA()
         {
-            TestSetXml testStep;
+            TestSetXml testSet;
+            Reporter reporter;
 
-            TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}\\TestOpenClose.xml")
-            {
-                URL = "https://www.google.ca/",
-                Browser = "chrome",
-                Environment = "Hello World!",
-                CsvSaveFileLocation = saveFileLocation,
-                LogSaveFileLocation = saveFileLocation,
-                ScreenshotSaveLocation = saveFileLocation,
-                ReportSaveFileLocation = saveFileLocation,
-                XMLFile = $"{readFileLocation}\\TestOpenClose.xml",
-            };
+            testSet = buildTestSet("\\TestOpenClose.xml", $"{webSiteLocation}\\Google.html");
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
 
-            testStep = builder.BuildTestSet();
-            AutomationTestSetDriver.RunTestSet(testStep);
-            testStep.Reporter.Report();
-
-            Reporter reporter = (Reporter)testStep.Reporter;
+            reporter = (Reporter)testSet.Reporter;
 
             Assert.Pass();
             Assert.IsTrue(Directory.Exists(saveFileLocation));
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
+        }
+
+        private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
+        {
+            TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}{testFileName}")
+            {
+                URL = url,
+                CsvSaveFileLocation = saveFileLocation,
+                LogSaveFileLocation = saveFileLocation,
+                ScreenshotSaveLocation = saveFileLocation,
+                ReportSaveFileLocation = saveFileLocation,
+                XMLFile = $"{readFileLocation}{testFileName}",
+            };
+
+            return builder.BuildTestSet();
         }
     }
 }
