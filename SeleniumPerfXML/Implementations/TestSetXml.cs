@@ -151,6 +151,7 @@ namespace SeleniumPerfXML.Implementations
                 if (node.Name == "TestCase" && XMLInformation.ReplaceIfToken(node.Attributes["id"].Value) == testCaseID)
                 {
                     int repeat = 1;
+                    string name = "TestCase";
                     if (XMLInformation.RespectRepeatFor && node.Attributes["repeatFor"] != null)
                     {
                         repeat = int.Parse(node.Attributes["repeatFor"].Value);
@@ -158,8 +159,14 @@ namespace SeleniumPerfXML.Implementations
                         // repeat = repeat > 1 ? 1 : -1;
                     }
 
+                    if (node.Attributes["name"] != null)
+                    {
+                        name = node.Attributes["name"].Value;
+                    }
+
                     testCase = new TestCaseXml()
                     {
+                        Name = name,
                         TestCaseInfo = node,
                         ShouldExecuteAmountOfTimes = repeat,
                         ShouldExecuteVariable = performAction,
