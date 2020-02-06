@@ -49,6 +49,8 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
                 {
                     file.WriteLine(line);
                 }
+
+                file.Close();
             }
         }
 
