@@ -16,6 +16,13 @@ namespace SeleniumPerfXML.Implementations
     /// </summary>
     public class TestSetXml : ITestSet
     {
+        private readonly Stack<XmlNode> testStack = new Stack<XmlNode>();
+
+        /// <summary>
+        /// Determines if the current stack layer should execute.
+        /// </summary>
+        private readonly Stack<bool> performStack = new Stack<bool>();
+
         /// <summary>
         /// Gets or sets a value indicating whether you should execute this step or skip it.
         /// </summary>
@@ -35,7 +42,7 @@ namespace SeleniumPerfXML.Implementations
         public ITestSetStatus TestSetStatus { get; set; }
 
         /// <inheritdoc/>
-        public int CurrTestCaseNumber { get; set; } = 0;
+        public int CurrTestCaseNumber { get; set; } = -1;
 
         /// <inheritdoc/>
         public IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
@@ -58,35 +65,25 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ExistNextTestCase()
         {
-            return this.CurrTestCaseNumber < this.TotalTestCases;
+            return this.testStack.Count > 0;
         }
 
         /// <inheritdoc/>
         public ITestCase GetNextTestCase()
         {
             TestCaseXml testCase = null;
-            XmlNode currentNode = this.TestCaseFlow.ChildNodes[this.CurrTestCaseNumber];
-            if (currentNode.Name == "If")
+
+            if (this.testStack.Count > 0)
             {
-                testCase = this.RunIfTestCase(currentNode);
-            }
-            else if (currentNode.Name == "RunTestCase")
-            {
-                testCase = this.FindTestCase(XMLInformation.ReplaceIfToken(currentNode.InnerText));
-            }
-            else
-            {
-                Logger.Warn($"We currently do not deal with this: {currentNode.Name}");
+                testCase = this.IfRunTestCaseLayer();
             }
 
-            this.CurrTestCaseNumber += 1;
             return testCase;
         }
 
         /// <inheritdoc/>
         public void HandleException(Exception e)
         {
-            this.CurrTestCaseNumber += 1;
             this.TestSetStatus.ErrorStack = e.StackTrace;
             this.TestSetStatus.FriendlyErrorMessage = e.Message;
             this.TestSetStatus.RunSuccessful = false;
@@ -102,6 +99,8 @@ namespace SeleniumPerfXML.Implementations
                     StartTime = DateTime.UtcNow,
                 };
             }
+
+            this.AddNodesToStack(this.TestCaseFlow);
         }
 
         /// <inheritdoc/>
@@ -130,6 +129,51 @@ namespace SeleniumPerfXML.Implementations
             }
 
             this.Reporter.AddTestCaseStatus(testCaseStatus);
+        }
+
+        /// <summary>
+        /// Adds all the child nodes in the outer most layer to the stack in reverse order.
+        /// </summary>
+        /// <param name="currentNode">the layer to add.</param>
+        /// <param name="performAction">Whether or not the nodes should execute their test cases.</param>
+        private void AddNodesToStack(XmlNode currentNode, bool performAction = true)
+        {
+            for (int i = currentNode.ChildNodes.Count - 1; i >= 0; i--)
+            {
+                this.testStack.Push(currentNode.ChildNodes[i]);
+                this.performStack.Push(performAction);
+            }
+        }
+
+        /// <summary>
+        /// Reads the layer which contains Ifs and RunTestCase and returns the next test case.
+        /// </summary>
+        /// <param name="performAction">Tells whether or not to perform the action for the test case.</param>
+        /// <returns>The next test case.</returns>
+        private TestCaseXml IfRunTestCaseLayer(bool performAction = true)
+        {
+            TestCaseXml testCase = null;
+            XmlNode currentNode;
+
+            while (this.testStack.Count > 0 && testCase == null)
+            {
+                currentNode = this.testStack.Pop();
+
+                if (currentNode.Name == "If")
+                {
+                    this.RunIfTestCase(currentNode, performAction);
+                }
+                else if (currentNode.Name == "RunTestCase")
+                {
+                    testCase = this.FindTestCase(XMLInformation.ReplaceIfToken(currentNode.InnerText), performAction);
+                }
+                else
+                {
+                    Logger.Warn($"We currently do not deal with this: {currentNode.Name}");
+                }
+            }
+
+            return testCase;
         }
 
         /// <summary>
@@ -174,6 +218,9 @@ namespace SeleniumPerfXML.Implementations
                         Driver = this.Driver,
                         TestCaseNumber = this.CurrTestCaseNumber,
                     };
+
+                    this.CurrTestCaseNumber += 1;
+
                     return testCase;
                 }
             }
@@ -187,10 +234,8 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         /// <param name="ifXMLNode"> XML Node that has the if block. </param>
         /// <param name="performAction"> Perfoms the action. </param>
-        /// <returns>0 if pass. >=1 if fail.</returns>
-        private TestCaseXml RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
+        private void RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
         {
-            TestCaseXml testCase = null;
             bool ifCondition = false;
 
             // we check condition if we have to perfom this action.
@@ -210,7 +255,7 @@ namespace SeleniumPerfXML.Implementations
                 if (ifSection.Name == "Then")
                 {
                     // we run this test case only if performAction is true, and the condition for the element has passed.
-                    testCase = this.InnerFlow(ifSection, performAction && ifCondition);
+                    this.AddNodesToStack(ifSection, performAction && ifCondition);
                 }
                 else if (ifSection.Name == "ElseIf")
                 {
@@ -228,7 +273,7 @@ namespace SeleniumPerfXML.Implementations
                         secondIfCondition = this.Driver.CheckForElementState(elementXPath, state);
                     }
 
-                    testCase = this.InnerFlow(ifSection, performAction && !ifCondition && secondIfCondition);
+                    this.AddNodesToStack(ifSection, performAction && !ifCondition && secondIfCondition);
 
                     // update ifCondition to reflect if elseIf was run
                     ifCondition = !ifCondition && secondIfCondition;
@@ -236,49 +281,13 @@ namespace SeleniumPerfXML.Implementations
                 else if (ifSection.Name == "Else")
                 {
                     // at this point, we only run this action if performAction is true and the previous ifCondition was false.
-                    testCase = this.InnerFlow(ifSection, performAction && !ifCondition);
-                }
-                else if (ifSection.Name == "RunTestCase")
-                {
-                    testCase = this.FindTestCase(XMLInformation.ReplaceIfToken(ifSection.InnerText), performAction);
+                    this.AddNodesToStack(ifSection, performAction && !ifCondition);
                 }
                 else
                 {
                     Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
                 }
             }
-
-            return testCase;
-        }
-
-        /// <summary>
-        /// Runs the test case based on the provided XMLNode.
-        /// </summary>
-        /// <param name="innerNode"> Optional XmlNode to represent testCases. </param>
-        /// <param name="performAction"> Performs the action. </param>
-        /// <returns>0 if pass. >=1 if not pass.</returns>
-        private TestCaseXml InnerFlow(XmlNode innerNode, bool performAction = true)
-        {
-            TestCaseXml testCase = null;
-
-            // Run Each Test Step Here
-            foreach (XmlNode node in innerNode)
-            {
-                if (node.Name == "If")
-                {
-                    testCase = this.RunIfTestCase(node, performAction);
-                }
-                else if (node.Name == "RunTestCase")
-                {
-                    testCase = this.FindTestCase(XMLInformation.ReplaceIfToken(node.InnerText), performAction);
-                }
-                else
-                {
-                    Logger.Warn($"We currently do not deal with this: {node.Name}");
-                }
-            }
-
-            return testCase;
         }
     }
 }

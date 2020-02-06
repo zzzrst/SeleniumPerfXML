@@ -17,6 +17,8 @@ namespace SeleniumPerfXML.Implementations
     /// </summary>
     public class TestCaseXml : ITestCase
     {
+        private readonly Stack<XmlNode> testStack = new Stack<XmlNode>();
+
         /// <summary>
         /// Gets or sets a value indicating whether you should execute this step or skip it.
         /// </summary>
@@ -39,7 +41,7 @@ namespace SeleniumPerfXML.Implementations
         public ITestCaseStatus TestCaseStatus { get; set; }
 
         /// <inheritdoc/>
-        public int CurrTestStepNumber { get; set; }
+        public int CurrTestStepNumber { get; set; } = 0;
 
         /// <inheritdoc/>
         public IMethodBoundaryAspect.FlowBehavior OnExceptionFlowBehavior { get; set; }
@@ -79,6 +81,7 @@ namespace SeleniumPerfXML.Implementations
         public ITestStep GetNextTestStep()
         {
             ITestStep testStep = null;
+
             XmlNode currNode = this.TestCaseInfo.ChildNodes[this.CurrTestStepNumber];
 
             // reached end of loop, check if should loop again.
@@ -125,6 +128,8 @@ namespace SeleniumPerfXML.Implementations
                     TestCaseNumber = this.TestCaseNumber,
                 };
             }
+
+            this.AddNodesToStack(this.TestCaseInfo);
         }
 
         /// <inheritdoc/>
@@ -152,6 +157,14 @@ namespace SeleniumPerfXML.Implementations
             }
 
             this.Reporter.AddTestStepStatusToTestCase(testStepStatus, this.TestCaseStatus);
+        }
+
+        private void AddNodesToStack(XmlNode currentNode)
+        {
+            for (int i = currentNode.ChildNodes.Count - 1; i >= 0; i--)
+            {
+                this.testStack.Push(currentNode.ChildNodes[i]);
+            }
         }
 
         /// <summary>
