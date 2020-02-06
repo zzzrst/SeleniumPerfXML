@@ -5,6 +5,8 @@
 namespace SeleniumPerfXML
 {
     using System;
+    using System.Xml;
+    using System.Xml.Schema;
     using AutomationTestSetFramework;
     using CommandLine;
     using SeleniumPerfXML.Implementations;
@@ -70,6 +72,8 @@ namespace SeleniumPerfXML
             {
                 TestSetXml testStep;
 
+                // ValidateXMLdocument(xmlFile);
+
                 TestSetBuilder builder = new TestSetBuilder(xmlFile)
                 {
                     Browser = browser,
@@ -86,7 +90,6 @@ namespace SeleniumPerfXML
                     ReportSaveFileLocation = reportSaveFileLocation,
                     XMLFile = xmlFile,
                 };
-
                 testStep = builder.BuildTestSet();
                 AutomationTestSetDriver.RunTestSet(testStep);
                 testStep.Reporter.Report();
@@ -97,6 +100,35 @@ namespace SeleniumPerfXML
 
             Environment.Exit(resultCode);
             return resultCode;
+        }
+
+        private static void ValidateXMLdocument(string xmlFile)
+        {
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.Schemas.Add("http://qa/SeleniumPerf", "SeleniumPerf.xsd");
+            settings.ValidationType = ValidationType.Schema;
+
+            XmlReader reader = XmlReader.Create(xmlFile, settings);
+            XmlDocument document = new XmlDocument();
+            document.Load(reader);
+
+            ValidationEventHandler eventHandler = new ValidationEventHandler(ValidationEventHandler);
+
+            // the following call to Validate succeeds.
+            document.Validate(eventHandler);
+        }
+
+        private static void ValidationEventHandler(object sender, ValidationEventArgs e)
+        {
+            switch (e.Severity)
+            {
+                case XmlSeverityType.Error:
+                    Console.WriteLine("Error: {0}", e.Message);
+                    break;
+                case XmlSeverityType.Warning:
+                    Console.WriteLine("Warning {0}", e.Message);
+                    break;
+            }
         }
     }
 }
