@@ -43,6 +43,11 @@ namespace SeleniumPerfXMLNUnitTest
         public void TestSimpleIf() { }
 
         [Test]
+        public void TestNestedIf()
+        {
+
+        }
+        [Test]
         public void TestElseIf() { }
 
         [Test]

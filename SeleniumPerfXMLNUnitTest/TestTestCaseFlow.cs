@@ -7,6 +7,7 @@ using SeleniumPerfXML.Implementations;
 using System.Configuration;
 using System.IO;
 using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
+using System.Collections.Generic;
 
 namespace SeleniumPerfXMLNUnitTest
 {
@@ -122,14 +123,93 @@ namespace SeleniumPerfXMLNUnitTest
         }
 
         [Test]
-        public void TestElseIf() { }
+        public void TestElseIf() {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestSetElseIf.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 2 test case");
+            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Count, "Expected to have 1 test steps");
+        }
 
         [Test]
-        public void TestElse() { }
+        public void TestElse() {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestSetElse.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(4, reporter.TestCaseStatuses.Count, "Expected to have 4 test case");
+            Assert.AreEqual(3, reporter.TestCaseToTestSteps.Count, "Expected to have 3 test steps");
+        }
 
         [Test]
-        public void TestCannotFindTestCase() { }
-        
+        public void TestCannotFindTestCase()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestSetMissingTestCase.xml");
+
+            try
+            {
+                AutomationTestSetDriver.RunTestSet(testSet);
+            }
+            catch (Exception)
+            {
+            }
+
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsFalse(reporter.TestSetStatuses[0].RunSuccessful, "Expected to fail");
+            Assert.AreEqual(0, reporter.TestCaseStatuses.Count, "Expected to have 0 test case");
+            Assert.AreEqual(0, reporter.TestCaseToTestSteps.Count, "Expected to have 0 test steps");
+        }
+
+        [Test]
+        public void UnknownNodeName()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestSetUnknownNodeName.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 2 test case");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Count, "Expected to have 2 test steps");
+        }
+
+        private int countNotRanTestSteps(Reporter reporter)
+        {
+            int count = 0;
+            foreach (List<ITestStepStatus> list in reporter.TestCaseToTestSteps.Values)
+            {
+                foreach(ITestStepStatus status in list)
+                {
+                    if (status.Actual.Equals("N/A"))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
 
         private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
         {
