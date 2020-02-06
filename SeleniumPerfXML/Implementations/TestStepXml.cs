@@ -96,6 +96,11 @@ namespace SeleniumPerfXML.Implementations
                     TestStepNumber = this.TestStepNumber,
                 };
             }
+
+            if (!this.ShouldExecuteVariable)
+            {
+                this.TestStepStatus.Actual = "N/A";
+            }
         }
 
         /// <inheritdoc/>
