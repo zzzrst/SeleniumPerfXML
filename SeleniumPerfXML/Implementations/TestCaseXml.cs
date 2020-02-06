@@ -230,7 +230,7 @@ namespace SeleniumPerfXML.Implementations
                     if (performAction && !ifCondition)
                     {
                         string elementXPath = XMLInformation.ReplaceIfToken(ifXMLNode.Attributes["elementXPath"].Value);
-                        string condition = ifXMLNode.Attributes["condition"].Value;
+                        string condition = ifSection.Attributes["condition"].Value;
 
                         SeleniumDriver.ElementState state = condition == "EXIST" ? SeleniumDriver.ElementState.Visible : SeleniumDriver.ElementState.Invisible;
 
