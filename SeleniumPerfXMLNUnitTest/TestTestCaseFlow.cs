@@ -8,6 +8,7 @@ using System.Configuration;
 using System.IO;
 using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SeleniumPerfXMLNUnitTest
 {
@@ -69,7 +70,7 @@ namespace SeleniumPerfXMLNUnitTest
 
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expeted to pass");
             Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expeted to have 1 test case");
-            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Count);
+            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 1 test set");
         }
 
         [Test]
@@ -86,7 +87,7 @@ namespace SeleniumPerfXMLNUnitTest
             reporter = (Reporter)testSet.Reporter;
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful,"Expected to pass");
             Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 2 test case");
-            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Count, "Expected to have 2 test steps");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 2 test steps");
         }
 
         [Test]
@@ -102,7 +103,7 @@ namespace SeleniumPerfXMLNUnitTest
             reporter = (Reporter)testSet.Reporter;
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
             Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
-            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Count, "Expected to have 1 test steps");
+            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 1 test steps");
         }
 
         [Test]
@@ -119,7 +120,7 @@ namespace SeleniumPerfXMLNUnitTest
             reporter = (Reporter)testSet.Reporter;
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
             Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 2 test case");
-            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Count, "Expected to have 2 test steps");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 2 test steps");
         }
 
         [Test]
@@ -134,8 +135,8 @@ namespace SeleniumPerfXMLNUnitTest
 
             reporter = (Reporter)testSet.Reporter;
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
-            Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 2 test case");
-            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Count, "Expected to have 1 test steps");
+            Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 1 test steps");
         }
 
         [Test]
@@ -151,7 +152,7 @@ namespace SeleniumPerfXMLNUnitTest
             reporter = (Reporter)testSet.Reporter;
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
             Assert.AreEqual(4, reporter.TestCaseStatuses.Count, "Expected to have 4 test case");
-            Assert.AreEqual(3, reporter.TestCaseToTestSteps.Count, "Expected to have 3 test steps");
+            Assert.AreEqual(3, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 3 test steps");
         }
 
         [Test]
@@ -175,7 +176,7 @@ namespace SeleniumPerfXMLNUnitTest
             reporter = (Reporter)testSet.Reporter;
             Assert.IsFalse(reporter.TestSetStatuses[0].RunSuccessful, "Expected to fail");
             Assert.AreEqual(0, reporter.TestCaseStatuses.Count, "Expected to have 0 test case");
-            Assert.AreEqual(0, reporter.TestCaseToTestSteps.Count, "Expected to have 0 test steps");
+            Assert.AreEqual(0, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 0 test steps");
         }
 
         [Test]
@@ -192,23 +193,7 @@ namespace SeleniumPerfXMLNUnitTest
             reporter = (Reporter)testSet.Reporter;
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
             Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 2 test case");
-            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Count, "Expected to have 2 test steps");
-        }
-
-        private int countNotRanTestSteps(Reporter reporter)
-        {
-            int count = 0;
-            foreach (List<ITestStepStatus> list in reporter.TestCaseToTestSteps.Values)
-            {
-                foreach(ITestStepStatus status in list)
-                {
-                    if (status.Actual.Equals("N/A"))
-                    {
-                        count++;
-                    }
-                }
-            }
-            return count;
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 2 test steps");
         }
 
         private TestSetXml buildTestSet(string testFileName, string url = "testUrl")

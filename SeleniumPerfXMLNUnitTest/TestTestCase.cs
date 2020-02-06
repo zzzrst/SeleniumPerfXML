@@ -7,6 +7,8 @@ using SeleniumPerfXML.Implementations;
 using System.Configuration;
 using System.IO;
 using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace SeleniumPerfXMLNUnitTest
 {
@@ -15,7 +17,7 @@ namespace SeleniumPerfXMLNUnitTest
         private string saveFileLocation;
         private string readFileLocation;
         private string logName;
-        private string reportName; 
+        private string reportName;
 
         [SetUp]
         public void SetUp()
@@ -37,27 +39,168 @@ namespace SeleniumPerfXMLNUnitTest
         }
 
         [Test]
-        public void TestDuplicateIDs() { }
+        public void TestDuplicateIDs()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestCaseDuplicateId.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expeted to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expeted to have 1 test case");
+            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 1 test set");
+        }
 
         [Test]
-        public void TestSimpleIf() { }
+        public void TestSimpleIf()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestCaseSimpleIf.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 1 test steps");
+        }
 
         [Test]
         public void TestNestedIf()
         {
+            TestSetXml testSet;
+            Reporter reporter;
 
+            testSet = buildTestSet("\\TestCaseNestedIf.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 2 test steps");
         }
-        [Test]
-        public void TestElseIf() { }
 
         [Test]
-        public void TestElse() { }
+        public void TestElseIf()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestCaseElseIf.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 2 test steps");
+            Assert.AreEqual(1, countNotRanTestSteps(reporter), "Expected to have 1 not ran test steps");
+        }
 
         [Test]
-        public void TestCannotFindTestStep() { }
+        public void TestElse()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestCaseElse.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(4, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 4 test steps");
+            Assert.AreEqual(1, countNotRanTestSteps(reporter), "Expected to have 1 not ran test steps");
+        }
 
         [Test]
-        public void TestRepeatForMultiple() { }
+        public void TestCannotFindTestStep()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestCaseMissingTestStep.xml");
+
+            try
+            {
+                AutomationTestSetDriver.RunTestSet(testSet);
+            }
+            catch (Exception)
+            {
+            }
+
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsFalse(reporter.TestSetStatuses[0].RunSuccessful, "Expected to fail");
+            Assert.AreEqual(0, reporter.TestCaseStatuses.Count, "Expected to have 0 test case");
+            Assert.AreEqual(0, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 0 test steps");
+        }
+
+        [Test]
+        public void TestRepeatForMultiple()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestCaseRepeatMultiple.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 2 test steps");
+        }
+
+        [Test]
+        public void TestSameTestStep()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestCaseSameTestStep.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 2 test steps");
+        }
+
+        [Test]
+        public void TestUnknownNodeName()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestCaseUnknownNodeName.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 2 test steps");
+        }
 
         private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
         {
@@ -72,6 +215,22 @@ namespace SeleniumPerfXMLNUnitTest
             };
 
             return builder.BuildTestSet();
+        }
+
+        private int countNotRanTestSteps(Reporter reporter)
+        {
+            int count = 0;
+            foreach (List<ITestStepStatus> list in reporter.TestCaseToTestSteps.Values)
+            {
+                foreach (ITestStepStatus status in list)
+                {
+                    if (status.Actual.Equals("N/A"))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
         }
     }
 }
