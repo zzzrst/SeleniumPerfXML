@@ -73,9 +73,11 @@ namespace SeleniumPerfXML.Implementations
         {
             TestCaseXml testCase = null;
 
-            if (this.testStack.Count > 0)
+            testCase = this.IfRunTestCaseLayer();
+
+            if (testCase == null)
             {
-                testCase = this.IfRunTestCaseLayer();
+                throw new Exception("Missing Test case");
             }
 
             return testCase;
@@ -87,6 +89,7 @@ namespace SeleniumPerfXML.Implementations
             this.TestSetStatus.ErrorStack = e.StackTrace;
             this.TestSetStatus.FriendlyErrorMessage = e.Message;
             this.TestSetStatus.RunSuccessful = false;
+            this.ShouldExecuteVariable = false;
         }
 
         /// <inheritdoc/>
@@ -158,6 +161,7 @@ namespace SeleniumPerfXML.Implementations
             while (this.testStack.Count > 0 && testCase == null)
             {
                 currentNode = this.testStack.Pop();
+                performAction = this.performStack.Pop();
 
                 if (currentNode.Name == "If")
                 {
