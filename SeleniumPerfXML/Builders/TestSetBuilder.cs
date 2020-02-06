@@ -10,6 +10,7 @@ namespace SeleniumPerfXML
     using System.IO;
     using System.Text;
     using System.Xml;
+    using System.Xml.Schema;
     using SeleniumPerfXML.Builders;
     using SeleniumPerfXML.Implementations;
     using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
