@@ -51,7 +51,7 @@ namespace SeleniumPerfXMLNUnitTest
             reporter = (Reporter)testSet.Reporter;
 
             Assert.Pass();
-            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful,"Expeted to pass");
         }
 
         [Test]
@@ -66,29 +66,60 @@ namespace SeleniumPerfXMLNUnitTest
 
             reporter = (Reporter)testSet.Reporter;
 
-            Assert.Equals(1,reporter.TestSetStatuses.Count);
-            Assert.Equals(1, reporter.TestCaseStatuses.Count);
-            Assert.Equals(1, reporter.TestCaseToTestSteps.Count);
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expeted to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expeted to have 1 test case");
+            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Count);
         }
-        
+
         [Test]
-        public void TestSimpleIf() {
+        public void TestSameCaseRanTwice()
+        {
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSetDuplicateId.xml");
+            testSet = buildTestSet("\\TestSameCaseRanTwice.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
 
             reporter = (Reporter)testSet.Reporter;
-            Assert.IsFalse(reporter.TestSetStatuses[0].RunSuccessful);
-            Assert.IsFalse(reporter.TestCaseStatuses[0].RunSuccessful);
-            Assert.IsFalse(reporter.TestCaseToTestSteps[reporter.TestCaseStatuses[0]][0].RunSuccessful);
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful,"Expected to pass");
+            Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 2 test case");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Count, "Expected to have 2 test steps");
         }
 
         [Test]
-        public void TestIfChain() { }
+        public void TestSimpleIf() {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestSetSimpleIf.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(1, reporter.TestCaseStatuses.Count, "Expected to have 1 test case");
+            Assert.AreEqual(1, reporter.TestCaseToTestSteps.Count, "Expected to have 1 test steps");
+        }
+
+        [Test]
+        public void TestNestedIf()
+        {
+            TestSetXml testSet;
+            Reporter reporter;
+
+            testSet = buildTestSet("\\TestSetNestedIf.xml");
+
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            reporter = (Reporter)testSet.Reporter;
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful, "Expected to pass");
+            Assert.AreEqual(2, reporter.TestCaseStatuses.Count, "Expected to have 2 test case");
+            Assert.AreEqual(2, reporter.TestCaseToTestSteps.Count, "Expected to have 2 test steps");
+        }
 
         [Test]
         public void TestElseIf() { }
@@ -98,6 +129,7 @@ namespace SeleniumPerfXMLNUnitTest
 
         [Test]
         public void TestCannotFindTestCase() { }
+        
 
         private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
         {

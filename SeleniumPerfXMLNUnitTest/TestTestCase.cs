@@ -51,6 +51,9 @@ namespace SeleniumPerfXMLNUnitTest
         [Test]
         public void TestCannotFindTestStep() { }
 
+        [Test]
+        public void TestRepeatForMultiple() { }
+
         private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
         {
             TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}{testFileName}")
