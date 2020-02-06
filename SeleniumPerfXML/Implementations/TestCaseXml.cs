@@ -20,6 +20,11 @@ namespace SeleniumPerfXML.Implementations
         private readonly Stack<XmlNode> testStack = new Stack<XmlNode>();
 
         /// <summary>
+        /// Determines if the current stack layer should execute.
+        /// </summary>
+        private readonly Stack<bool> performStack = new Stack<bool>();
+
+        /// <summary>
         /// Gets or sets a value indicating whether you should execute this step or skip it.
         /// </summary>
         public bool ShouldExecuteVariable { get; set; } = true;
@@ -74,15 +79,13 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ExistNextTestStep()
         {
-            return this.CurrTestStepNumber < this.TotalTestSteps || this.ShouldExecuteAmountOfTimes > this.ExecuteCount;
+            return this.testStack.Count > 0 || this.ShouldExecuteAmountOfTimes > this.ExecuteCount;
         }
 
         /// <inheritdoc/>
         public ITestStep GetNextTestStep()
         {
             ITestStep testStep = null;
-
-            XmlNode currNode = this.TestCaseInfo.ChildNodes[this.CurrTestStepNumber];
 
             // reached end of loop, check if should loop again.
             if (this.CurrTestStepNumber == this.TotalTestSteps && this.ShouldExecuteAmountOfTimes > this.ExecuteCount)
@@ -91,20 +94,8 @@ namespace SeleniumPerfXML.Implementations
                 this.ExecuteCount += 1;
             }
 
-            if (currNode.Name == "If")
-            {
-                testStep = this.RunIfTestCase(currNode);
-            }
-            else if (currNode.Name == "RunTestStep")
-            {
-                testStep = this.FindTestStep(XMLInformation.ReplaceIfToken(currNode.InnerText));
-            }
-            else
-            {
-                Logger.Warn($"We currently do not deal with this: {testStep.Name}");
-            }
+            testStep = this.IfRunTestStepLayer();
 
-            this.CurrTestStepNumber += 1;
             return testStep;
         }
 
@@ -129,19 +120,26 @@ namespace SeleniumPerfXML.Implementations
                 };
             }
 
-            this.AddNodesToStack(this.TestCaseInfo);
+            if (this.testStack.Count <= 0)
+            {
+                this.AddNodesToStack(this.TestCaseInfo);
+            }
         }
 
         /// <inheritdoc/>
         public bool ShouldExecute()
         {
-            return this.ExecuteCount < this.ShouldExecuteAmountOfTimes && this.CurrTestStepNumber < this.TotalTestSteps;
+            return this.ExecuteCount < this.ShouldExecuteAmountOfTimes && this.testStack.Count > 0 && this.ShouldExecuteVariable;
         }
 
         /// <inheritdoc/>
         public void TearDown()
         {
             this.TestCaseStatus.EndTime = DateTime.UtcNow;
+            if (!this.ShouldExecuteVariable)
+            {
+                this.TestCaseStatus.Actual = "Did not run.";
+            }
 
             ITestCaseLogger log = new TestCaseLogger();
             log.Log(this);
@@ -159,12 +157,40 @@ namespace SeleniumPerfXML.Implementations
             this.Reporter.AddTestStepStatusToTestCase(testStepStatus, this.TestCaseStatus);
         }
 
-        private void AddNodesToStack(XmlNode currentNode)
+        private void AddNodesToStack(XmlNode currentNode, bool performAction = true)
         {
             for (int i = currentNode.ChildNodes.Count - 1; i >= 0; i--)
             {
                 this.testStack.Push(currentNode.ChildNodes[i]);
+                this.performStack.Push(performAction);
             }
+        }
+
+        private ITestStep IfRunTestStepLayer(bool performAction = true)
+        {
+            TestStepXml testStep = null;
+            XmlNode currentNode;
+
+            while (this.testStack.Count > 0 && testStep == null)
+            {
+                currentNode = this.testStack.Pop();
+                performAction = this.performStack.Pop();
+
+                if (currentNode.Name == "If")
+                {
+                    this.RunIfTestCase(currentNode, performAction);
+                }
+                else if (currentNode.Name == "RunTestStep")
+                {
+                    testStep = this.FindTestStep(XMLInformation.ReplaceIfToken(currentNode.InnerText), performAction);
+                }
+                else
+                {
+                    Logger.Warn($"We currently do not deal with this: {currentNode.Name}");
+                }
+            }
+
+            return testStep;
         }
 
         /// <summary>
@@ -172,10 +198,8 @@ namespace SeleniumPerfXML.Implementations
         /// </summary>
         /// <param name="ifXMLNode"> XML Node that has the if block. </param>
         /// <param name="performAction"> Perfoms the action. </param>
-        /// <returns>0 if pass. >=1 if fail.</returns>
-        private TestStepXml RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
+        private void RunIfTestCase(XmlNode ifXMLNode, bool performAction = true)
         {
-            TestStepXml testStep = null;
             bool ifCondition = false;
 
             // we check condition if we have to perfom this action.
@@ -195,7 +219,7 @@ namespace SeleniumPerfXML.Implementations
                 if (ifSection.Name == "Then")
                 {
                     // we run this test case only if performAction is true, and the condition for the element has passed.
-                    testStep = this.InnerFlow(ifSection, performAction && ifCondition);
+                    this.AddNodesToStack(ifSection, performAction && ifCondition);
                 }
                 else if (ifSection.Name == "ElseIf")
                 {
@@ -213,7 +237,7 @@ namespace SeleniumPerfXML.Implementations
                         secondIfCondition = this.Driver.CheckForElementState(elementXPath, state);
                     }
 
-                    testStep = this.InnerFlow(ifSection, performAction && !ifCondition && secondIfCondition);
+                    this.AddNodesToStack(ifSection, performAction && !ifCondition && secondIfCondition);
 
                     // update ifCondition to reflect if elseIf was run
                     ifCondition = !ifCondition && secondIfCondition;
@@ -221,45 +245,13 @@ namespace SeleniumPerfXML.Implementations
                 else if (ifSection.Name == "Else")
                 {
                     // at this point, we only run this action if performAction is true and the previous ifCondition was false.
-                    testStep = this.InnerFlow(ifSection, performAction && !ifCondition);
+                    this.AddNodesToStack(ifSection, performAction && !ifCondition);
                 }
                 else
                 {
                     Logger.Warn($"We currently do not deal with this. {ifSection.Name}");
                 }
             }
-
-            return testStep;
-        }
-
-        /// <summary>
-        /// Runs the test case based on the provided XMLNode.
-        /// </summary>
-        /// <param name="innerNode"> Optional XmlNode to represent testCases. </param>
-        /// <param name="performAction"> Performs the action. </param>
-        /// <returns>0 if pass. >=1 if not pass.</returns>
-        private TestStepXml InnerFlow(XmlNode innerNode, bool performAction = true)
-        {
-            TestStepXml testStep = null;
-
-            // Run Each Test Step Here
-            foreach (XmlNode node in innerNode)
-            {
-                if (node.Name == "If")
-                {
-                    testStep = this.RunIfTestCase(node, performAction);
-                }
-                else if (node.Name == "RunTestStep")
-                {
-                    testStep = this.FindTestStep(XMLInformation.ReplaceIfToken(node.InnerText), performAction);
-                }
-                else
-                {
-                    Logger.Warn($"We currently do not deal with this: {testStep.Name}");
-                }
-            }
-
-            return testStep;
         }
 
         /// <summary>
@@ -346,7 +338,7 @@ namespace SeleniumPerfXML.Implementations
 
                 testStep.ShouldLog = log;
                 testStep.TestStepInfo = testStepNode;
-                testStep.ShouldExecuteVariable = performAction;
+                testStep.ShouldExecuteVariable = performAction && this.ShouldExecuteVariable;
                 testStep.RunAODA = runAODA;
                 testStep.RunAODAPageName = runAODAPageName;
                 testStep.Driver = this.Driver;
