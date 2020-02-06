@@ -211,6 +211,7 @@ namespace SeleniumPerfXMLNUnitTest
                 LogSaveFileLocation = saveFileLocation,
                 ScreenshotSaveLocation = saveFileLocation,
                 ReportSaveFileLocation = saveFileLocation,
+                PassedInRespectRepeatFor = "true",
                 XMLFile = $"{readFileLocation}{testFileName}",
             };
 
