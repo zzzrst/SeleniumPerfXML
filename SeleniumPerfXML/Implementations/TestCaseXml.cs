@@ -79,7 +79,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ExistNextTestStep()
         {
-            return this.testStack.Count > 0 || this.ShouldExecuteAmountOfTimes > this.ExecuteCount;
+            return this.testStack.Count > 0 || this.ShouldExecuteAmountOfTimes > this.ExecuteCount + 1;
         }
 
         /// <inheritdoc/>
@@ -88,9 +88,9 @@ namespace SeleniumPerfXML.Implementations
             ITestStep testStep = null;
 
             // reached end of loop, check if should loop again.
-            if (this.CurrTestStepNumber == this.TotalTestSteps && this.ShouldExecuteAmountOfTimes > this.ExecuteCount)
+            if (this.testStack.Count == 0 && this.ShouldExecuteAmountOfTimes > this.ExecuteCount)
             {
-                this.CurrTestStepNumber = 0;
+                this.AddNodesToStack(this.TestCaseInfo);
                 this.ExecuteCount += 1;
             }
 
@@ -129,7 +129,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public bool ShouldExecute()
         {
-            return this.ExecuteCount < this.ShouldExecuteAmountOfTimes && this.testStack.Count > 0 && this.ShouldExecuteVariable;
+            return this.ShouldExecuteVariable;
         }
 
         /// <inheritdoc/>
@@ -343,7 +343,7 @@ namespace SeleniumPerfXML.Implementations
                 testStep.RunAODAPageName = runAODAPageName;
                 testStep.Driver = this.Driver;
                 testStep.Reporter = this.Reporter;
-                testStep.TestStepNumber = this.CurrTestStepNumber;
+                testStep.TestStepNumber = this.CurrTestStepNumber + (this.ExecuteCount * this.TotalTestSteps);
             }
 
             return testStep;
