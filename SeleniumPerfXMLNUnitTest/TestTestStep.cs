@@ -7,6 +7,7 @@ using SeleniumPerfXML.Implementations;
 using System.Configuration;
 using System.IO;
 using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
+using System.Linq;
 
 namespace SeleniumPerfXMLNUnitTest
 {
@@ -31,7 +32,20 @@ namespace SeleniumPerfXMLNUnitTest
             if (Directory.Exists(saveFileLocation))
             {
                 if (File.Exists(saveFileLocation + logName))
-                    File.Delete(saveFileLocation + logName);
+                {
+                    bool notDeleted = true;
+                    do
+                    {
+                        try
+                        {
+                            File.Delete(saveFileLocation + logName);
+                            notDeleted = false;
+                        }
+                        catch (IOException)
+                        {
+                        }
+                    } while (notDeleted);
+                }
                 if (File.Exists(saveFileLocation + reportName))
                     File.Delete(saveFileLocation + reportName);
                 Directory.Delete(saveFileLocation);
@@ -55,9 +69,51 @@ namespace SeleniumPerfXMLNUnitTest
         }
 
         [Test]
+        public void TestLog()
+        {
+            TestSetXml testSet;
+
+            testSet = buildTestSet("\\TestLog.xml");
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            Reporter reporter = (Reporter)testSet.Reporter;
+            string firstLine;
+            using (StreamReader reader = new StreamReader(this.saveFileLocation + logName))
+            {
+                firstLine = reader.ReadLine();
+                reader.ReadToEnd();
+                reader.Close();
+            }
+            
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
+            Assert.IsTrue(reporter.TestCaseStatuses[0].RunSuccessful);
+            Assert.IsTrue(reporter.TestCaseToTestSteps[reporter.TestCaseStatuses[0]][0].RunSuccessful);
+            Assert.AreEqual("Name:Logging", firstLine.Trim(), "Log file should have teststep in it");
+        }
+
+        [Test]
         public void TestNoLog()
         {
+            TestSetXml testSet;
 
+            testSet = buildTestSet("\\TestNoLog.xml");
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            Reporter reporter = (Reporter)testSet.Reporter;
+            string firstLine;
+            using (StreamReader reader = new StreamReader(this.saveFileLocation + logName))
+            {
+                firstLine = reader.ReadLine();
+                reader.ReadToEnd();
+                reader.Close();
+            }
+
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
+            Assert.IsTrue(reporter.TestCaseStatuses[0].RunSuccessful);
+            Assert.IsTrue(reporter.TestCaseToTestSteps[reporter.TestCaseStatuses[0]][0].RunSuccessful);
+            Assert.AreNotEqual("Name:No logging", firstLine.Trim(), "Log file should not have teststep in it");
         }
 
         [Test]
@@ -72,9 +128,28 @@ namespace SeleniumPerfXMLNUnitTest
 
             reporter = (Reporter)testSet.Reporter;
 
-            Assert.Pass();
             Assert.IsTrue(Directory.Exists(saveFileLocation));
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
+        }
+
+        /// <summary>
+        /// Tests all concrete test steps except:
+        /// Sign in: it is a combination of click element and populate element
+        /// 
+        /// </summary>
+        [Test]
+        public void TestAllConcreteTestSteps()
+        {
+            TestSetXml testSet;
+
+            testSet = buildTestSet("\\TestOpenClose.xml");
+            AutomationTestSetDriver.RunTestSet(testSet);
+            testSet.Reporter.Report();
+
+            Reporter reporter = (Reporter)testSet.Reporter;
+
+            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
+            Assert.IsTrue(reporter.TestCaseStatuses[0].RunSuccessful);
         }
 
         private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
@@ -86,6 +161,7 @@ namespace SeleniumPerfXMLNUnitTest
                 LogSaveFileLocation = saveFileLocation,
                 ScreenshotSaveLocation = saveFileLocation,
                 ReportSaveFileLocation = saveFileLocation,
+                PassedInRespectRunAODAFlag = "true",
                 XMLFile = $"{readFileLocation}{testFileName}",
             };
 
