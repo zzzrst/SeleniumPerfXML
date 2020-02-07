@@ -11,12 +11,6 @@ We also are sponsered by: ![Browserstack-logo.svg](Browserstack-logo.svg)
 ## Selenium.Axe
 Selenium.Axe is the integration of axe-core and Selenium. The github source for the nugget package can be found [here](https://github.com/TroyWalshProf/SeleniumAxeDotnet).
 
-Dependencies:
-
- Name | Version 
-:---- | :-------
-.NetCore.App | 2.1
-
 ## SeleniumPerfXML
 SeleniumPerfXML is an automation framework that reads an XML file for instructions that will be performed on the browser.
 
@@ -24,13 +18,13 @@ Dependencies:
 
  Name | Version 
 :---- | :-------
-.NetCore.App | 2.1
+.NetCore.App | 3.1
 
 
 # Getting Started
-* You must have .Net Core 2.1 SDK / Runtime installed.
+* You must have .Net Core 3.1 SDK / Runtime installed.
 * To use chrome as a browser, you must: 
-    * Download version 73 of chrome/chromium
+    * Download version 79 of chrome/chromium
     * Rename the installation folder as chromium
     * Copy that folder into the same location as the built solution
 
