@@ -86,7 +86,7 @@ namespace SeleniumPerfXML
                     CsvSaveFileLocation = csvSaveFileLocation,
                     LogSaveFileLocation = logSaveFileLocation,
                     ScreenshotSaveLocation = screenshotSaveLocation,
-                    ReportSaveFileLocation = reportSaveFileLocation,
+                    ReportSaveFileLocation = csvSaveFileLocation,
                     XMLFile = xmlFile,
                 };
                 testStep = builder.BuildTestSet();

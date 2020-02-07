@@ -39,15 +39,9 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
             str.Add("Expected:" + testSetStatus.Expected);
             str.Add("Actual:" + testSetStatus.Actual);
 
-            using (StreamWriter file =
-                new StreamWriter(@$"{this.SaveFileLocation}", true))
+            foreach (string line in str)
             {
-                foreach (string line in str)
-                {
-                    file.WriteLine(line);
-                }
-
-                file.Close();
+                Logger.Info(line);
             }
         }
     }

@@ -28,28 +28,12 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
             ITestStepStatus testStepStatus = testStep.TestStepStatus;
             List<string> str = new List<string>();
             str.Add(this.Tab(2) + "Name:" + testStep.Name);
-            str.Add(this.Tab(2) + "TestStepNumber:" + testStep.TestStepNumber.ToString());
-            str.Add(this.Tab(2) + "OnExceptionFlowBehavior:" + testStep.OnExceptionFlowBehavior.ToString());
-            str.Add(this.Tab(2) + "ShouldExecute:" + testStep.ShouldExecute().ToString());
             str.Add(this.Tab(2) + "RunSuccessful:" + testStepStatus.RunSuccessful.ToString());
-            str.Add(this.Tab(2) + "ErrorStack:" + testStepStatus.ErrorStack);
-            str.Add(this.Tab(2) + "FriendlyErrorMessage:" + testStepStatus.FriendlyErrorMessage);
-            str.Add(this.Tab(2) + "StartTime:" + testStepStatus.StartTime.ToString());
-            str.Add(this.Tab(2) + "EndTime:" + testStepStatus.EndTime.ToString());
-            str.Add(this.Tab(2) + "Description:" + testStepStatus.Description);
-            str.Add(this.Tab(2) + "Expected:" + testStepStatus.Expected);
-            str.Add(this.Tab(2) + "Actual:" + testStepStatus.Actual);
             str.Add(this.Tab(2) + "----------------------------");
 
-            using (StreamWriter file =
-            new StreamWriter(@$"{this.SaveFileLocation}", true))
+            foreach (string line in str)
             {
-                foreach (string line in str)
-                {
-                    file.WriteLine(line);
-                }
-
-                file.Close();
+                Logger.Info(line);
             }
         }
 
