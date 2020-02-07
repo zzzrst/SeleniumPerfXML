@@ -142,7 +142,7 @@ namespace SeleniumPerfXMLNUnitTest
         {
             TestSetXml testSet;
 
-            testSet = buildTestSet("\\TestOpenClose.xml");
+            testSet = buildTestSet("\\TestAllConcreteSteps.xml");
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
 
