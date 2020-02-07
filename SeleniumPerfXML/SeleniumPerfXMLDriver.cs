@@ -5,6 +5,8 @@
 namespace SeleniumPerfXML
 {
     using System;
+    using System.IO;
+    using System.Reflection;
     using System.Xml;
     using System.Xml.Schema;
     using AutomationTestSetFramework;
@@ -115,7 +117,7 @@ namespace SeleniumPerfXML
         private static void ValidateXMLdocument(string xmlFile)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
-            settings.Schemas.Add("http://qa/SeleniumPerf", "SeleniumPerf.xsd");
+            settings.Schemas.Add("http://qa/SeleniumPerf", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\SeleniumPerf.xsd");
             settings.ValidationType = ValidationType.Schema;
 
             XmlReader reader = XmlReader.Create(xmlFile, settings);
