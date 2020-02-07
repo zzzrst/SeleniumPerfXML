@@ -8,6 +8,7 @@ namespace SeleniumPerfXML.Axe
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using OpenQA.Selenium;
@@ -160,12 +161,12 @@ namespace SeleniumPerfXML.Axe
                                 $"\"{pageURL.Value.Count.ToString()}\""));
 
                         // write it to file
-                        string fileName = $"{ruleID.Key}_{string.Join("_", this.ruleInfo[ruleID.Key].RuleTag)}_{string.Join("_", currentProvidedPageTitle.Replace('/', '-'))}.json";
+                        string fileName = $"{ruleID.Key}_{string.Join("_", this.ruleInfo[ruleID.Key].RuleTag)}.json";
 
                         string directoryPath = $"{folderLocation}\\Json\\{resultType.Key}\\{ruleID.Key}";
                         Directory.CreateDirectory(directoryPath);
 
-                        using (StreamWriter file = File.CreateText($"{directoryPath}\\{fileName}"))
+                        using (StreamWriter file = File.AppendText($"{directoryPath}\\{fileName}"))
                         using (JsonTextWriter writer = new JsonTextWriter(file) { Formatting = Formatting.Indented })
                         {
                             ruleSummary.WriteTo(writer);
