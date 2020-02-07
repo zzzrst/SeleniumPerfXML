@@ -162,7 +162,7 @@ namespace SeleniumPerfXML.Axe
                         // write it to file
                         string fileName = $"{ruleID.Key}_{string.Join("_", this.ruleInfo[ruleID.Key].RuleTag)}_{string.Join("_", currentProvidedPageTitle.Replace('/', '-'))}.json";
 
-                        string directoryPath = $"{folderLocation}\\Json\\{resultType.Key}";
+                        string directoryPath = $"{folderLocation}\\Json\\{resultType.Key}\\{ruleID.Key}";
                         Directory.CreateDirectory(directoryPath);
 
                         using (StreamWriter file = File.CreateText($"{directoryPath}\\{fileName}"))
