@@ -35,7 +35,7 @@ namespace SeleniumPerfXMLNUnitTest
                     File.Delete(saveFileLocation + logName);
                 if (File.Exists(saveFileLocation + reportName))
                     File.Delete(saveFileLocation + reportName);
-                Directory.Delete(saveFileLocation);
+                Directory.Delete(saveFileLocation, true);
             }
         }
 
