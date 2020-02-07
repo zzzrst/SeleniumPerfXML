@@ -93,6 +93,8 @@ namespace SeleniumPerfXML
                 AutomationTestSetDriver.RunTestSet(testStep);
                 testStep.Reporter.Report();
 
+                builder.RunAODA();
+
                 string resultString = testStep.TestSetStatus.RunSuccessful ? "successfull" : "not successful";
                 Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");
             }

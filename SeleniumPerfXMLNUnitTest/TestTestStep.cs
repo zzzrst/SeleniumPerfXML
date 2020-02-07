@@ -17,7 +17,8 @@ namespace SeleniumPerfXMLNUnitTest
         private string readFileLocation;
         private string webSiteLocation;
         private string logName;
-        private string reportName; 
+        private string reportName;
+        private TestSetBuilder builder;
 
         [SetUp]
         public void SetUp()
@@ -125,6 +126,7 @@ namespace SeleniumPerfXMLNUnitTest
             testSet = buildTestSet("\\TestOpenClose.xml", $"{webSiteLocation}\\Google.html");
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
+            builder.RunAODA();
 
             reporter = (Reporter)testSet.Reporter;
 
@@ -154,7 +156,7 @@ namespace SeleniumPerfXMLNUnitTest
 
         private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
         {
-            TestSetBuilder builder = new TestSetBuilder($"{readFileLocation}{testFileName}")
+            builder = new TestSetBuilder($"{readFileLocation}{testFileName}")
             {
                 URL = url,
                 CsvSaveFileLocation = saveFileLocation,

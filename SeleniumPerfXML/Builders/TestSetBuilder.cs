@@ -8,6 +8,7 @@ namespace SeleniumPerfXML
     using System.Collections.Generic;
     using System.Configuration;
     using System.IO;
+    using System.IO.Compression;
     using System.Text;
     using System.Xml;
     using System.Xml.Schema;
@@ -154,6 +155,37 @@ namespace SeleniumPerfXML
             };
 
             return testSet;
+        }
+
+        /// <summary>
+        /// Runs AODA If needed
+        /// </summary>
+        public void RunAODA()
+        {
+            if (this.RespectRunAODAFlag)
+            {
+                string tempFolder = $"{this.LogSaveFileLocation}\\temp\\";
+
+                // Delete temp folder if exist and recreate
+                if (Directory.Exists(tempFolder))
+                {
+                    Directory.Delete(tempFolder, true);
+                }
+
+                Directory.CreateDirectory(tempFolder);
+
+                // Generate AODA Results
+                this.SeleniumDriver.GenerateAODAResults(tempFolder);
+
+                // Zip all the contents up & Timestamp it
+                string zipFileName = $"AODA_Results_{DateTime.Now:MM_dd_yyyy_hh_mm_ss_tt}.zip";
+                ZipFile.CreateFromDirectory(tempFolder, $"{this.LogSaveFileLocation}\\{zipFileName}");
+
+                // Remove all remaining contents.
+                Directory.Delete(tempFolder, true);
+            }
+
+            this.SeleniumDriver.Quit();
         }
 
         private void InitilizeXMLInfo()
