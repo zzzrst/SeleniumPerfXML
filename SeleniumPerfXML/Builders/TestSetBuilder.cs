@@ -158,7 +158,7 @@ namespace SeleniumPerfXML
         }
 
         /// <summary>
-        /// Runs AODA If needed
+        /// Runs AODA If needed.
         /// </summary>
         public void RunAODA()
         {
@@ -195,6 +195,7 @@ namespace SeleniumPerfXML
             XMLInformation.RespectRepeatFor = this.RespectRepeatFor;
             XMLInformation.RespectRunAODAFlag = this.RespectRunAODAFlag;
             XMLInformation.LogSaveFileLocation = this.LogSaveFileLocation;
+            XMLInformation.CSVLogger = this.CSVLogger;
         }
 
         /// <summary>

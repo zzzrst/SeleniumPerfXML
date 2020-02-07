@@ -72,7 +72,8 @@ namespace SeleniumPerfXML
             {
                 TestSetXml testStep;
 
-                // ValidateXMLdocument(xmlFile);
+                ValidateXMLdocument(xmlFile);
+
                 TestSetBuilder builder = new TestSetBuilder(xmlFile)
                 {
                     Browser = browser,
@@ -90,10 +91,18 @@ namespace SeleniumPerfXML
                     XMLFile = xmlFile,
                 };
                 testStep = builder.BuildTestSet();
+
+                DateTime start = DateTime.UtcNow;
+
                 AutomationTestSetDriver.RunTestSet(testStep);
                 testStep.Reporter.Report();
 
                 builder.RunAODA();
+
+                DateTime end = DateTime.UtcNow;
+
+                XMLInformation.CSVLogger.AddResults($"Total, {Math.Abs((start - end).TotalSeconds)}");
+                XMLInformation.CSVLogger.WriteOutResults();
 
                 string resultString = testStep.TestSetStatus.RunSuccessful ? "successfull" : "not successful";
                 Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");

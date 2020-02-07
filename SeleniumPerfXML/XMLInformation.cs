@@ -25,6 +25,11 @@ namespace SeleniumPerfXML
         public static XmlDocument XMLDocObj { get; set; } = null;
 
         /// <summary>
+        /// Gets or sets the csv logger.
+        /// </summary>
+        public static CSVLogger CSVLogger { get; set; } = null;
+
+        /// <summary>
         /// Gets or sets a value indicating whether to respectRunAODAFlag or not.
         /// </summary>
         public static bool RespectRunAODAFlag { get; set; } = false;

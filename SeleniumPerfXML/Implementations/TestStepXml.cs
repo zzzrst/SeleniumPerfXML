@@ -82,6 +82,12 @@ namespace SeleniumPerfXML.Implementations
             this.TestStepStatus.FriendlyErrorMessage = e.Message;
             this.TestStepStatus.RunSuccessful = false;
 
+            if (this.ShouldLog)
+            {
+                XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"F\"");
+            }
+
+            this.Driver.CheckErrorContainer();
             this.Driver.TakeScreenShot();
         }
 
@@ -100,6 +106,7 @@ namespace SeleniumPerfXML.Implementations
             if (!this.ShouldExecuteVariable)
             {
                 this.TestStepStatus.Actual = "N/A";
+                XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"N/A\"");
             }
         }
 
@@ -118,11 +125,20 @@ namespace SeleniumPerfXML.Implementations
                 this.Driver.RunAODA(this.RunAODAPageName);
             }
 
+            double totalTime = this.GetTotalElapsedTime();
+
+            ITestStepLogger log = new TestStepLogger();
+            log.Log(this);
+
             if (this.ShouldLog)
             {
-                ITestStepLogger log = new TestStepLogger();
-                log.Log(this);
+                XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"{totalTime.ToString()}\"");
             }
+        }
+
+        private double GetTotalElapsedTime()
+        {
+            return Math.Abs((this.TestStepStatus.StartTime - this.TestStepStatus.EndTime).TotalSeconds);
         }
     }
 }
