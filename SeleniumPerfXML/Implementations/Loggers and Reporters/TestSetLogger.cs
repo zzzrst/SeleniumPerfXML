@@ -28,16 +28,7 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
             ITestSetStatus testSetStatus = testSet.TestSetStatus;
             List<string> str = new List<string>();
             str.Add("Name:" + testSet.Name);
-            str.Add("OnExceptionFlowBehavior:" + testSet.OnExceptionFlowBehavior.ToString());
-            str.Add("TotalTestCases:" + testSet.TotalTestCases.ToString());
             str.Add("RunSuccessful:" + testSetStatus.RunSuccessful.ToString());
-            str.Add("ErrorStack:" + testSetStatus.ErrorStack);
-            str.Add("FriendlyErrorMessage:" + testSetStatus.FriendlyErrorMessage);
-            str.Add("StartTime:" + testSetStatus.StartTime.ToString());
-            str.Add("EndTime:" + testSetStatus.EndTime.ToString());
-            str.Add("Description:" + testSetStatus.Description);
-            str.Add("Expected:" + testSetStatus.Expected);
-            str.Add("Actual:" + testSetStatus.Actual);
 
             foreach (string line in str)
             {
