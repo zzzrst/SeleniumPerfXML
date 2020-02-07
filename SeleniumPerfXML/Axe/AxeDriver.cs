@@ -160,7 +160,7 @@ namespace SeleniumPerfXML.Axe
                                 $"\"{pageURL.Value.Count.ToString()}\""));
 
                         // write it to file
-                        string fileName = $"{ruleID.Key}_{string.Join("_", this.ruleInfo[ruleID.Key].RuleTag)}_{currentURL}.json";
+                        string fileName = $"{ruleID.Key}_{string.Join("_", this.ruleInfo[ruleID.Key].RuleTag)}_{string.Join("_", currentProvidedPageTitle.Replace('/', '-'))}.json";
 
                         string directoryPath = $"{folderLocation}\\Json\\{resultType.Key}";
                         Directory.CreateDirectory(directoryPath);
