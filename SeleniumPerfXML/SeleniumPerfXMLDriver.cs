@@ -4,8 +4,14 @@
 
 namespace SeleniumPerfXML
 {
-    using System;
+    using AutomationTestSetFramework;
     using CommandLine;
+    using SeleniumPerfXML.Implementations;
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using System.Xml;
+    using System.Xml.Schema;
 
     /// <summary>
     /// Driver class.
@@ -33,6 +39,7 @@ namespace SeleniumPerfXML
             string dataFile = string.Empty;
             string csvSaveFileLocation = string.Empty;
             string logSaveFileLocation = string.Empty;
+            string reportSaveFileLocation = string.Empty;
             string screenshotSaveLocation = string.Empty;
             string xmlFile = string.Empty;
 
@@ -49,6 +56,7 @@ namespace SeleniumPerfXML
                    dataFile = o.DataFile ?? string.Empty;
                    csvSaveFileLocation = o.CSVSaveFileLocation ?? string.Empty;
                    logSaveFileLocation = o.LogSaveLocation ?? string.Empty;
+                   reportSaveFileLocation = o.ReportSaveLocation ?? string.Empty;
                    screenshotSaveLocation = o.ScreenShotSaveLocation ?? string.Empty;
                    xmlFile = o.XMLFile;
                })
@@ -64,7 +72,11 @@ namespace SeleniumPerfXML
 
             if (!errorParsing)
             {
-                TestDataXMLParser driver = new TestDataXMLParser(xmlFile)
+                TestSetXml testStep;
+
+                ValidateXMLdocument(xmlFile);
+
+                TestSetBuilder builder = new TestSetBuilder(xmlFile)
                 {
                     Browser = browser,
                     Environment = environment,
@@ -77,16 +89,58 @@ namespace SeleniumPerfXML
                     CsvSaveFileLocation = csvSaveFileLocation,
                     LogSaveFileLocation = logSaveFileLocation,
                     ScreenshotSaveLocation = screenshotSaveLocation,
+                    ReportSaveFileLocation = csvSaveFileLocation,
                     XMLFile = xmlFile,
                 };
+                testStep = builder.BuildTestSet();
 
-                resultCode = driver.RunTestCaseFlow();
-                string resultString = resultCode == 0 ? "successfull" : "not successful";
+                DateTime start = DateTime.UtcNow;
+
+                AutomationTestSetDriver.RunTestSet(testStep);
+                testStep.Reporter.Report();
+
+                builder.RunAODA();
+
+                DateTime end = DateTime.UtcNow;
+
+                XMLInformation.CSVLogger.AddResults($"Total, {Math.Abs((start - end).TotalSeconds)}");
+                XMLInformation.CSVLogger.WriteOutResults();
+
+                string resultString = testStep.TestSetStatus.RunSuccessful ? "successfull" : "not successful";
                 Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");
             }
 
             Environment.Exit(resultCode);
             return resultCode;
+        }
+
+        private static void ValidateXMLdocument(string xmlFile)
+        {
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.Schemas.Add("http://qa/SeleniumPerf", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\SeleniumPerf.xsd");
+            settings.ValidationType = ValidationType.Schema;
+
+            XmlReader reader = XmlReader.Create(xmlFile, settings);
+            XmlDocument document = new XmlDocument();
+            document.Load(reader);
+
+            ValidationEventHandler eventHandler = new ValidationEventHandler(ValidationEventHandler);
+
+            // the following call to Validate succeeds.
+            document.Validate(eventHandler);
+        }
+
+        private static void ValidationEventHandler(object sender, ValidationEventArgs e)
+        {
+            switch (e.Severity)
+            {
+                case XmlSeverityType.Error:
+                    Logger.Error($"XML validation error: {e.Message}");
+                    break;
+                case XmlSeverityType.Warning:
+                    Logger.Warn($"XML validation warning: {e.Message}");
+                    break;
+            }
         }
     }
 }

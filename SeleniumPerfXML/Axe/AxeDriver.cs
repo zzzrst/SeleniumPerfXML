@@ -4,14 +4,14 @@
 
 namespace SeleniumPerfXML.Axe
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using OpenQA.Selenium;
     using Selenium.Axe;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// This is the driver to deal with Axe.core.
@@ -62,7 +62,6 @@ namespace SeleniumPerfXML.Axe
         /// <param name="providedPageTitle"> Title of the page. </param>
         public void CaptureResult(IWebDriver driver, string providedPageTitle)
         {
-
             driver.Manage().Window.FullScreen();
             AxeResult results = driver.Analyze();
 
@@ -165,7 +164,7 @@ namespace SeleniumPerfXML.Axe
                         string directoryPath = $"{folderLocation}\\Json\\{resultType.Key}";
                         Directory.CreateDirectory(directoryPath);
 
-                        using (StreamWriter file = File.CreateText($"{directoryPath}\\{fileName}"))
+                        using (StreamWriter file = File.AppendText($"{directoryPath}\\{fileName}"))
                         using (JsonTextWriter writer = new JsonTextWriter(file) { Formatting = Formatting.Indented })
                         {
                             ruleSummary.WriteTo(writer);

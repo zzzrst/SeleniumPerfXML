@@ -4,9 +4,9 @@
 
 namespace SeleniumPerfXML
 {
-    using System.Collections.Generic;
     using CommandLine;
     using CommandLine.Text;
+    using System.Collections.Generic;
 
     /// <summary>
     /// This class stores the command line arguments that are taken in, both mandatory and optional.
@@ -39,6 +39,7 @@ namespace SeleniumPerfXML
                         WarningThreshold = 60,
                         CSVSaveFileLocation = "C:\\SeleniumPerfXML",
                         LogSaveLocation = "C:\\SeleniumPerfXML",
+                        ReportSaveLocation = "C:\\SeleniumPerfXML",
                         ScreenShotSaveLocation = "C:\\SeleniumPerfXML\\ScreenShots",
                         XMLFile = "C:\\SeleniumPerfXML\\SampleXML.xml",
                     });
@@ -106,6 +107,14 @@ namespace SeleniumPerfXML
         /// </summary>
         [Option("logSaveLocation", Required = false, HelpText = "Overrides the log save location set in XML")]
         public string LogSaveLocation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the log save location in the XML.
+        /// <para> </para>
+        /// If not set, will use the directory path of CSVSaveFileLocation.
+        /// </summary>
+        [Option("reportSaveLocation", Required = false, HelpText = "Overrides the report save location set in XML")]
+        public string ReportSaveLocation { get; set; }
 
         /// <summary>
         /// Gets or sets the screenshot save location in the XML.

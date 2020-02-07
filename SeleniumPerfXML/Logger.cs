@@ -4,11 +4,11 @@
 
 namespace SeleniumPerfXML
 {
+    using log4net;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Xml;
-    using log4net;
 
     /// <summary>
     /// Logger class to be used. \n
