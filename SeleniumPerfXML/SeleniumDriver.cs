@@ -4,10 +4,6 @@
 
 namespace SeleniumPerfXML
 {
-    using System;
-    using System.Configuration;
-    using System.IO;
-    using System.Reflection;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
     using OpenQA.Selenium.Edge;
@@ -16,6 +12,10 @@ namespace SeleniumPerfXML
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
     using SeleniumPerfXML.Axe;
+    using System;
+    using System.Configuration;
+    using System.IO;
+    using System.Reflection;
 
     /// <summary>
     /// Driver class for Selenium WebDriver.

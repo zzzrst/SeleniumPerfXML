@@ -4,10 +4,8 @@
 
 namespace SeleniumPerfXML.Implementations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using AutomationTestSetFramework;
+    using System;
 
     /// <summary>
     /// Implementation of ITestStepStatus class.

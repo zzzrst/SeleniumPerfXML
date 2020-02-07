@@ -4,13 +4,10 @@
 
 namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
 {
-    using System;
+    using AutomationTestSetFramework;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using AutomationTestSetFramework;
 
     /// <summary>
     /// The implementation of the reporter class.

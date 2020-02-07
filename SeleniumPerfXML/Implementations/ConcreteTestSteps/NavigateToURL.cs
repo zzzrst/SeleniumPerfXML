@@ -4,8 +4,6 @@
 
 namespace SeleniumPerfXML.Implementations
 {
-    using System.Xml;
-
     /// <summary>
     /// This class executes the action of opening the browser to the specified site.
     /// </summary>

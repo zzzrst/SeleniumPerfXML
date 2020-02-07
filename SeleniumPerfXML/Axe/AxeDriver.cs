@@ -4,14 +4,14 @@
 
 namespace SeleniumPerfXML.Axe
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using OpenQA.Selenium;
     using Selenium.Axe;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// This is the driver to deal with Axe.core.

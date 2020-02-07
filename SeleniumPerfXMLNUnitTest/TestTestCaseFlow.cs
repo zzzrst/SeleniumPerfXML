@@ -9,6 +9,7 @@ using System.IO;
 using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace SeleniumPerfXMLNUnitTest
 {
@@ -22,8 +23,9 @@ namespace SeleniumPerfXMLNUnitTest
         [SetUp]
         public void SetUp()
         {
-            saveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files";
-            readFileLocation = "C:\\SeleniumPerfXML\\Testing\\TestTestCaseFlow";
+            string executingLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            saveFileLocation = $"{executingLocation}\\Testing\\Files";
+            readFileLocation = $"{executingLocation}\\Testing\\TestTestCaseFlow";
             logName = "\\Log.txt";
             reportName = "\\Report.txt";
 

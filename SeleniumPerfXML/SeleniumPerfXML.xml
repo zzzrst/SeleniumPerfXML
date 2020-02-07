@@ -80,6 +80,16 @@
             The result type VIOLATIONS.
             </summary>
         </member>
+        <member name="T:SeleniumPerfXML.Axe.IAccessibilityChecker">
+            <summary>
+            The Accessibility interface.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Axe.IAccessibilityChecker.WebDriver">
+            <summary>
+            Gets or sets the webdriver variable.
+            </summary>
+        </member>
         <member name="T:SeleniumPerfXML.Axe.PageInformation">
             <summary>
             Class to represent information on a page.
@@ -140,6 +150,164 @@
             Gets or sets the list of target HTML elements / information this rule has.
             </summary>
         </member>
+        <member name="T:SeleniumPerfXML.Builders.SeleniumDriverBuilder">
+            <summary>
+            Builds a new selenium Driver based on the given variables.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Builders.SeleniumDriverBuilder.Browser">
+            <summary>
+            Gets or sets the browser to use.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Builders.SeleniumDriverBuilder.TimeOutThreshold">
+            <summary>
+            Gets or sets the time out Threshold.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Builders.SeleniumDriverBuilder.Environment">
+            <summary>
+            Gets or sets the Enviornment to use.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Builders.SeleniumDriverBuilder.URL">
+            <summary>
+            Gets or sets the url to go to.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Builders.SeleniumDriverBuilder.ScreenshotSaveLocation">
+            <summary>
+            Gets or sets the location of the Screenshot.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Builders.SeleniumDriverBuilder.ErrorContainer">
+            <summary>
+            Gets or sets the error container location.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Builders.SeleniumDriverBuilder.LoadingSpinner">
+            <summary>
+            Gets or sets the loading spinner location.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Builders.SeleniumDriverBuilder.BuildSeleniumDriver">
+            <summary>
+            Returns the seleniumDriver based on the given paramenters.
+            </summary>
+            <returns>A new SeleniumDriver.</returns>
+        </member>
+        <member name="T:SeleniumPerfXML.TestSetBuilder">
+            <summary>
+            The TestSetBuilder Class to initilize all the nessesary variables.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestSetBuilder.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SeleniumPerfXML.TestSetBuilder"/> class.
+            </summary>
+            <param name="xmlFile"> The file path to the XML file.</param>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.Browser">
+            <summary>
+            Gets or sets the browser to use in this test.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.Environment">
+            <summary>
+            Gets or sets the environment to go to.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.URL">
+            <summary>
+            Gets or sets the URL the browser should land on first.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.PassedInRespectRunAODAFlag">
+            <summary>
+            Gets or sets the passed in respectRunAODAFlag parameter.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.PassedInRespectRepeatFor">
+            <summary>
+            Gets or sets the passed in respectRepeatFor parameter.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.TimeOutThreshold">
+            <summary>
+            Gets or sets the timeout threshold.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.WarningThreshold">
+            <summary>
+            Gets or sets the warning threshold. Note that the warning threshold should be less than the timeout threshold.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.DataFile">
+            <summary>
+            Gets or sets the file path to the data file.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.CsvSaveFileLocation">
+            <summary>
+            Gets or sets the csv save file location.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.LogSaveFileLocation">
+            <summary>
+            Gets or sets the log save file location.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.ReportSaveFileLocation">
+            <summary>
+            Gets or sets the report save file location.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.ScreenshotSaveLocation">
+            <summary>
+            Gets or sets the screenshot save location.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.XMLFile">
+            <summary>
+            Gets or sets the XML file.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.RespectRunAODAFlag">
+            <summary>
+            Gets or sets a value indicating whether to respectRunAODAFlag or not.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.TestSetBuilder.RespectRepeatFor">
+            <summary>
+            Gets or sets a value indicating whether to respectRepeatFor or not.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestSetBuilder.BuildTestSet">
+            <summary>
+            Builds a new test set based on the given parameters from initilization.
+            </summary>
+            <returns>Tbe Test Set.</returns>
+        </member>
+        <member name="M:SeleniumPerfXML.TestSetBuilder.RunAODA">
+            <summary>
+            Runs AODA If needed.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestSetBuilder.ParseParameters">
+            <summary>
+            This function is responsible for parsing parameters in the XML File and updating variables if not overriden.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestSetBuilder.ParseSpecialElements">
+            <summary>
+            This function is responsible for parsing the special elements in the XML File and updating variables if not overriden.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.TestSetBuilder.InstantiateSeleniumDriver">
+            <summary>
+            Instantiates the selenim driver to be used in this test run.
+            </summary>
+        </member>
         <member name="T:SeleniumPerfXML.CSVLogger">
             <summary>
             Logger class for CSV.
@@ -173,6 +341,608 @@
             </summary>
             <param name="filename">The name of the file to write to.</param>
             <returns><code>true</code> if the file is ready. </returns>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.ChooseCollection">
+            <summary>
+            This class executes the action of getting to an organization.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.ChooseCollection.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.ChooseCollection.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.ClickElementByXPath">
+            <summary>
+            This class executes the action of opening the browser to the specified site.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.ClickElementByXPath.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.ClickElementByXPath.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.CloseBrowser">
+            <summary>
+            This class executes the action of closing the browser.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.CloseBrowser.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.CloseBrowser.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.CloseTab">
+            <summary>
+            This class executes the action of closing the current tab.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.CloseTab.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.CloseTab.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.DDLSelectByXPath">
+            <summary>
+            This class executes the action of selecting a value from the specified dropdownlist.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.DDLSelectByXPath.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.DDLSelectByXPath.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.MaximizeBrowser">
+            <summary>
+            This class executes the action of closing the current tab.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.MaximizeBrowser.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.MaximizeBrowser.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.NavigateToURL">
+            <summary>
+            This class executes the action of opening the browser to the specified site.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.NavigateToURL.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.NavigateToURL.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.OpenBrowser">
+            <summary>
+            This class executes the action of opening the browser to the specified site.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.OpenBrowser.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.OpenBrowser.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.PopulateElementByXPath">
+            <summary>
+            This class executes the action of populating the element identified by the xpath.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.PopulateElementByXPath.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.PopulateElementByXPath.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.SignIn">
+            <summary>
+            This class executes the action of signing in.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.SignIn.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.SignIn.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.SwitchIntoIFrame">
+            <summary>
+            This class executes the action of switching context into IFrame.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.SwitchIntoIFrame.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.SwitchIntoIFrame.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.SwitchToTab">
+            <summary>
+            This class executes the action of switching to tab x.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.SwitchToTab.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.SwitchToTab.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.WaitForElement">
+            <summary>
+            This class executes the action of waiting for an elment's status.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.WaitForElement.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.WaitForElement.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.WaitInSeconds">
+            <summary>
+            This class executes the action of waiting for x seconds.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.WaitInSeconds.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.WaitInSeconds.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter">
+            <summary>
+            The implementation of the reporter class.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter"/> class.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.SaveFileLocation">
+            <summary>
+            Gets or sets the location to save the report to.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.TestSetStatuses">
+            <summary>
+            Gets or sets the list of test set statuses.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.TestCaseStatuses">
+            <summary>
+            Gets or sets the list of test case statuses.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.TestCaseToTestSteps">
+            <summary>
+            Gets or sets the dictonary with key as Test Cases status and value as a list of Test step statuses.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.AddTestCaseStatus(AutomationTestSetFramework.ITestCaseStatus)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.AddTestSetStatus(AutomationTestSetFramework.ITestSetStatus)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.AddTestStepStatusToTestCase(AutomationTestSetFramework.ITestStepStatus,AutomationTestSetFramework.ITestCaseStatus)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.Loggers_and_Reporters.Reporter.Report">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestCaseLogger">
+            <summary>
+            The Implemntation of the TestCaseLogger.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestCaseLogger.SaveFileLocation">
+            <summary>
+            Gets or sets the location to save the log to.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestCaseLogger.Log(AutomationTestSetFramework.ITestCase)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestSetLogger">
+            <summary>
+            The Implemntation of the TestSetLogger.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestSetLogger.SaveFileLocation">
+            <summary>
+            Gets or sets the location to save the log to.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestSetLogger.Log(AutomationTestSetFramework.ITestSet)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestStepLogger">
+            <summary>
+            The Implemntation of the TestSetLogger.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestStepLogger.SaveFileLocation">
+            <summary>
+            Gets or sets the location to save the log to.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.Loggers_and_Reporters.TestStepLogger.Log(AutomationTestSetFramework.ITestStep)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.ReflectiveGetter">
+            <summary>
+            Class to get test action using reflection.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.ReflectiveGetter.GetEnumerableOfType``1(System.Object[])">
+            <summary>
+            Gets a list of all subclasses of base class T using reflection.
+            </summary>
+            <typeparam name="T">The generic type T to be used.</typeparam>
+            <param name="constructorArgs">The constructorArgs<see cref="T:object[]"/>.</param>
+            <returns><see cref="T:System.Collections.Generic.List`1"/> found.</returns>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.TestCaseStatus">
+            <summary>
+            An Implementation of the TestCaseStatus Class.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.TestCaseNumber">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.RunSuccessful">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.ErrorStack">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.FriendlyErrorMessage">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.StartTime">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.EndTime">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.Description">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.Expected">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseStatus.Actual">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.TestSetStatus">
+            <summary>
+            An Implementation of the testSetStatus class.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetStatus.RunSuccessful">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetStatus.ErrorStack">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetStatus.FriendlyErrorMessage">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetStatus.StartTime">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetStatus.EndTime">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetStatus.Description">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetStatus.Expected">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetStatus.Actual">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.TestStepStatus">
+            <summary>
+            Implementation of ITestStepStatus class.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.TestStepNumber">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.RunSuccessful">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.ErrorStack">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.FriendlyErrorMessage">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.StartTime">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.EndTime">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.Description">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.Expected">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepStatus.Actual">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.TestCaseXml">
+            <summary>
+            Implementation of the testCase class.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Implementations.TestCaseXml.performStack">
+            <summary>
+            Determines if the current stack layer should execute.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.ShouldExecuteVariable">
+            <summary>
+            Gets or sets a value indicating whether you should execute this step or skip it.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.TestCaseNumber">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.TotalTestSteps">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.TestCaseStatus">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.CurrTestStepNumber">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.OnExceptionFlowBehavior">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.ShouldExecuteAmountOfTimes">
+            <summary>
+            Gets or sets the ammount of times this should be ran.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.ExecuteCount">
+            <summary>
+            Gets or sets the ammount of times the test case has ran.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.TestCaseInfo">
+            <summary>
+            Gets or sets the information for the test case.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.Reporter">
+            <summary>
+            Gets or sets the reporter.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestCaseXml.Driver">
+            <summary>
+            Gets or sets the seleniumDriver to use.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.ExistNextTestStep">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.GetNextTestStep">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.HandleException(System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.SetUp">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.ShouldExecute">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.TearDown">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.UpdateTestCaseStatus(AutomationTestSetFramework.ITestStepStatus)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.RunIfTestCase(System.Xml.XmlNode,System.Boolean)">
+            <summary>
+            This function parses the if test case flow and starts executing.
+            </summary>
+            <param name="ifXMLNode"> XML Node that has the if block. </param>
+            <param name="performAction"> Perfoms the action. </param>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestCaseXml.FindTestStep(System.String,System.Boolean)">
+            <summary>
+            This function will go through the list of steps and run the appropriate test step if found.
+            </summary>
+            <param name="testStepID"> The ID of the test step to run. </param>
+            <param name="performAction"> Perfoms the action. </param>
+            <returns>0 if pass. >=1 if fail.</returns>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.TestSetXml">
+            <summary>
+            Implementation of the ITestSet Class.
+            </summary>
+        </member>
+        <member name="F:SeleniumPerfXML.Implementations.TestSetXml.performStack">
+            <summary>
+            Determines if the current stack layer should execute.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.ShouldExecuteVariable">
+            <summary>
+            Gets or sets a value indicating whether you should execute this step or skip it.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.TotalTestCases">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.TestSetStatus">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.CurrTestCaseNumber">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.OnExceptionFlowBehavior">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.TestCaseFlow">
+            <summary>
+            Gets or sets the information for the test set.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.Reporter">
+            <summary>
+            Gets or sets the reporter.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestSetXml.Driver">
+            <summary>
+            Gets or sets the seleniumDriver to use.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.ExistNextTestCase">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.GetNextTestCase">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.HandleException(System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.SetUp">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.ShouldExecute">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.TearDown">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.UpdateTestSetStatus(AutomationTestSetFramework.ITestCaseStatus)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.AddNodesToStack(System.Xml.XmlNode,System.Boolean)">
+            <summary>
+            Adds all the child nodes in the outer most layer to the stack in reverse order.
+            </summary>
+            <param name="currentNode">the layer to add.</param>
+            <param name="performAction">Whether or not the nodes should execute their test cases.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.IfRunTestCaseLayer(System.Boolean)">
+            <summary>
+            Reads the layer which contains Ifs and RunTestCase and returns the next test case.
+            </summary>
+            <param name="performAction">Tells whether or not to perform the action for the test case.</param>
+            <returns>The next test case.</returns>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.FindTestCase(System.String,System.Boolean)">
+            <summary>
+            Runs the test case based on the provided ID.
+            </summary>
+            <param name="testCaseID">ID to find the testcase to run.</param>
+            <param name="performAction"> Perfoms the action. </param>
+            <returns> 0 if pass. >=1 if fail.</returns>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestSetXml.RunIfTestCase(System.Xml.XmlNode,System.Boolean)">
+            <summary>
+            This function parses the if test case flow and starts executing.
+            </summary>
+            <param name="ifXMLNode"> XML Node that has the if block. </param>
+            <param name="performAction"> Perfoms the action. </param>
+        </member>
+        <member name="T:SeleniumPerfXML.Implementations.TestStepXml">
+            <summary>
+            An Implementation of the ITestStep class.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.ShouldExecuteVariable">
+            <summary>
+            Gets or sets a value indicating whether you should execute this step or skip it.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.TestStepNumber">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.TestStepStatus">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.OnExceptionFlowBehavior">
+            <inheritdoc/>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.TestStepInfo">
+            <summary>
+            Gets or sets the information for the test step.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.Driver">
+            <summary>
+            Gets or sets the seleniumDriver to use.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.RunAODA">
+            <summary>
+            Gets or sets a value indicating whether to run AODA.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.RunAODAPageName">
+            <summary>
+            Gets or sets the AODA page name.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.Reporter">
+            <summary>
+            Gets or sets the reporter.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.TestLogger">
+            <summary>
+            Gets or sets the test step logger.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXML.Implementations.TestStepXml.ShouldLog">
+            <summary>
+            Gets or sets a value indicating whether test step should be logged.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestStepXml.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestStepXml.HandleException(System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestStepXml.SetUp">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestStepXml.ShouldExecute">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXML.Implementations.TestStepXml.TearDown">
+            <inheritdoc/>
         </member>
         <member name="T:SeleniumPerfXML.Logger">
             <summary>
@@ -510,6 +1280,13 @@
             If not set, will use the directory path of CSVSaveFileLocation.
             </summary>
         </member>
+        <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.ReportSaveLocation">
+            <summary>
+            Gets or sets the log save location in the XML.
+            <para> </para>
+            If not set, will use the directory path of CSVSaveFileLocation.
+            </summary>
+        </member>
         <member name="P:SeleniumPerfXML.SeleniumPerfXMLOptions.ScreenShotSaveLocation">
             <summary>
             Gets or sets the screenshot save location in the XML.
@@ -731,146 +1508,66 @@
         <member name="M:SeleniumPerfXML.TestActions.TimeAndLogAspect.OnExit(MethodBoundaryAspect.Fody.Attributes.MethodExecutionArgs)">
             <inheritdoc/>
         </member>
-        <member name="T:SeleniumPerfXML.TestDataXMLParser">
+        <member name="T:SeleniumPerfXML.XMLInformation">
             <summary>
-            XMLParser that reads the XML passed in to create proper data structurs.
+            Nessesary information that is passed through the test set, test case, and test step.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.#ctor(System.String)">
+        <member name="P:SeleniumPerfXML.XMLInformation.XMLDataFile">
             <summary>
-            Initializes a new instance of the <see cref="T:SeleniumPerfXML.TestDataXMLParser"/> class.
-            </summary>
-            <param name="xmlFile"> The file path to the XML file.</param>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.Browser">
-            <summary>
-            Gets or sets the browser to use in this test.
+            Gets or sets the xml file containing the XML Data.
             </summary>
         </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.Environment">
+        <member name="P:SeleniumPerfXML.XMLInformation.XMLDocObj">
             <summary>
-            Gets or sets the environment to go to.
+            Gets or sets the xml file containing the test set/case/steps.
             </summary>
         </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.URL">
+        <member name="P:SeleniumPerfXML.XMLInformation.CSVLogger">
             <summary>
-            Gets or sets the URL the browser should land on first.
+            Gets or sets the csv logger.
             </summary>
         </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.PassedInRespectRunAODAFlag">
-            <summary>
-            Gets or sets the passed in respectRunAODAFlag parameter.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.PassedInRespectRepeatFor">
-            <summary>
-            Gets or sets the passed in respectRepeatFor parameter.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.TimeOutThreshold">
-            <summary>
-            Gets or sets the timeout threshold.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.WarningThreshold">
-            <summary>
-            Gets or sets the warning threshold. Note that the warning threshold should be less than the timeout threshold.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.DataFile">
-            <summary>
-            Gets or sets the file path to the data file.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.CsvSaveFileLocation">
-            <summary>
-            Gets or sets the csv save file location.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.LogSaveFileLocation">
-            <summary>
-            Gets or sets the log save file location.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.ScreenshotSaveLocation">
-            <summary>
-            Gets or sets the screenshot save location.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.XMLFile">
-            <summary>
-            Gets or sets the XML file.
-            </summary>
-        </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.RespectRunAODAFlag">
+        <member name="P:SeleniumPerfXML.XMLInformation.RespectRunAODAFlag">
             <summary>
             Gets or sets a value indicating whether to respectRunAODAFlag or not.
             </summary>
         </member>
-        <member name="P:SeleniumPerfXML.TestDataXMLParser.RespectRepeatFor">
+        <member name="P:SeleniumPerfXML.XMLInformation.RespectRepeatFor">
             <summary>
             Gets or sets a value indicating whether to respectRepeatFor or not.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCaseFlow">
+        <member name="P:SeleniumPerfXML.XMLInformation.LogSaveFileLocation">
             <summary>
-            This function parses the test case flow and starts executing.
-            </summary>
-            <returns> 0 if pass. >=1 if error.</returns>
-        </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.ParseParameters">
-            <summary>
-            This function is responsible for parsing parameters in the XML File and updating variables if not overriden.
+            Gets or sets the log save file location.
             </summary>
         </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.ParseSpecialElements">
-            <summary>
-            This function is responsible for parsing the special elements in the XML File and updating variables if not overriden.
-            </summary>
-        </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.InstantiateSeleniumDriver">
-            <summary>
-            Instantiates the selenim driver to be used in this test run.
-            </summary>
-        </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestCase(System.String,System.Boolean)">
-            <summary>
-            Runs the test case based on the provided ID.
-            </summary>
-            <param name="testCaseID">ID to find the testcase to run.</param>
-            <param name="performAction"> Perfoms the action. </param>
-            <returns> 0 if pass. >=1 if fail.</returns>
-        </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunTestCase(System.Xml.XmlNode,System.Boolean)">
-            <summary>
-            Runs the test case based on the provided XMLNode.
-            </summary>
-            <param name="testCase"> Optional XmlNode to represent testCases. </param>
-            <param name="performAction"> Performs the action. </param>
-            <returns>0 if pass. >=1 if not pass.</returns>
-        </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.RunIfTestCase(System.Xml.XmlNode,System.Boolean)">
-            <summary>
-            This function parses the if test case flow and starts executing.
-            </summary>
-            <param name="ifXMLNode"> XML Node that has the if block. </param>
-            <param name="performAction"> Perfoms the action. </param>
-            <returns>0 if pass. >=1 if fail.</returns>
-        </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.FindAndRunTestStep(System.String,System.Boolean)">
-            <summary>
-            This function will go through the list of steps and run the appropriate test step if found.
-            </summary>
-            <param name="testStepID"> The ID of the test step to run. </param>
-            <param name="performAction"> Perfoms the action. </param>
-            <returns>0 if pass. >=1 if fail.</returns>
-        </member>
-        <member name="M:SeleniumPerfXML.TestDataXMLParser.ReplaceIfToken(System.String)">
+        <member name="M:SeleniumPerfXML.XMLInformation.ReplaceIfToken(System.String)">
             <summary>
             Replaces a string if it is a token and shown.
             </summary>
             <param name="possibleToken">A string that may be a token.</param>
             <returns>The provided string or value of the token.</returns>
+        </member>
+        <member name="T:SeleniumPerfXMLNUnitTest.FakeFailingTestStep">
+            <summary>
+            This test step will always fail.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXMLNUnitTest.FakeFailingTestStep.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:SeleniumPerfXMLNUnitTest.FakeFailingTestStep.Execute">
+            <inheritdoc/>
+        </member>
+        <member name="T:SeleniumPerfXMLNUnitTest.FakeTestStep">
+            <summary>
+            This test step is the same as testStepXml.
+            </summary>
+        </member>
+        <member name="P:SeleniumPerfXMLNUnitTest.FakeTestStep.Name">
+            <inheritdoc/>
         </member>
     </members>
 </doc>

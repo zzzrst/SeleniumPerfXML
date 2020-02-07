@@ -4,17 +4,14 @@
 
 namespace SeleniumPerfXML
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.IO;
-    using System.IO.Compression;
-    using System.Text;
-    using System.Xml;
-    using System.Xml.Schema;
     using SeleniumPerfXML.Builders;
     using SeleniumPerfXML.Implementations;
     using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
+    using System;
+    using System.Configuration;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Xml;
 
     /// <summary>
     /// The TestSetBuilder Class to initilize all the nessesary variables.

@@ -4,12 +4,10 @@
 
 namespace SeleniumPerfXML.Implementations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Xml;
     using AutomationTestSetFramework;
     using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
+    using System;
+    using System.Xml;
     using static AutomationTestSetFramework.IMethodBoundaryAspect;
 
     /// <summary>
@@ -127,11 +125,10 @@ namespace SeleniumPerfXML.Implementations
 
             double totalTime = this.GetTotalElapsedTime();
 
-            ITestStepLogger log = new TestStepLogger();
-            log.Log(this);
-
             if (this.ShouldLog)
             {
+                ITestStepLogger log = new TestStepLogger();
+                log.Log(this);
                 XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"{totalTime.ToString()}\"");
             }
         }

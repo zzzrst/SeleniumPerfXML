@@ -4,14 +4,14 @@
 
 namespace SeleniumPerfXML
 {
+    using AutomationTestSetFramework;
+    using CommandLine;
+    using SeleniumPerfXML.Implementations;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Xml;
     using System.Xml.Schema;
-    using AutomationTestSetFramework;
-    using CommandLine;
-    using SeleniumPerfXML.Implementations;
 
     /// <summary>
     /// Driver class.
@@ -135,10 +135,10 @@ namespace SeleniumPerfXML
             switch (e.Severity)
             {
                 case XmlSeverityType.Error:
-                    Console.WriteLine("Error: {0}", e.Message);
+                    Logger.Error($"XML validation error: {e.Message}");
                     break;
                 case XmlSeverityType.Warning:
-                    Console.WriteLine("Warning {0}", e.Message);
+                    Logger.Warn($"XML validation warning: {e.Message}");
                     break;
             }
         }

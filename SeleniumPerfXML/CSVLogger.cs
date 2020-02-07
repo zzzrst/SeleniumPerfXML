@@ -8,7 +8,6 @@ namespace SeleniumPerfXML
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Logger class for CSV.

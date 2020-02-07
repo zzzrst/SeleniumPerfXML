@@ -4,13 +4,11 @@
 
 namespace SeleniumPerfXML.Implementations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Xml;
     using AutomationTestSetFramework;
     using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
-    using SeleniumPerfXML.TestActions;
+    using System;
+    using System.Collections.Generic;
+    using System.Xml;
 
     /// <summary>
     /// Implementation of the testCase class.

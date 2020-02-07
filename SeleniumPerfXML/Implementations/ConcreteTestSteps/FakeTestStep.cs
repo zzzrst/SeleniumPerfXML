@@ -4,9 +4,6 @@
 
 namespace SeleniumPerfXMLNUnitTest
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using SeleniumPerfXML.Implementations;
 
     /// <summary>

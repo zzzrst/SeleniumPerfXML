@@ -4,9 +4,6 @@
 
 namespace SeleniumPerfXML.Implementations
 {
-    using System;
-    using System.Xml;
-
     /// <summary>
     /// This class executes the action of switching context into IFrame.
     /// </summary>

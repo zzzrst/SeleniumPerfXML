@@ -4,13 +4,9 @@
 
 namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
     using AutomationTestSetFramework;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// The Implemntation of the TestCaseLogger.

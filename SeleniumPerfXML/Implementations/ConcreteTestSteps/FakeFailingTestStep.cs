@@ -4,10 +4,8 @@
 
 namespace SeleniumPerfXMLNUnitTest
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using SeleniumPerfXML.Implementations;
+    using System;
 
     /// <summary>
     /// This test step will always fail.

@@ -8,6 +8,7 @@ using System.Configuration;
 using System.IO;
 using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
 using System.Linq;
+using System.Reflection;
 
 namespace SeleniumPerfXMLNUnitTest
 {
@@ -23,23 +24,24 @@ namespace SeleniumPerfXMLNUnitTest
         [SetUp]
         public void SetUp()
         {
-            webSiteLocation = "C:\\SeleniumPerfXML\\Testing";
-            saveFileLocation = "C:\\SeleniumPerfXML\\Testing\\Files";
-            readFileLocation = "C:\\SeleniumPerfXML\\Testing\\TestTestStep";
-            logName = "\\Log.txt";
+            string executingLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            saveFileLocation = $"{executingLocation}\\Testing\\Files";
+            readFileLocation = $"{executingLocation}\\Testing\\TestTestStep";
+            webSiteLocation = $"{executingLocation}\\Testing";
+            logName = $"{executingLocation}\\SeleniumPerfXML.log";
             reportName = "\\Report.txt";
             // Removes all previous ran test results
             // If directory does not exist, don't even try   
             if (Directory.Exists(saveFileLocation))
             {
-                if (File.Exists(saveFileLocation + logName))
+                if (File.Exists(logName))
                 {
                     bool notDeleted = true;
                     do
                     {
                         try
                         {
-                            File.Delete(saveFileLocation + logName);
+                            File.Delete(logName);
                             notDeleted = false;
                         }
                         catch (IOException)
@@ -79,18 +81,23 @@ namespace SeleniumPerfXMLNUnitTest
             testSet.Reporter.Report();
 
             Reporter reporter = (Reporter)testSet.Reporter;
-            string firstLine;
-            using (StreamReader reader = new StreamReader(this.saveFileLocation + logName))
+
+            string tempLogName = $"{this.logName}.tmp";
+
+            File.Copy(this.logName, tempLogName);
+
+            string logFile;
+            using (StreamReader reader = new StreamReader(tempLogName))
             {
-                firstLine = reader.ReadLine();
-                reader.ReadToEnd();
-                reader.Close();
+                logFile = reader.ReadToEnd();
             }
+
+            File.Delete(tempLogName);
             
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
             Assert.IsTrue(reporter.TestCaseStatuses[0].RunSuccessful);
             Assert.IsTrue(reporter.TestCaseToTestSteps[reporter.TestCaseStatuses[0]][0].RunSuccessful);
-            Assert.AreEqual("Name:Logging", firstLine.Trim(), "Log file should have teststep in it");
+            Assert.IsTrue(logFile.Contains("Name:Logging"), "Log file should have teststep in it");
         }
 
         [Test]
@@ -103,18 +110,23 @@ namespace SeleniumPerfXMLNUnitTest
             testSet.Reporter.Report();
 
             Reporter reporter = (Reporter)testSet.Reporter;
-            string firstLine;
-            using (StreamReader reader = new StreamReader(this.saveFileLocation + logName))
+
+            string tempLogName = $"{this.logName}.tmp";
+
+            File.Copy(this.logName, tempLogName);
+
+            string logFile;
+            using (StreamReader reader = new StreamReader(tempLogName))
             {
-                firstLine = reader.ReadLine();
-                reader.ReadToEnd();
-                reader.Close();
+                logFile = reader.ReadToEnd();
             }
+
+            File.Delete(tempLogName);
 
             Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
             Assert.IsTrue(reporter.TestCaseStatuses[0].RunSuccessful);
             Assert.IsTrue(reporter.TestCaseToTestSteps[reporter.TestCaseStatuses[0]][0].RunSuccessful);
-            Assert.AreNotEqual("Name:No logging", firstLine.Trim(), "Log file should not have teststep in it");
+            Assert.IsFalse(logFile.Contains("Name:No logging"), "Log file should not have teststep in it");
         }
 
         [Test]

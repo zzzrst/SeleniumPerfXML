@@ -4,9 +4,9 @@
 
 namespace SeleniumPerfXML
 {
-    using System.Collections.Generic;
     using CommandLine;
     using CommandLine.Text;
+    using System.Collections.Generic;
 
     /// <summary>
     /// This class stores the command line arguments that are taken in, both mandatory and optional.
