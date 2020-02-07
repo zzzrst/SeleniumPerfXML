@@ -164,7 +164,7 @@ namespace SeleniumPerfXML.Axe
                         string directoryPath = $"{folderLocation}\\Json\\{resultType.Key}";
                         Directory.CreateDirectory(directoryPath);
 
-                        using (StreamWriter file = File.CreateText($"{directoryPath}\\{fileName}"))
+                        using (StreamWriter file = File.AppendText($"{directoryPath}\\{fileName}"))
                         using (JsonTextWriter writer = new JsonTextWriter(file) { Formatting = Formatting.Indented })
                         {
                             ruleSummary.WriteTo(writer);
