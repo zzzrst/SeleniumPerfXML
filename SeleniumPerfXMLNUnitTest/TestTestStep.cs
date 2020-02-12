@@ -138,7 +138,7 @@ namespace SeleniumPerfXMLNUnitTest
             testSet = buildTestSet("\\TestOpenClose.xml", $"{webSiteLocation}\\Google.html");
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
-            builder.RunAODA();
+            builder.SaveAODA();
 
             reporter = (Reporter)testSet.Reporter;
 
