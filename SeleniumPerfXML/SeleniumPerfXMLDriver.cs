@@ -4,14 +4,14 @@
 
 namespace SeleniumPerfXML
 {
+    using AutomationTestSetFramework;
+    using CommandLine;
+    using SeleniumPerfXML.Implementations;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Xml;
     using System.Xml.Schema;
-    using AutomationTestSetFramework;
-    using CommandLine;
-    using SeleniumPerfXML.Implementations;
 
     /// <summary>
     /// Driver class.
@@ -99,7 +99,7 @@ namespace SeleniumPerfXML
                 AutomationTestSetDriver.RunTestSet(testStep);
                 testStep.Reporter.Report();
 
-                builder.SaveAODA();
+                builder.RunAODA();
 
                 DateTime end = DateTime.UtcNow;
 
