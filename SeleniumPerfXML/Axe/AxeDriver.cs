@@ -2,16 +2,16 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SeleniumPerfXML.Axe
+namespace AxeAccessibilityDriver
 {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using OpenQA.Selenium;
-    using Selenium.Axe;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using OpenQA.Selenium;
+    using Selenium.Axe;
 
     /// <summary>
     /// This is the driver to deal with Axe.core.
@@ -20,6 +20,7 @@ namespace SeleniumPerfXML.Axe
     {
         private const string TALLIEDRESULT = "TalliedResult.csv";
         private const string RULEPAGESUMMARY = "RulePageSummary.csv";
+        private const string AODAEXCELREPORT = "AODAReport.xlsx";
 
         /// <summary>
         /// Result Type -> { Rule ID -> {Page URL -> HTML, Target, Data, Related Nodes} }.
@@ -102,6 +103,11 @@ namespace SeleniumPerfXML.Axe
         /// <param name="folderLocation">Location to save all the results.</param>
         public void LogResults(string folderLocation)
         {
+            TestReportExcel excelReport = new TestReportExcel()
+            {
+                FileLocation = folderLocation + "\\" + AODAEXCELREPORT,
+            };
+
             List<string> rulePageSummary = new List<string>()
             {
                 "Page URl,Provided Page Title,Browser Page Title,Result Type,Description,Rule Tag,Impact,Help,Help URL,Occurance on Page",
@@ -143,6 +149,24 @@ namespace SeleniumPerfXML.Axe
                             new JProperty("Help", this.ruleInfo[ruleID.Key].Help),
                             new JProperty("Help URL", this.ruleInfo[ruleID.Key].HelpUrl),
                             new JProperty("Nodes", nodeInfoList));
+
+                        // pass, fail or n/a.
+                        string criteriaString = ResourceHelper.GetString(ResourceHelper.GetString(resultType.Key));
+
+                        // add it to the excel data
+                        this.WriteToExcelData(excelReport, this.ruleInfo[ruleID.Key].RuleTag, criteriaString, $"{this.ruleInfo[ruleID.Key].Help}\r\n{this.ruleInfo[ruleID.Key].HelpUrl}");
+
+                        // add it to the excel issue list only if it failed.
+                        if (criteriaString.Equals(ResourceHelper.GetString("CriteriaFail")))
+                        {
+                            excelReport.IssueList.Add(new IssueLog()
+                            {
+                                Criterion = this.GetCriteriaId(this.ruleInfo[ruleID.Key].RuleTag),
+                                Impact = ResourceHelper.GetString($"IssueKey{this.ruleInfo[ruleID.Key].Impact}"),
+                                Description = this.ruleInfo[ruleID.Key].Help,
+                                Url = currentURL,
+                            });
+                        }
 
                         // record occurance on page
                         rulePageSummary.Add(
@@ -190,6 +214,77 @@ namespace SeleniumPerfXML.Axe
                     sw.WriteLine(pageResult);
                 }
             }
+
+            excelReport.WriteToExcel();
+        }
+
+        /// <summary>
+        /// Writes the result to the excel sheet under checklist.
+        /// </summary>
+        /// <param name="excelReport">The excel sheet.</param>
+        /// <param name="ruleTag">List of rules.</param>
+        /// <param name="resultString">If it passed or failed.</param>
+        /// <param name="comment">any comments that it comes with.</param>
+        private void WriteToExcelData(TestReportExcel excelReport, List<string> ruleTag, string resultString, string comment)
+        {
+            // add it into the excel sheet.
+            string rowName = null;
+            int criteriaColumn = int.Parse(ResourceHelper.GetString("CriteriaColumn"));
+            int commentColumn = int.Parse(ResourceHelper.GetString("CommentColumn"));
+
+            List<string> row = new List<string>();
+
+            // Add Criteria.
+            row.Add(resultString);
+
+            // Add Comments.
+            row.Add(comment);
+
+            rowName = this.GetCriteriaId(ruleTag);
+
+            // add the key.
+            if (rowName != null)
+            {
+                // If there is an existing data.
+                if (excelReport.ExcelData.ContainsKey(rowName))
+                {
+                    // If any one row is a fail, it will change the result to a fail.
+                    if (excelReport.ExcelData[rowName][criteriaColumn] != "Fail")
+                    {
+                        excelReport.ExcelData[rowName] = row;
+                    }
+                    else
+                    {
+                        // if the row is already a fail, add more comments to it.
+                        excelReport.ExcelData[rowName][commentColumn] += $"\r\n{row[commentColumn]}";
+                    }
+                }
+                else
+                {
+                    excelReport.ExcelData.Add(rowName, row);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds the Criteria Id inside the ruleTags.
+        /// </summary>
+        /// <param name="ruleTag">List of tags.</param>
+        /// <returns>the id.</returns>
+        private string GetCriteriaId(List<string> ruleTag)
+        {
+            string id = null;
+
+            id = ruleTag.Find(s => s.Contains("wcag") && !s.Contains("1a") && !s.Contains("2a"));
+
+            if (id != null)
+            {
+                id = id.Substring(4);
+                id = id.Aggregate(string.Empty, (c, i) => c + i + '.');
+                id = id.Substring(0, id.Length - 1);
+            }
+
+            return id;
         }
 
         /// <summary>

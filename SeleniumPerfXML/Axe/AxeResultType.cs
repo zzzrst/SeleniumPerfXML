@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SeleniumPerfXML.Axe
+namespace AxeAccessibilityDriver
 {
     /// <summary>
     /// The different result types for Axe.
