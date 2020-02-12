@@ -122,6 +122,7 @@
 			<xs:enumeration value="PAA" />
 			<xs:enumeration value="PPE-2" />
 			<xs:enumeration value="PROD" />
+      <xs:enumeration value="SFIS-QA" />
 		</xs:restriction>
 	</xs:simpleType>
 
