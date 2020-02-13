@@ -4,7 +4,7 @@
 
 #pragma warning disable SA1200 // Using directives should be placed correctly
 using System.Globalization;
-using AxeAccessibilityDriver.Properties;
+using SeleniumPerfXML.Properties;
 #pragma warning restore SA1200 // Using directives should be placed correctly
 
 namespace AxeAccessibilityDriver
