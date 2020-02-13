@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeDriver.cs" Link="Axe\AxeDriver.cs" />
     <Compile Include="..\..\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeAccessibilityDriver\TestReportExcel.cs" Link="Axe\TestReportExcel.cs" />
   </ItemGroup>
 
