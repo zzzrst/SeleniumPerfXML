@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeAccessibilityDriver\TestReportExcel.cs" Link="Axe\TestReportExcel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeAccessibilityDriver\AODA_Template.xlsx" Link="AODA_Template.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutomationTestSetFramework" Version="1.0.1" />
     <PackageReference Include="CommandLineParser" Version="2.7.82" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
@@ -47,9 +57,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="AODA_Template.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
