@@ -10,11 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeDriver.cs" Link="Axe\AxeDriver.cs" />
-    <Compile Include="..\..\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeAccessibilityDriver\TestReportExcel.cs" Link="Axe\TestReportExcel.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeAccessibilityDriver\WATR_Template.xlsx" Link="WATR_Template.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -22,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutomationTestSetFramework" Version="1.0.1" />
+    <PackageReference Include="AxeAccessibilityDriver" Version="1.0.0" />
     <PackageReference Include="CommandLineParser" Version="2.7.82" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="log4net" Version="2.0.8" />

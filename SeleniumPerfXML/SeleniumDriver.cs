@@ -9,7 +9,6 @@ namespace SeleniumPerfXML
     using System.IO;
     using System.Reflection;
 
-    // using SeleniumPerfXML.Axe;
     using AxeAccessibilityDriver;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
@@ -29,7 +28,7 @@ namespace SeleniumPerfXML
         /// </summary>
         private readonly string seleniumDriverLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        private AxeDriver axeDriver = null;
+        private IAccessibilityChecker axeDriver = null;
         private IWebDriver webDriver;
         private WebDriverWait wdWait;
 
