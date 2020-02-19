@@ -8,7 +8,6 @@ namespace SeleniumPerfXML
     using System.Configuration;
     using System.IO;
     using System.Reflection;
-
     using AxeAccessibilityDriver;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
