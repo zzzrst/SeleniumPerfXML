@@ -4,6 +4,11 @@
 
 namespace SeleniumPerfXML
 {
+    using System;
+    using System.Configuration;
+    using System.IO;
+    using System.Reflection;
+    using AxeAccessibilityDriver;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
     using OpenQA.Selenium.Edge;
@@ -11,11 +16,6 @@ namespace SeleniumPerfXML
     using OpenQA.Selenium.IE;
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
-    using SeleniumPerfXML.Axe;
-    using System;
-    using System.Configuration;
-    using System.IO;
-    using System.Reflection;
 
     /// <summary>
     /// Driver class for Selenium WebDriver.
@@ -27,7 +27,7 @@ namespace SeleniumPerfXML
         /// </summary>
         private readonly string seleniumDriverLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        private AxeDriver axeDriver = null;
+        private IAccessibilityChecker axeDriver = null;
         private IWebDriver webDriver;
         private WebDriverWait wdWait;
 
