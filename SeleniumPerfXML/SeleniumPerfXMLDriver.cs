@@ -11,6 +11,7 @@ namespace SeleniumPerfXML
     using System.IO;
     using System.Reflection;
     using System.Xml;
+    using System.Xml.Linq;
     using System.Xml.Schema;
 
     /// <summary>
@@ -135,10 +136,10 @@ namespace SeleniumPerfXML
             switch (e.Severity)
             {
                 case XmlSeverityType.Error:
-                    Logger.Error($"XML validation error: {e.Message}");
+                    Logger.Error($"XML validation error: {e.Message} on Line: {e.Exception.LineNumber}");
                     break;
                 case XmlSeverityType.Warning:
-                    Logger.Warn($"XML validation warning: {e.Message}");
+                    Logger.Warn($"XML validation warning: {e.Message} on Line: {e.Exception.LineNumber}");
                     break;
             }
         }
