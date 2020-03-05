@@ -129,42 +129,46 @@ namespace SeleniumPerfXMLNUnitTest
             Assert.IsFalse(logFile.Contains("Name:No logging"), "Log file should not have teststep in it");
         }
 
-        [Test]
-        public void TestAODA()
-        {
-            TestSetXml testSet;
-            Reporter reporter;
+        /// <summary>
+        /// Test To see if AODA Works
+        /// Not ran automaticaly since it requires a web browser
+        /// </summary>
+        //[Test]
+        //public void TestAODA()
+        //{
+        //    TestSetXml testSet;
+        //    Reporter reporter;
 
-            testSet = buildTestSet("\\TestOpenClose.xml", $"{webSiteLocation}\\Google.html");
-            AutomationTestSetDriver.RunTestSet(testSet);
-            testSet.Reporter.Report();
-            builder.RunAODA();
+        //    testSet = buildTestSet("\\TestOpenClose.xml", $"{webSiteLocation}\\Google.html");
+        //    AutomationTestSetDriver.RunTestSet(testSet);
+        //    testSet.Reporter.Report();
+        //    builder.RunAODA();
 
-            reporter = (Reporter)testSet.Reporter;
+        //    reporter = (Reporter)testSet.Reporter;
 
-            Assert.IsTrue(Directory.Exists(saveFileLocation));
-            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
-        }
+        //    Assert.IsTrue(Directory.Exists(saveFileLocation));
+        //    Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
+        //}
 
         /// <summary>
         /// Tests all concrete test steps except:
         /// Sign in: it is a combination of click element and populate element
-        /// 
+        /// Not ran automaticaly since it requires a web browser
         /// </summary>
-        [Test]
-        public void TestAllConcreteTestSteps()
-        {
-            TestSetXml testSet;
+        //[Test]
+        //public void TestAllConcreteTestSteps()
+        //{
+        //    TestSetXml testSet;
 
-            testSet = buildTestSet("\\TestAllConcreteSteps.xml");
-            AutomationTestSetDriver.RunTestSet(testSet);
-            testSet.Reporter.Report();
+        //    testSet = buildTestSet("\\TestAllConcreteSteps.xml");
+        //    AutomationTestSetDriver.RunTestSet(testSet);
+        //    testSet.Reporter.Report();
 
-            Reporter reporter = (Reporter)testSet.Reporter;
+        //    Reporter reporter = (Reporter)testSet.Reporter;
 
-            Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
-            Assert.IsTrue(reporter.TestCaseStatuses[0].RunSuccessful);
-        }
+        //    Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
+        //    Assert.IsTrue(reporter.TestCaseStatuses[0].RunSuccessful);
+        //}
 
         private TestSetXml buildTestSet(string testFileName, string url = "testUrl")
         {
