@@ -33,7 +33,7 @@ namespace SeleniumPerfXML
             }
             else
             {
-                Logger.Error("XML File could not be found!");
+                Logger.Error($"XML File {xmlFile} could not be found!");
             }
         }
 

@@ -134,22 +134,18 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestCaseMissingTestStep.xml");
-
             try
             {
+                testSet = buildTestSet("\\TestCaseMissingTestStep.xml");
                 AutomationTestSetDriver.RunTestSet(testSet);
+                testSet.Reporter.Report();
             }
             catch (Exception)
             {
+                Assert.Pass();
             }
 
-            testSet.Reporter.Report();
-
-            reporter = (Reporter)testSet.Reporter;
-            Assert.IsFalse(reporter.TestSetStatuses[0].RunSuccessful, "Expected to fail");
-            Assert.AreEqual(0, reporter.TestCaseStatuses.Count, "Expected to have 0 test case");
-            Assert.AreEqual(0, reporter.TestCaseToTestSteps.Sum(x => x.Value.Count), "Expected to have 0 test steps");
+            Assert.Fail();
         }
 
         [Test]
