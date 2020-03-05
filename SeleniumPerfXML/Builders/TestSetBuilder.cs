@@ -4,14 +4,14 @@
 
 namespace SeleniumPerfXML
 {
-    using SeleniumPerfXML.Builders;
-    using SeleniumPerfXML.Implementations;
-    using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
     using System;
     using System.Configuration;
     using System.IO;
     using System.IO.Compression;
     using System.Xml;
+    using SeleniumPerfXML.Builders;
+    using SeleniumPerfXML.Implementations;
+    using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
 
     /// <summary>
     /// The TestSetBuilder Class to initilize all the nessesary variables.
@@ -33,7 +33,7 @@ namespace SeleniumPerfXML
             }
             else
             {
-                Logger.Error("XML File could not be found!");
+                Logger.Error($"XML File {xmlFile} could not be found!");
             }
         }
 

@@ -4,11 +4,11 @@
 
 namespace SeleniumPerfXML
 {
-    using log4net;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Xml;
+    using log4net;
 
     /// <summary>
     /// Logger class to be used. \n
@@ -17,7 +17,7 @@ namespace SeleniumPerfXML
     /// </summary>
     public static class Logger
     {
-        private static readonly string LOGCONFIGFILE = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\log4net.config";
+        private static readonly string LOGCONFIGFILE = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/log4net.config";
 
         private static readonly ILog Log = GetLogger(typeof(Logger));
 

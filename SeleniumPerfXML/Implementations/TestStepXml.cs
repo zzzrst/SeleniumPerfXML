@@ -4,10 +4,10 @@
 
 namespace SeleniumPerfXML.Implementations
 {
-    using AutomationTestSetFramework;
-    using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
     using System;
     using System.Xml;
+    using AutomationTestSetFramework;
+    using SeleniumPerfXML.Implementations.Loggers_and_Reporters;
     using static AutomationTestSetFramework.IMethodBoundaryAspect;
 
     /// <summary>

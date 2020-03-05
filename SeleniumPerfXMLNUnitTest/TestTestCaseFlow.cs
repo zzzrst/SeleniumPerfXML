@@ -24,10 +24,10 @@ namespace SeleniumPerfXMLNUnitTest
         public void SetUp()
         {
             string executingLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            saveFileLocation = $"{executingLocation}\\Testing\\Files";
-            readFileLocation = $"{executingLocation}\\Testing\\TestTestCaseFlow";
-            logName = "\\Log.txt";
-            reportName = "\\Report.txt";
+            saveFileLocation = $"{executingLocation}/Testing/Files";
+            readFileLocation = $"{executingLocation}/Testing/TestTestCaseFlow";
+            logName = "/Log.txt";
+            reportName = "/Report.txt";
 
             // Removes all previous ran test results
             // If directory does not exist, don't even try   
@@ -47,7 +47,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestBareMinimum.xml");
+            testSet = buildTestSet("/TestBareMinimum.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
@@ -63,7 +63,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSetDuplicateId.xml");
+            testSet = buildTestSet("/TestSetDuplicateId.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
@@ -81,7 +81,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSameCaseRanTwice.xml");
+            testSet = buildTestSet("/TestSameCaseRanTwice.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
@@ -97,7 +97,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSetSimpleIf.xml");
+            testSet = buildTestSet("/TestSetSimpleIf.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
@@ -114,7 +114,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSetNestedIf.xml");
+            testSet = buildTestSet("/TestSetNestedIf.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
@@ -130,7 +130,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSetElseIf.xml");
+            testSet = buildTestSet("/TestSetElseIf.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
@@ -146,7 +146,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSetElse.xml");
+            testSet = buildTestSet("/TestSetElse.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
@@ -163,7 +163,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSetMissingTestCase.xml");
+            testSet = buildTestSet("/TestSetMissingTestCase.xml");
 
             try
             {
@@ -187,7 +187,7 @@ namespace SeleniumPerfXMLNUnitTest
             TestSetXml testSet;
             Reporter reporter;
 
-            testSet = buildTestSet("\\TestSetUnknownNodeName.xml");
+            testSet = buildTestSet("/TestSetUnknownNodeName.xml");
 
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();

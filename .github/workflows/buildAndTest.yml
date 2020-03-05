@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.108
+        dotnet-version: 3.1.100
     - name: Build with dotnet
       run: dotnet build --configuration Release
       
@@ -29,7 +29,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.108
+        dotnet-version: 3.1.100
     - name: Run Unit Tests
       run: dotnet test --verbosity normal
       
@@ -40,6 +40,7 @@ jobs:
     steps:
       - name: automerge
         uses: "pascalgn/automerge-action@ccae530ae13b6af67a7a2009c266fe925844e658"
+        if: github.actor == 'dependabot-preview'
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "dependencies"

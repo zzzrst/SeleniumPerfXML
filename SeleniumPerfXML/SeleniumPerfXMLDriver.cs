@@ -4,15 +4,15 @@
 
 namespace SeleniumPerfXML
 {
-    using AutomationTestSetFramework;
-    using CommandLine;
-    using SeleniumPerfXML.Implementations;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Schema;
+    using AutomationTestSetFramework;
+    using CommandLine;
+    using SeleniumPerfXML.Implementations;
 
     /// <summary>
     /// Driver class.
