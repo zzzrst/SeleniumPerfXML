@@ -10,12 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\AxeAccessibilityDriver\AxeAccessibilityDriver\AxeAccessibilityDriver\WATR_Template.xlsx" Link="WATR_Template.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutomationTestSetFramework" Version="1.0.1" />
     <PackageReference Include="AxeAccessibilityDriver" Version="1.0.6" />
     <PackageReference Include="CommandLineParser" Version="2.7.82" />

@@ -4,8 +4,8 @@
 
 namespace SeleniumPerfXMLNUnitTest
 {
-    using SeleniumPerfXML.Implementations;
     using System;
+    using SeleniumPerfXML.Implementations;
 
     /// <summary>
     /// This test step will always fail.
