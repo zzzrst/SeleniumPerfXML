@@ -25,11 +25,11 @@ namespace SeleniumPerfXMLNUnitTest
         public void SetUp()
         {
             string executingLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            saveFileLocation = $"{executingLocation}\\Testing\\Files";
-            readFileLocation = $"{executingLocation}\\Testing\\TestTestStep";
-            webSiteLocation = $"{executingLocation}\\Testing";
-            logName = $"{executingLocation}\\SeleniumPerfXML.log";
-            reportName = "\\Report.txt";
+            saveFileLocation = $"{executingLocation}/Testing/Files";
+            readFileLocation = $"{executingLocation}/Testing/TestTestStep";
+            webSiteLocation = $"{executingLocation}/Testing";
+            logName = $"{executingLocation}/SeleniumPerfXML.log";
+            reportName = "/Report.txt";
             // Removes all previous ran test results
             // If directory does not exist, don't even try   
             if (Directory.Exists(saveFileLocation))
@@ -60,7 +60,7 @@ namespace SeleniumPerfXMLNUnitTest
         {
             TestSetXml testSet;
 
-            testSet = buildTestSet("\\TestFailTestStep.xml");
+            testSet = buildTestSet("/TestFailTestStep.xml");
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
 
@@ -76,7 +76,7 @@ namespace SeleniumPerfXMLNUnitTest
         {
             TestSetXml testSet;
 
-            testSet = buildTestSet("\\TestLog.xml");
+            testSet = buildTestSet("/TestLog.xml");
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
 
@@ -105,7 +105,7 @@ namespace SeleniumPerfXMLNUnitTest
         {
             TestSetXml testSet;
 
-            testSet = buildTestSet("\\TestNoLog.xml");
+            testSet = buildTestSet("/TestNoLog.xml");
             AutomationTestSetDriver.RunTestSet(testSet);
             testSet.Reporter.Report();
 
@@ -139,7 +139,7 @@ namespace SeleniumPerfXMLNUnitTest
         //    TestSetXml testSet;
         //    Reporter reporter;
 
-        //    testSet = buildTestSet("\\TestOpenClose.xml", $"{webSiteLocation}\\Google.html");
+        //    testSet = buildTestSet("/TestOpenClose.xml", $"{webSiteLocation}/Google.html");
         //    AutomationTestSetDriver.RunTestSet(testSet);
         //    testSet.Reporter.Report();
         //    builder.RunAODA();
@@ -160,7 +160,7 @@ namespace SeleniumPerfXMLNUnitTest
         //{
         //    TestSetXml testSet;
 
-        //    testSet = buildTestSet("\\TestAllConcreteSteps.xml");
+        //    testSet = buildTestSet("/TestAllConcreteSteps.xml");
         //    AutomationTestSetDriver.RunTestSet(testSet);
         //    testSet.Reporter.Report();
 
