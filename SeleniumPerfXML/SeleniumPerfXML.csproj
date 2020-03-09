@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutomationTestSetFramework" Version="1.0.1" />
-    <PackageReference Include="AxeAccessibilityDriver" Version="1.1.7370.27825" />
+    <PackageReference Include="AxeAccessibilityDriver" Version="1.1.7373.32491" />
     <PackageReference Include="CommandLineParser" Version="2.7.82" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
@@ -30,6 +30,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+    <PackageReference Include="System.Management" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="C:\Users\YangC\.nuget\packages\axeaccessibilitydriver\1.1.7370.27825\contentFiles\any\netstandard2.0\WATR_Template.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
