@@ -111,7 +111,6 @@ namespace SeleniumPerfXML
                 Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");
             }
 
-            Environment.Exit(resultCode);
             return resultCode;
         }
 
