@@ -5,8 +5,11 @@
 namespace SeleniumPerfXML
 {
     using System;
+    using System.Collections.Generic;
     using System.Configuration;
+    using System.Diagnostics;
     using System.IO;
+    using System.Management;
     using System.Reflection;
     using AxeAccessibilityDriver;
     using OpenQA.Selenium;
@@ -30,6 +33,7 @@ namespace SeleniumPerfXML
         private IAccessibilityChecker axeDriver = null;
         private IWebDriver webDriver;
         private WebDriverWait wdWait;
+        private int driverServicePID = -1;
 
         private string environment;
         private string url;
@@ -212,12 +216,40 @@ namespace SeleniumPerfXML
         {
             try
             {
-                this.webDriver.Close();
                 this.webDriver.Quit();
                 this.webDriver.Dispose();
-            }
+            } 
             catch
             {
+            }
+            finally
+            {
+                try
+                {
+                    if (this.driverServicePID != -1)
+                    {
+                        var driverProcessIds = new List<int> { this.driverServicePID };
+
+                        var mos = new ManagementObjectSearcher($"Select * From Win32_Process Where ParentProcessID={this.driverServicePID}");
+                        foreach (var mo in mos.Get())
+                        {
+                            var pid = Convert.ToInt32(mo["ProcessID"]);
+                            driverProcessIds.Add(pid);
+                        }
+
+                        // Kill all
+                        foreach (var id in driverProcessIds)
+                        {
+                            Process.GetProcessById(id).Kill();
+                            Logger.Info($"We just tried killing process {id}");
+                        }
+
+                        this.driverServicePID = -1;
+                    }
+                }
+                catch
+                {
+                }
             }
         }
 
@@ -483,7 +515,7 @@ namespace SeleniumPerfXML
                             UnhandledPromptBehavior = UnhandledPromptBehavior.Accept,
                         };
 
-                        chromeOptions.AddArgument("no-sandbox");
+                        // chromeOptions.AddArgument("no-sandbox");
                         chromeOptions.AddArgument("--log-level=3");
                         chromeOptions.AddArgument("--silent");
                         chromeOptions.BinaryLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\chromium\\chrome.exe";
@@ -491,7 +523,10 @@ namespace SeleniumPerfXML
                         ChromeDriverService service = ChromeDriverService.CreateDefaultService(this.seleniumDriverLocation);
                         service.SuppressInitialDiagnosticInformation = true;
 
-                        this.webDriver = new ChromeDriver(this.seleniumDriverLocation, chromeOptions, this.actualTimeOut);
+                        this.webDriver = new ChromeDriver(service, chromeOptions, this.actualTimeOut);
+
+                        this.driverServicePID = service.ProcessId;
+                        Logger.Info($"Chrome Driver service PID is: {this.driverServicePID}");
 
                         break;
                     case Browser.Edge:
@@ -518,6 +553,9 @@ namespace SeleniumPerfXML
                         InternetExplorerDriverService ieService = InternetExplorerDriverService.CreateDefaultService(this.seleniumDriverLocation);
                         ieService.SuppressInitialDiagnosticInformation = true;
                         this.webDriver = new InternetExplorerDriver(ieService, ieOptions, this.actualTimeOut);
+
+                        this.driverServicePID = ieService.ProcessId;
+                        Logger.Info($"Internet Driver service PID is: {this.driverServicePID}");
 
                         break;
                     case Browser.Safari:
