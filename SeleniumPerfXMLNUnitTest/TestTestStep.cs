@@ -94,7 +94,7 @@ namespace SeleniumPerfXMLNUnitTest
         //    }
 
         //    File.Delete(tempLogName);
-            
+
         //    Assert.IsTrue(reporter.TestSetStatuses[0].RunSuccessful);
         //    Assert.IsTrue(reporter.TestCaseStatuses[0].RunSuccessful);
         //    Assert.IsTrue(reporter.TestCaseToTestSteps[reporter.TestCaseStatuses[0]][0].RunSuccessful);

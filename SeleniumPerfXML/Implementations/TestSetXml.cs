@@ -98,7 +98,8 @@ namespace SeleniumPerfXML.Implementations
             {
                 this.TestSetStatus = new TestSetStatus()
                 {
-                    StartTime = DateTime.UtcNow,
+                    Name = this.Name,
+                    StartTime = DateTime.Now,
                 };
             }
 

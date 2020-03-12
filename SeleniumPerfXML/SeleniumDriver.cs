@@ -218,7 +218,7 @@ namespace SeleniumPerfXML
             {
                 this.webDriver.Quit();
                 this.webDriver.Dispose();
-            } 
+            }
             catch
             {
             }

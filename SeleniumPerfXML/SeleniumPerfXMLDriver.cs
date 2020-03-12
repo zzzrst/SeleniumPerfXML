@@ -107,7 +107,7 @@ namespace SeleniumPerfXML
                 XMLInformation.CSVLogger.AddResults($"Total, {Math.Abs((start - end).TotalSeconds)}");
                 XMLInformation.CSVLogger.WriteOutResults();
 
-                string resultString = testStep.TestSetStatus.RunSuccessful ? "successfull" : "not successful";
+                string resultString = testStep.TestSetStatus.RunSuccessful ? "successful" : "not successful";
                 Logger.Info($"SeleniumPerfXML has finished. It was {resultString}");
             }
 
