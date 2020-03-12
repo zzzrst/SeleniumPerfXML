@@ -113,7 +113,8 @@ namespace SeleniumPerfXML.Implementations
             {
                 this.TestCaseStatus = new TestCaseStatus()
                 {
-                    StartTime = DateTime.UtcNow,
+                    Name = this.Name,
+                    StartTime = DateTime.Now,
                     TestCaseNumber = this.TestCaseNumber,
                 };
             }
@@ -150,6 +151,7 @@ namespace SeleniumPerfXML.Implementations
             {
                 this.TestCaseStatus.RunSuccessful = false;
                 this.TestCaseStatus.FriendlyErrorMessage = "Something went wrong with a test step";
+                XMLInformation.CSVLogger.AddResults($"\"{testStepStatus.Name}\",\"{testStepStatus.Actual}\"");
             }
 
             this.Reporter.AddTestStepStatusToTestCase(testStepStatus, this.TestCaseStatus);

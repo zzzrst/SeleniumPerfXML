@@ -23,7 +23,7 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         {
             ITestCaseStatus testCaseStatus = testCase.TestCaseStatus;
             List<string> str = new List<string>();
-            str.Add(this.Tab(1) + "Name:" + testCase.Name);
+            str.Add(this.Tab(1) + $"Name: {testCase.TestCaseNumber} {testCase.Name}");
             str.Add(this.Tab(1) + "RunSuccessful:" + testCaseStatus.RunSuccessful.ToString());
 
             foreach (string line in str)

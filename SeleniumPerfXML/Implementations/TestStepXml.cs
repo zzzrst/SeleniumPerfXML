@@ -79,12 +79,7 @@ namespace SeleniumPerfXML.Implementations
             this.TestStepStatus.ErrorStack = e.StackTrace;
             this.TestStepStatus.FriendlyErrorMessage = e.Message;
             this.TestStepStatus.RunSuccessful = false;
-
-            if (this.ShouldLog)
-            {
-                XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"F\"");
-            }
-
+            this.TestStepStatus.Actual = "F";
             this.Driver.CheckErrorContainer();
             this.Driver.TakeScreenShot();
         }
@@ -96,7 +91,8 @@ namespace SeleniumPerfXML.Implementations
             {
                 this.TestStepStatus = new TestStepStatus()
                 {
-                    StartTime = DateTime.UtcNow,
+                    Name = this.Name,
+                    StartTime = DateTime.Now,
                     TestStepNumber = this.TestStepNumber,
                 };
             }

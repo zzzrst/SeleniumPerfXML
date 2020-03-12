@@ -132,7 +132,6 @@ namespace SeleniumPerfXMLNUnitTest
         public void TestCannotFindTestStep()
         {
             TestSetXml testSet;
-            Reporter reporter;
 
             try
             {
