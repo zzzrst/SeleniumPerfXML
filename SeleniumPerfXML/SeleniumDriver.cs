@@ -330,7 +330,7 @@ namespace SeleniumPerfXML
         {
             try
             {
-                this.axeDriver.CaptureResult(this.webDriver, providedPageTitle);
+                this.axeDriver.CaptureResult(providedPageTitle);
             }
             catch (Exception e)
             {
@@ -569,7 +569,7 @@ namespace SeleniumPerfXML
 
                 if (this.axeDriver == null)
                 {
-                    this.axeDriver = new AxeDriver();
+                    this.axeDriver = new AxeDriver(this.webDriver);
                 }
             }
             catch (Exception e)
