@@ -24,7 +24,7 @@ namespace SeleniumPerfXML.Implementations
         public bool ShouldExecuteVariable { get; set; } = true;
 
         /// <inheritdoc/>
-        public int TestStepNumber { get; set; }
+        public int TestStepNumber { get; set; } = 0;
 
         /// <inheritdoc/>
         public ITestStepStatus TestStepStatus { get; set; }
@@ -79,6 +79,7 @@ namespace SeleniumPerfXML.Implementations
             this.TestStepStatus.ErrorStack = e.StackTrace;
             this.TestStepStatus.FriendlyErrorMessage = e.Message;
             this.TestStepStatus.RunSuccessful = false;
+            this.ShouldExecuteVariable = false;
             this.TestStepStatus.Actual = "F";
             this.Driver.CheckErrorContainer();
             this.Driver.TakeScreenShot();
@@ -125,7 +126,12 @@ namespace SeleniumPerfXML.Implementations
             {
                 ITestStepLogger log = new TestStepLogger();
                 log.Log(this);
-                XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"{totalTime.ToString()}\"");
+                if (this.ShouldExecuteVariable)
+                {
+                    this.TestStepStatus.Actual = totalTime.ToString();
+                }
+
+                // XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"{totalTime.ToString()}\"");
             }
         }
 

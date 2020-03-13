@@ -5,6 +5,7 @@
 namespace SeleniumPerfXML
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Reflection;
     using System.Xml;
@@ -94,6 +95,8 @@ namespace SeleniumPerfXML
                     XMLFile = xmlFile,
                 };
                 testStep = builder.BuildTestSet();
+
+                Logger.Info($"Running SeleniumPerfXML Version: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion}");
 
                 DateTime start = DateTime.UtcNow;
 

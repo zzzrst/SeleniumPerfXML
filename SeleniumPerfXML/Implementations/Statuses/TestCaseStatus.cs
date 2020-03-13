@@ -16,7 +16,7 @@ namespace SeleniumPerfXML.Implementations
         public string Name { get; set; } = "test case";
 
         /// <inheritdoc/>
-        public int TestCaseNumber { get; set; } = -1;
+        public int TestCaseNumber { get; set; } = 0;
 
         /// <inheritdoc/>
         public bool RunSuccessful { get; set; } = true;
