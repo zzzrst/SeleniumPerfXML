@@ -114,7 +114,7 @@ namespace SeleniumPerfXML.Implementations
         /// <inheritdoc/>
         public virtual void TearDown()
         {
-            this.TestStepStatus.EndTime = DateTime.UtcNow;
+            this.TestStepStatus.EndTime = DateTime.Now;
             if (this.RunAODA)
             {
                 this.Driver.RunAODA(this.RunAODAPageName);

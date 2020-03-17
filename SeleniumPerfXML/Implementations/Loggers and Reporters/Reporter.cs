@@ -71,6 +71,7 @@ namespace SeleniumPerfXML.Implementations.Loggers_and_Reporters
         public void Report()
         {
             List<string> str = new List<string>();
+            str.Add($"Running SeleniumPerfXML Version: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion}");
             foreach (ITestSetStatus testSetStatus in this.TestSetStatuses)
             {
                 str.Add("Name: " + testSetStatus.Name);

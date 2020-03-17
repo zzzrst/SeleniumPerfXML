@@ -104,6 +104,7 @@ namespace SeleniumPerfXML.Implementations
             this.TestCaseStatus.ErrorStack = e.StackTrace;
             this.TestCaseStatus.FriendlyErrorMessage = e.Message;
             this.TestCaseStatus.RunSuccessful = false;
+            Logger.Error($"Something went wrong with a test case {e.message}");
         }
 
         /// <inheritdoc/>
