@@ -19,7 +19,7 @@ namespace SeleniumPerfXML.Implementations
         {
             base.Execute();
             int seconds = int.Parse(this.TestStepInfo.Attributes["seconds"].Value);
-            Thread.Sleep(seconds);
+            Thread.Sleep(seconds * 1000);
         }
     }
 }
