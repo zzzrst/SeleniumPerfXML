@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <Version>2.1.5</Version>
   </PropertyGroup>
 
@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutomationTestSetFramework" Version="1.1.2" />
-    <PackageReference Include="AxeAccessibilityDriver" Version="2.0.7377.26508" />
+    <PackageReference Include="AxeAccessibilityDriver" Version="2.0.7381.26109" />
     <PackageReference Include="CommandLineParser" Version="2.7.82" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
@@ -47,6 +47,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\DUONGCH\.nuget\packages\axeaccessibilitydriver\2.0.7377.26508\contentFiles\any\netstandard2.0\WATR_Template.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\DuongCh\.nuget\packages\axeaccessibilitydriver\2.0.7381.26109\contentFiles\any\netstandard2.0\WATR_Template.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\YangC\.nuget\packages\axeaccessibilitydriver\1.1.7370.27825\contentFiles\any\netstandard2.0\WATR_Template.xlsx">
