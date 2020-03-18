@@ -154,7 +154,10 @@ namespace SeleniumPerfXML.Implementations
                 this.TestCaseStatus.FriendlyErrorMessage = "Something went wrong with a test step";
             }
 
-            XMLInformation.CSVLogger.AddResults($"\"{testStepStatus.Name}\",\"{testStepStatus.Actual}\"");
+            if (testStepStatus.Actual != "No Log")
+            {
+                XMLInformation.CSVLogger.AddResults($"\"{testStepStatus.Name}\",\"{testStepStatus.Actual}\"");
+            }
 
             this.Reporter.AddTestStepStatusToTestCase(testStepStatus, this.TestCaseStatus);
         }

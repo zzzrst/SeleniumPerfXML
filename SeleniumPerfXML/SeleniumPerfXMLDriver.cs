@@ -76,7 +76,7 @@ namespace SeleniumPerfXML
             {
                 TestSetXml testStep;
 
-                ValidateXMLdocument(xmlFile);
+                //ValidateXMLdocument(xmlFile);
 
                 TestSetBuilder builder = new TestSetBuilder(xmlFile)
                 {
