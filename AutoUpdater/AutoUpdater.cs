@@ -102,7 +102,6 @@ namespace AutoUpdater
             // string pathToChrome = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "chromedriver.exe");
             string chromiumVersion = GetDependancyVersion("Selenium.WebDriver.ChromeDriver");
 
-            if (false);
             try
             {
                 GetKeyPairHash();
@@ -117,7 +116,7 @@ namespace AutoUpdater
                 {
                     Logger.Info($"ChromeDriver is out of date! Version {latestChromeVersion} is being used. Chromium will be updated.");
 
-                    //DownloadAndUnzip("chromium.zip");
+                    DownloadAndUnzip("chromium.zip");
                     Directory.Move(Path.Combine(Path.GetTempPath(), "chromium"), Path.Combine(TempPathToExe(), "chromium"));
                 }
                 else
