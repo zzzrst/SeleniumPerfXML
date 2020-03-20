@@ -9,6 +9,12 @@
             Adapted From https://starbeamrainbowlabs.com/blog/article.php?article=posts/156-Autoupdate-CSharp.html.
             </summary>
         </member>
+        <member name="M:AutoUpdater.AutoUpdater.Main(System.String[])">
+            <summary>
+            Runs then re runs PrefXML.
+            </summary>
+            <param name="args"></param>
+        </member>
         <member name="M:AutoUpdater.AutoUpdater.SetProxy(System.String,System.Int32,System.String)">
             <summary>
             Sets up a proxy. https://stackoverflow.com/questions/1938990/c-sharp-connecting-through-proxy.
@@ -37,6 +43,55 @@
             </summary>
             <param name="fileName">The filename to hash.</param>
             <returns>The SHA3 hash from file.</returns>
+        </member>
+        <member name="T:SeleniumPerfXML.Logger">
+            <summary>
+            Logger class to be used. \n
+            Reference 1: https://stackify.com/log4net-guide-dotnet-logging/ \n
+            Reference 2: https://www.dotnetdepth.in/2018/06/how-to-use-log4net-in-net-core-20.html.
+            </summary>
+        </member>
+        <member name="M:SeleniumPerfXML.Logger.Debug(System.Object)">
+            <summary>
+            Allows the user to log a debug message.
+            </summary>
+            <param name="message">The debug message to be logged.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.Logger.Error(System.Object)">
+            <summary>
+            Allows the user to log an error message.
+            </summary>
+            <param name="message">The error message to be logged.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.Logger.Fatal(System.Object)">
+            <summary>
+            Allows the user to log a fatal message.
+            </summary>
+            <param name="message">The fatal message to be logged.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.Logger.Info(System.Object)">
+            <summary>
+            Allows the user to log an info message.
+            </summary>
+            <param name="message">The info message to be logged.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.Logger.Warn(System.Object)">
+            <summary>
+            Allows the user to log a warning message.
+            </summary>
+            <param name="message">The warning message to be logged.</param>
+        </member>
+        <member name="M:SeleniumPerfXML.Logger.GetLogger(System.Type)">
+            <summary>
+            Returns the type for the logger.
+            </summary>
+            <param name="type">Class this logger is under.</param>
+            <returns>ILog instance to interact with.</returns>
+        </member>
+        <member name="M:SeleniumPerfXML.Logger.SetLog4NetConfiguration">
+            <summary>
+            Sets up the Log4Net Configuration.
+            </summary>
         </member>
     </members>
 </doc>

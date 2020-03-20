@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>C:\Users\DuongCh\Projects\SeleniumPerfXML\SeleniumPerfXML\bin\Debug\</OutputPath>
-    <DocumentationFile>C:\Users\DuongCh\Projects\AutoUpdater\AutoUpdater\AutoUpdater.xml</DocumentationFile>
+    <OutputPath>..\SeleniumPerfXML\bin\Debug\</OutputPath>
+    <DocumentationFile>.\AutoUpdater.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>C:\Users\DuongCh\Projects\SeleniumPerfXML\SeleniumPerfXML\bin\Release\</OutputPath>
+    <OutputPath>..\SeleniumPerfXML\bin\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
