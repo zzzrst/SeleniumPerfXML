@@ -98,10 +98,9 @@ namespace SeleniumPerfXML.Implementations
                 };
             }
 
-            if (!this.ShouldExecuteVariable)
+            if (!this.ShouldExecuteVariable && this.ShouldLog)
             {
                 this.TestStepStatus.Actual = "N/A";
-                XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"N/A\"");
             }
         }
 
@@ -126,12 +125,15 @@ namespace SeleniumPerfXML.Implementations
             {
                 ITestStepLogger log = new TestStepLogger();
                 log.Log(this);
-                if (this.ShouldExecuteVariable)
+
+                if (this.TestStepStatus.Actual == string.Empty)
                 {
                     this.TestStepStatus.Actual = totalTime.ToString();
                 }
-
-                // XMLInformation.CSVLogger.AddResults($"\"{this.Name}\",\"{totalTime.ToString()}\"");
+            }
+            else
+            {
+                this.TestStepStatus.Actual = "No Log";
             }
         }
 
