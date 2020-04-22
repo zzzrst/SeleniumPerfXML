@@ -1,6 +1,6 @@
 # Welcome!
 
-This Program is depreciated. Please use the newer program: [Automation Testing Program](https://github.com/zzzrst/AutomationTestingProgram)
+This program is deprecated. Please use the newer program: [Automation Testing Program](https://github.com/zzzrst/AutomationTestingProgram)
 
 When running the newer program, --setType should be "XML" and --setArgs should be what goes in --XMLFile
 ### This repository contains the source code for:
