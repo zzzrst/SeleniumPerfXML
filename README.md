@@ -1,5 +1,7 @@
 # Welcome!
 
+This Program is depreciated. Please use the newer program: [Automation Testing Program](https://github.com/zzzrst/AutomationTestingProgram)
+
 ### This repository contains the source code for:
 - Automated Tests written in XML to be executed by Selenium (SeleniumPerfXML)
 
