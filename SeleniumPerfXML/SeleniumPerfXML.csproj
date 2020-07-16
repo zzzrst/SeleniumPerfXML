@@ -20,7 +20,7 @@
     <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.118" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="3.1.0" />
     <PackageReference Include="NPOI" Version="2.5.1" />
-    <PackageReference Include="Selenium.Axe" Version="1.5.1" />
+    <PackageReference Include="Selenium.Axe" Version="1.5.2" />
     <PackageReference Include="Selenium.Support" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="84.0.4147.3001" />
