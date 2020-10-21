@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutomationTestSetFramework" Version="1.1.2" />
-    <PackageReference Include="AxeAccessibilityDriver" Version="2.1.7590.11569" />
+    <PackageReference Include="AxeAccessibilityDriver" Version="2.1.7598.11385" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="log4net" Version="2.0.11" />
