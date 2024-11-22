@@ -9,10 +9,6 @@ When running the newer program, --setType should be "XML" and --setArgs should b
 # Overview
 Please take a few minutes to review the overview below before diving into the code.
 
-We also are sponsered by: 
-
-<img src="./Browserstack-logo.svg" width="200">
-
 ## Selenium.Axe
 Selenium.Axe is the integration of axe-core and Selenium. The github source for the nugget package can be found [here](https://github.com/TroyWalshProf/SeleniumAxeDotnet).
 
